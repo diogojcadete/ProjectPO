@@ -16,11 +16,10 @@ abstract class TariffPlan {
 
     }
 
-    public String get_name() {
+    public String getName() {
         return _name;
     }
 
-    public void set_name(String _name) {
-        this._name = _name;
-    }
+
 }
+

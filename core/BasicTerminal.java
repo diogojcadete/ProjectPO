@@ -12,7 +12,4 @@ public class BasicTerminal extends Terminal{
 
     }
 
-    public void ThisNuts(){
-        return
-    }
 }

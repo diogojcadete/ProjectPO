@@ -14,7 +14,8 @@ abstract class Communication {
         this._to = _to;
     }
 
-    public boolean checkIsPaid(){
+    public boolean checkIsPaid(TariffPlan plan){
+
 
     }
 
@@ -23,7 +24,22 @@ abstract class Communication {
     }
 
     protected double computeCost(TariffPlan plan){
+        if(this.getClass() == TextCommunication.class){
+            String str = ((TextCommunication) this).getMessage();
+            int size = str.lenght();
+            if (size < 50){
+                if (plan.getName().equals("PLATINUM")) return 0.00;
+                else return 10.00;
+            }
+            else if(size < 100){
+                if (plan == NORMAL)
 
+
+            }
+
+
+        }
+        else(){}
     }
 
     protected int getSize(){
