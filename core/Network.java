@@ -48,20 +48,53 @@ public class Network implements Serializable {
     this._clients.add(newClient);
   }
 
+  public List<Client> getClients(){
+    return _clients;
+  }
+
+  public Client searchClient(String clientID){
+    for(Client c:_clients){
+      if(clientID.equals(c.get_key())){
+        return c;
+      }
+    }
+    return null;
+  }
+
+  public void activateFailedComms(String clientID){
+    Client c1 = searchClient(clientID);
+    c1.set_receiveNotificationsON();
+  }
+  public void deactivateFailedComms(String clientID){
+    Client c1 = searchClient(clientID);
+    c1.set_receiveNotificationsOFF();
+  }
+
+
+  //TERMINAL METHODS
+
   public void registerTerminal(TerminalType terminalType, String clientKey, String terminalID){
     switch(terminalType.toString()){
 
     }
   }
+  public Terminal searchTerminal(String terminalID){
+    for(Terminal t:_terminals){
+      if(terminalID.equals(t.get_id())){
+        return t;
+      }
+    }
+    return null;
+  }
   public List<Terminal> getTerminals(){
     return _terminals;
   }
-  public List<Client> getClients(){
-    return _clients;
-  }
-  public void activateFailedComms(String )
+
   public void sendTextCommunication(Terminal from, String toKey, String msg){
-    Communication textMessage = new TextCommunication(from,);
+    Terminal t1 = searchTerminal(toKey);
+    if(from.get_mode() != TerminalMode.OFF && from.checkCommOnGoing() == false) {
+      from.makeSMS(t1,msg);
+    }
   }
 
   public void startInteractiveCommunication(Terminal from, String toKey, String type){

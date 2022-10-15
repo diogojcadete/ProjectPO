@@ -54,7 +54,7 @@ abstract class Communication {
         this._cost = _cost;
     }
 
-    public boolean is_isOnGoing() {
+    public boolean get_isOnGoing() {
         return _isOnGoing;
     }
 
@@ -66,18 +66,9 @@ abstract class Communication {
         return _from;
     }
 
-    public void set_from(Terminal _from) {
-        this._from = _from;
-    }
-
     public Terminal get_to() {
         return _to;
     }
-
-    public void set_to(Terminal _to) {
-        this._to = _to;
-    }
-
 
 }
 

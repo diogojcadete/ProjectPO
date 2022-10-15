@@ -19,11 +19,11 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   // FIXME define methods
 
   private String _id;
-  private String _mode;
+  private String _type;
   private double _debt;
   private double _payments;
   private Client _owner;
-  private TerminalMode _mode1;//?
+  private TerminalMode _mode;//?
   private List<Terminal> _friends;
   private Client _toNotify;
   private List<Communication> _madeCommunications;
@@ -31,13 +31,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private InteractiveCommunication _onGoingCommunication;
 
 
-  public Terminal(String _id, String _mode, double _debt, double _payments, Client _owner, TerminalMode _mode1) {
+  public Terminal(String _id, double _debt, double _payments, Client _owner, TerminalMode _mode) {
     this._id = _id;
-    this._mode = _mode;
     this._debt = _debt;
     this._payments = _payments;
     this._owner = _owner;
-    this._mode1 = _mode1;
+    this._mode = _mode;
     this._friends = new ArrayList<>();
   }
 
@@ -47,12 +46,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     }
   }
   public void makeSMS(Terminal to, String message){
-
+    Communication c1 = new TextCommunication(this, to, message);
+    _madeCommunications.add(c1);
   }
 
-  protected void acceptSMS(Terminal from){
-
-  }
 
   public void makeVoiceCall(Terminal to){
 
@@ -75,11 +72,11 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public boolean setOnIdle(){
-
+    _mode = TerminalMode.BUSY;
   }
 
   public boolean setOnSilent(){
-
+    _mode = TerminalMode.SILENCE;
   }
 
   public boolean turnOff(){
@@ -90,8 +87,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _id;
   }
 
-  public String get_mode() {
-    return _mode;
+  public String get_type() {
+    return _type;
   }
 
   public double get_debt() {
@@ -106,8 +103,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _owner;
   }
 
-  public TerminalMode get_mode1() {
-    return _mode1;
+  public TerminalMode get_mode() {
+    return _mode;
   }
 
   public List<Terminal> get_friends() {
@@ -116,6 +113,20 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public Client get_toNotify() {
     return _toNotify;
+  }
+
+  public boolean checkCommOnGoing(){
+    if(_onGoingCommunication == null){
+      return false;
+    }
+    return true;
+  }
+
+  public void addMadeCommunications(Communication communication){
+    _madeCommunications.add(communication);
+  }
+  public void addReceivedCommunications(Communication communication){
+    _receivedCommunications.add(communication);
   }
 
   /**

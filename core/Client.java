@@ -56,12 +56,15 @@ public class Client {
         this._level = _level;
     }
 
-    public boolean is_receiveNotifications() {
+    public boolean get_receiveNotifications() {
         return _receiveNotifications;
     }
 
-    public void set_receiveNotifications(boolean _receiveNotifications) {
-        this._receiveNotifications = _receiveNotifications;
+    public void set_receiveNotificationsON() {
+        this._receiveNotifications = true;
+    }
+    public void set_receiveNotificationsOFF() {
+        this._receiveNotifications = false;
     }
 
     public List<Terminal> get_terminals() {

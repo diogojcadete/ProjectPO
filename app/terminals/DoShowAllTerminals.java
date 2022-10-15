@@ -18,6 +18,6 @@ class DoShowAllTerminals extends Command<Network> {
 
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    for() _
   }
 }
