@@ -24,8 +24,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _payments;
   private Client _owner;
   private TerminalMode _mode1;//?
-
   private List<Terminal> _friends;
+  private Client _toNotify;
+  private List<Communication> _madeCommunications;
+  private List<Communication> _receivedCommunications;
+  private InteractiveCommunication _onGoingCommunication;
+
 
   public Terminal(String _id, String _mode, double _debt, double _payments, Client _owner, TerminalMode _mode1) {
     this._id = _id;
@@ -37,6 +41,11 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._friends = new ArrayList<>();
   }
 
+  public void addFriend(Terminal friend){
+    if(friend.get_id() != this._id){
+      _friends.add(friend);
+    }
+  }
   public void makeSMS(Terminal to, String message){
 
   }
@@ -77,6 +86,37 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   }
 
+  public String get_id() {
+    return _id;
+  }
+
+  public String get_mode() {
+    return _mode;
+  }
+
+  public double get_debt() {
+    return _debt;
+  }
+
+  public double get_payments() {
+    return _payments;
+  }
+
+  public Client get_owner() {
+    return _owner;
+  }
+
+  public TerminalMode get_mode1() {
+    return _mode1;
+  }
+
+  public List<Terminal> get_friends() {
+    return _friends;
+  }
+
+  public Client get_toNotify() {
+    return _toNotify;
+  }
 
   /**
    * Checks if this terminal can end the current interactive communication.

@@ -1,6 +1,6 @@
 package prr.core;
 
-public class TariffPlan {
+abstract class TariffPlan {
     private String _name;
 
     public TariffPlan(String _name) {
@@ -14,5 +14,13 @@ public class TariffPlan {
     }
     protected double computeCost(Client cl, VideoCommunication com){
 
+    }
+
+    public String get_name() {
+        return _name;
+    }
+
+    public void set_name(String _name) {
+        this._name = _name;
     }
 }

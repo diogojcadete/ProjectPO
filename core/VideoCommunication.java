@@ -1,10 +1,12 @@
 package prr.core;
 
 public class VideoCommunication extends InteractiveCommunication{
-    public VideoCommunication(int _id, boolean _isPaid, double _cost, boolean _isOnGoing, int _duration) {
-        super(_id, _isPaid, _cost, _isOnGoing, _duration);
+    public VideoCommunication(Terminal _from, Terminal _to) {
+        super(_from, _to);
     }
+
     protected double computeCost(TariffPlan plan){
 
     }
+
 }
