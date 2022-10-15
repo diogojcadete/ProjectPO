@@ -11,4 +11,8 @@ public class BasicTerminal extends Terminal{
     protected void acceptVideoCall(Terminal from){
 
     }
+
+    public void ThisNuts(){
+        return
+    }
 }
