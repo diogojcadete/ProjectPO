@@ -41,7 +41,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void addFriend(Terminal friend){
-    if(friend.get_id() != this._id){
+    if(!(friend.get_id().equals(this._id))){
       _friends.add(friend);
     }
   }
@@ -52,7 +52,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
 
   public void makeVoiceCall(Terminal to){
-
+    Communication c1 = new VoiceCommunication(this, to);
+    _madeCommunications.add(c1);
   }
 
   protected void acceptVoiceCall(Terminal to){
@@ -60,7 +61,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void makeVideoCall(Terminal to){
-
+    Communication c1 = new VideoCommunication(this, to);
+    _madeCommunications.add(c1);
   }
 
   protected void acceptVideoCall(Terminal to){
@@ -68,7 +70,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void endOnGoingCommunication(int size){
-
+   _onGoingCommunication._isOnGoing = false;
+   _onGoingCommunication = null;
   }
 
   public boolean setOnIdle(){
@@ -115,12 +118,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _toNotify;
   }
 
-  public boolean checkCommOnGoing(){
-    if(_onGoingCommunication == null){
-      return false;
-    }
-    return true;
-  }
 
   public void addMadeCommunications(Communication communication){
     _madeCommunications.add(communication);
@@ -129,6 +126,18 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _receivedCommunications.add(communication);
   }
 
+  public boolean checkFriends(Terminal friendRequest){
+    for(Terminal t: _friends){
+      if(t.equals(friendRequest)){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public boolean equals(Terminal t){
+    return this._id.equals(t._id);
+  }
   /**
    * Checks if this terminal can end the current interactive communication.
    *
@@ -136,8 +145,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    *          it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    // FIXME add implementation code
+    if(_onGoingCommunication == null){
+      return false;
+    }
+    return true;
   }
+
   
   /**
    * Checks if this terminal can start a new communication.

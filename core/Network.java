@@ -92,8 +92,17 @@ public class Network implements Serializable {
 
   public void sendTextCommunication(Terminal from, String toKey, String msg){
     Terminal t1 = searchTerminal(toKey);
-    if(from.get_mode() != TerminalMode.OFF && from.checkCommOnGoing() == false) {
+    if(from.get_mode() != TerminalMode.OFF && from.canEndCurrentCommunication() == false) {
       from.makeSMS(t1,msg);
+    }
+  }
+
+  public void addFriend(String terminalID, String friendID){
+    Terminal t1 = searchTerminal(terminalID);
+    Terminal t2 = searchTerminal(friendID);
+
+    if(t1.checkFriends(t2)==false){
+      t1.addFriend(t2);
     }
   }
 
@@ -102,8 +111,15 @@ public class Network implements Serializable {
     String str2 = "VOICE";
 
     if(str1.equals(type)){
-      Communication interactiveCommunication = new VideoCommunication()
+      Communication interactiveCommunication = new VideoCommunication();
     }
+  }
+
+  public void endOnGoingCommunication(Terminal from, int duration){
+    if (from.canEndCurrentCommunication()){
+      from.endOnGoingCommunication(duration);
+    }
+
   }
 }
 
