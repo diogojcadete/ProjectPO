@@ -7,7 +7,9 @@ public class VoiceCommunication extends InteractiveCommunication{
         _to.addReceivedCommunications(this);
     }
 
-    protected double computeCost(TariffPlan plan){
 
+    protected double computeCost(TariffPlan plan) {
+        if (plan.getName().equals("NORMAL")) return 20.00;
+        else return 10.00;
     }
 }

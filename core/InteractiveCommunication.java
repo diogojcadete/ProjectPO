@@ -10,4 +10,6 @@ abstract class InteractiveCommunication extends Communication{
     protected int getSize(){
         return _duration
     }
+
+
 }

@@ -11,8 +11,23 @@ public class TextCommunication extends Communication{
 
     }
 
-    protected double computeCost(TariffPlan plan){
-
+    protected double computeCost(TariffPlan plan) {
+        String str = this._message;
+        int size = str.length();
+        // Se for menor que 50 o tamanho
+        if (size < 50) {
+            if (plan.getName().equals("PLATINUM")) return 0.00;
+            else return 10.00;
+        }
+        // Se for menor que 100
+        else if (size < 100) {
+            if (plan.getName().equals("NORMAL")) return 16.00;
+            else if (plan.getName().equals("GOLD")) return 10.00;
+            else return 4.00;
+        }
+        // Se for maior que 100
+        if (plan.getName().equals("PLATINUM")) return 4.00;
+        else return (double) size * 2;
     }
 
     protected int getSize(){
