@@ -43,7 +43,7 @@ public class Network implements Serializable {
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
     //FIXME implement method
   }
-  public void registerClient(String name, int taxNumber, String key){
+  public void registerClient(String name, String key, int taxNumber){
     Client newClient = new Client(key, name, taxNumber);
     this._clients.add(newClient);
   }
@@ -73,10 +73,15 @@ public class Network implements Serializable {
 
   //TERMINAL METHODS
 
-  public void registerTerminal(TerminalType terminalType, String clientKey, String terminalID){
-    switch(terminalType.toString()){
-
+  public Terminal registerTerminal(String terminalType, String clientKey, String terminalID){
+    Client c1 = searchClient(clientKey);
+    switch(terminalType){
+      case "FANCY":
+        return new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
+      case "BASIC":
+        return new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
     }
+
   }
   public Terminal searchTerminal(String terminalID){
     for(Terminal t:_terminals){
@@ -101,7 +106,7 @@ public class Network implements Serializable {
     Terminal t1 = searchTerminal(terminalID);
     Terminal t2 = searchTerminal(friendID);
 
-    if(t1.checkFriends(t2)==false){
+    if(!t1.checkFriends(t2)){
       t1.addFriend(t2);
     }
   }
@@ -109,9 +114,13 @@ public class Network implements Serializable {
   public void startInteractiveCommunication(Terminal from, String toKey, String type){
     String str1 = "VIDEO";
     String str2 = "VOICE";
+    Terminal terminalTo = searchTerminal(toKey);
 
     if(str1.equals(type)){
-      Communication interactiveCommunication = new VideoCommunication();
+      Communication interactiveCommunication = new VideoCommunication(from, terminalTo);
+    }
+    else if (str2.equals(type)) {
+      Communication interactiveCommunication = new VoiceCommunication(from, terminalTo);
     }
   }
 

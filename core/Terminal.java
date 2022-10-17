@@ -23,21 +23,22 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private double _debt;
   private double _payments;
   private Client _owner;
-  private TerminalMode _mode;//?
-  private List<Terminal> _friends;
   private Client _toNotify;
+  private TerminalMode _mode;
+  private List<Terminal> _friends;
+
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
   private InteractiveCommunication _onGoingCommunication;
 
 
-  public Terminal(String _id, double _debt, double _payments, Client _owner, TerminalMode _mode) {
+  public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
-    this._debt = _debt;
-    this._payments = _payments;
     this._owner = _owner;
     this._mode = _mode;
     this._friends = new ArrayList<>();
+    this._madeCommunications = new ArrayList<>();
+    this._receivedCommunications = new ArrayList<>();
   }
 
   public void addFriend(Terminal friend){
@@ -57,15 +58,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   protected void acceptVoiceCall(Terminal to){
-
-  }
-
-  public void makeVideoCall(Terminal to){
-    Communication c1 = new VideoCommunication(this, to);
-    _madeCommunications.add(c1);
-  }
-
-  protected void acceptVideoCall(Terminal to){
 
   }
 
