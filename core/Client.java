@@ -48,7 +48,7 @@ public class Client {
         this._taxNumber = _taxNumber;
     }
 
-    public ClientLevel get_level() {
+    public ClientLevel getLevel(){
         return _level;
     }
 

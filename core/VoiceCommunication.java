@@ -14,6 +14,6 @@ public class VoiceCommunication extends InteractiveCommunication{
             else return (10.00 * getDuration())/2;
         }
         if (plan.getName().equals("NORMAL")) return 20.00 * this.getDuration();
-        else return 10.00 * getDuration();
+        else return 10.00 * this.getDuration();
     }
 }

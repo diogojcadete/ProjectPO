@@ -1,7 +1,7 @@
 package prr.core;
 
 public class TextCommunication extends Communication{
-    private String _message;
+    private final String _message;
 
     public TextCommunication(Terminal _from, Terminal _to, String _message) {
         super(_from, _to);
@@ -12,8 +12,7 @@ public class TextCommunication extends Communication{
     }
 
     protected double computeCost(TariffPlan plan) {
-        String str = this._message;
-        int size = str.length();
+        int size = getSize();
         // Se for menor que 50 o tamanho
         if (size < 50) {
             if (plan.getName().equals("PLATINUM")) return 0.00;
@@ -31,7 +30,7 @@ public class TextCommunication extends Communication{
     }
 
     protected int getSize(){
-
+        return _message.length();
     }
 
     public String getMessage(){
