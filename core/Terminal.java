@@ -77,7 +77,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   }
 
-  public String get_id() {
+  public String getID() {
     return _id;
   }
 

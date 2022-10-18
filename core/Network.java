@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import prr.core.exception.DuplicateTerminalKeyException;
+import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
@@ -94,8 +96,16 @@ public class Network implements Serializable {
       -The Client ID linked to the terminal we are creating
       -The Terminal ID of the terminal we are creating
   */
-  public Terminal registerTerminal (String terminalType, String clientKey, String terminalID){
+  public Terminal registerTerminal (String terminalType, String clientKey, String terminalID) throws DuplicateTerminalKeyException, InvalidTerminalKeyException {
     Client c1 = searchClient(clientKey);
+    if(terminalID.length() != 6){
+      throw new InvalidTerminalKeyException();
+    }
+    for(Terminal t: _terminals){
+      if(t.getID().equals(terminalID)){
+        throw new DuplicateTerminalKeyException();
+      }
+    }
     switch(terminalType){
       case "FANCY":
         return new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
@@ -127,7 +137,7 @@ public class Network implements Serializable {
    */
   public void sendTextCommunication(Terminal from, String toKey, String msg){
     Terminal t1 = searchTerminal(toKey);
-    if(from.get_mode() != TerminalMode.OFF && from.canEndCurrentCommunication() == false) {
+    if(from.get_mode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       from.makeSMS(t1,msg);
     }
   }
