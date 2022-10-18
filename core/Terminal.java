@@ -15,7 +15,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private static final long serialVersionUID = 202208091753L;
   
   // FIXME define attributes
-  // FIXME define contructor(s)
   // FIXME define methods
 
   private String _id;

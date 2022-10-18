@@ -16,35 +16,23 @@ abstract class Communication {
 
     public boolean checkIsPaid(TariffPlan plan){
 
-
     }
 
     public String toString(){
 
     }
 
-    protected double computeCost(TariffPlan plan){
-
-    }
-
-    protected int getSize(){
-
-    }
 
     public int get_id() {
         return _id;
     }
 
-    public void set_id(int _id) {
-        this._id = _id;
-    }
-
-    public boolean is_isPaid() {
+    public boolean isPaid() {
         return _isPaid;
     }
 
-    public void set_isPaid(boolean _isPaid) {
-        this._isPaid = _isPaid;
+    public void set_isPaid(boolean isPaid) {
+        _isPaid = isPaid;
     }
 
     public double get_cost() {

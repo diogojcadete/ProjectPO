@@ -43,15 +43,25 @@ public class Network implements Serializable {
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
     //FIXME implement method
   }
+
+  /*
+    |--------------------------|********************|--------------------------|
+    |--------------------------|***CLIENT METHODS***|--------------------------|
+    |--------------------------|********************|--------------------------|
+ */
+
+  //This method registers a new client
   public void registerClient(String name, String key, int taxNumber){
     Client newClient = new Client(key, name, taxNumber);
     this._clients.add(newClient);
   }
 
+  //This method will be called by a lookup command
   public List<Client> getClients(){
     return _clients;
   }
 
+  //This method allows us to search for a client with his ID
   public Client searchClient(String clientID){
     for(Client c:_clients){
       if(clientID.equals(c.get_key())){
@@ -61,19 +71,30 @@ public class Network implements Serializable {
     return null;
   }
 
+  //This method activates the reception of notifications of failed Communications
   public void activateFailedComms(String clientID){
     Client c1 = searchClient(clientID);
     c1.set_receiveNotificationsON();
   }
+
+  //This method deactivates the reception of notifications of failed Communications
   public void deactivateFailedComms(String clientID){
     Client c1 = searchClient(clientID);
     c1.set_receiveNotificationsOFF();
   }
 
 
-  //TERMINAL METHODS
+/* |--------------------------|********************|--------------------------|
+   |--------------------------|**TERMINAL METHODS**|--------------------------|
+   |--------------------------|********************|--------------------------|
+ */
 
-  public Terminal registerTerminal(String terminalType, String clientKey, String terminalID){
+  /* This method registers a terminal if given the following information:
+      -Terminal Type: "BASIC" or "FANCY"
+      -The Client ID linked to the terminal we are creating
+      -The Terminal ID of the terminal we are creating
+  */
+  public Terminal registerTerminal (String terminalType, String clientKey, String terminalID){
     Client c1 = searchClient(clientKey);
     switch(terminalType){
       case "FANCY":
@@ -82,7 +103,10 @@ public class Network implements Serializable {
         return new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
     }
 
+
   }
+
+  //This method allows us to search for a client with his ID
   public Terminal searchTerminal(String terminalID){
     for(Terminal t:_terminals){
       if(terminalID.equals(t.get_id())){
@@ -91,10 +115,16 @@ public class Network implements Serializable {
     }
     return null;
   }
+
+  //This method will be called by a lookup command
   public List<Terminal> getTerminals(){
     return _terminals;
   }
 
+  /* This method will send a text communication to a terminal
+     if the Terminal sending the text isn't turned OFF or
+     if it doesn't have a communication ongoing
+   */
   public void sendTextCommunication(Terminal from, String toKey, String msg){
     Terminal t1 = searchTerminal(toKey);
     if(from.get_mode() != TerminalMode.OFF && from.canEndCurrentCommunication() == false) {
@@ -102,6 +132,7 @@ public class Network implements Serializable {
     }
   }
 
+  //This method will add a friend to the terminal if the terminals aren't already friends
   public void addFriend(String terminalID, String friendID){
     Terminal t1 = searchTerminal(terminalID);
     Terminal t2 = searchTerminal(friendID);
@@ -111,6 +142,7 @@ public class Network implements Serializable {
     }
   }
 
+  //This method will start the interactive communication selected by the user
   public void startInteractiveCommunication(Terminal from, String toKey, String type){
     String str1 = "VIDEO";
     String str2 = "VOICE";
@@ -124,6 +156,7 @@ public class Network implements Serializable {
     }
   }
 
+  //This method will end the ongoing communication of the respective terminal (if there is any)
   public void endOnGoingCommunication(Terminal from, int duration){
     if (from.canEndCurrentCommunication()){
       from.endOnGoingCommunication(duration);
