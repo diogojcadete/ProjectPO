@@ -13,17 +13,16 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
-  
-  // FIXME define attributes
-  // FIXME define methods
 
-  private String _id;
+
+  private final String _id;
   private String _type;
   private double _debt;
   private double _payments;
   private Client _owner;
   private TerminalMode _mode;//?
   private List<Terminal> _friends;
+  private boolean _online;
   private Client _toNotify;
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
@@ -40,7 +39,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void addFriend(Terminal friend){
-    if(!(friend.get_id().equals(this._id))){
+    if(!(friend.getId().equals(this._id))){
       _friends.add(friend);
     }
   }
@@ -81,11 +80,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _mode = TerminalMode.SILENCE;
   }
 
-  public boolean turnOff(){
-
+  public void turnOn(){
+    _online = true;
   }
 
-  public String get_id() {
+  public void turnOff(){
+    _online = false;
+  }
+
+  public String getId() {
     return _id;
   }
 

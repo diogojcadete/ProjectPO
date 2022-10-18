@@ -80,7 +80,7 @@ public class Network implements Serializable {
   }
   public Terminal searchTerminal(String terminalID){
     for(Terminal t:_terminals){
-      if(terminalID.equals(t.get_id())){
+      if(terminalID.equals(t.getId())){
         return t;
       }
     }
