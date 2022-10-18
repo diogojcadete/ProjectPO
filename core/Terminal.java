@@ -138,6 +138,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       strFriends += _friends.get(i).getID() + ",";
     }
     strFriends += _friends.get(j).getID();
+    return strFriends;
   }
   public String formattedTerminal(){
     return "" + _type + "|" + _id + "|" + _owner.get_key() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
