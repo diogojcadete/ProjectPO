@@ -40,7 +40,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void addFriend(Terminal friend){
-    if(!(friend.get_id().equals(this._id))){
+    if(!(friend.getID().equals(this._id))){
       _friends.add(friend);
     }
   }
