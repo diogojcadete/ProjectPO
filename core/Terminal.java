@@ -129,12 +129,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public boolean checkFriends(Terminal friendRequest){
-    for(Terminal t: _friends){
-      if(t.equals(friendRequest)){
-        return true;
-      }
-    }
-    return false;
+    return this._friends.contains(friendRequest);
   }
 
   public boolean equals(Terminal t){
