@@ -29,6 +29,11 @@ public class TextCommunication extends Communication{
         else return (double) size * 2;
     }
 
+    private void updateDebt(TariffPlan plan){
+        this.get_from().updateDebtValue(this.computeCost(plan));
+    }
+
+
     protected int getSize(){
         return _message.length();
     }

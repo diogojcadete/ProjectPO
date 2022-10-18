@@ -25,7 +25,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private Client _toNotify;
   private TerminalMode _mode;
   private List<Terminal> _friends;
-
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
   private InteractiveCommunication _onGoingCommunication;
@@ -49,32 +48,25 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     Communication c1 = new TextCommunication(this, to, message);
     _madeCommunications.add(c1);
   }
-
-
   public void makeVoiceCall(Terminal to){
     Communication c1 = new VoiceCommunication(this, to);
     _madeCommunications.add(c1);
   }
-
   protected void acceptVoiceCall(Terminal to){
 
   }
-
   public void endOnGoingCommunication(int size){
    _onGoingCommunication._isOnGoing = false;
    _onGoingCommunication = null;
   }
-
   public boolean setOnIdle(){
     _mode = TerminalMode.BUSY;
   }
-
   public boolean setOnSilent(){
     _mode = TerminalMode.SILENCE;
   }
-
-  public boolean turnOff(){
-
+  public void turnOff(){
+    this._mode = TerminalMode.OFF;
   }
 
   public String getID() {
@@ -109,7 +101,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _toNotify;
   }
 
-
+  public void updateDebtValue(double n){
+    this._debt += n;
+  }
   public void addMadeCommunications(Communication communication){
     _madeCommunications.add(communication);
   }

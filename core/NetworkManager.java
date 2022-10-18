@@ -1,4 +1,5 @@
 package prr.core;
+import java.io.File;  // Import the File class
 
 import java.io.IOException;
 import java.io.FileNotFoundException;

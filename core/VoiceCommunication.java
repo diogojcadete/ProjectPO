@@ -16,4 +16,8 @@ public class VoiceCommunication extends InteractiveCommunication{
         if (plan.getName().equals("NORMAL")) return 20.00 * this.getDuration();
         else return 10.00 * this.getDuration();
     }
+
+    private void updateDebt(TariffPlan plan){
+        this.get_from().updateDebtValue(this.computeCost(plan));
+    }
 }

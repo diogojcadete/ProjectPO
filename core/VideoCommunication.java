@@ -17,4 +17,8 @@ public class VideoCommunication extends InteractiveCommunication{
         else if (plan.getName().equals("GOLD")) return 20.00 * this.getDuration();
         else return 10.00 * this.getDuration();
     }
+
+    private void updateDebt(TariffPlan plan){
+        this.get_from().updateDebtValue(this.computeCost(plan));
+    }
 }

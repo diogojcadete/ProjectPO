@@ -14,11 +14,11 @@ abstract class Communication {
         this._to = _to;
     }
 
-    public boolean checkIsPaid(TariffPlan plan){
+    public boolean checkIsPaid(TariffPlan plan) {
 
     }
 
-    public String toString(){
+    public String toString() {
 
     }
 
@@ -58,6 +58,4 @@ abstract class Communication {
     public Terminal get_to() {
         return _to;
     }
-
-}
 
