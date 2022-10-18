@@ -109,7 +109,7 @@ public class Network implements Serializable {
   //This method allows us to search for a client with his ID
   public Terminal searchTerminal(String terminalID){
     for(Terminal t:_terminals){
-      if(terminalID.equals(t.getId())){
+      if(terminalID.equals(t.getID())){
         return t;
       }
     }
