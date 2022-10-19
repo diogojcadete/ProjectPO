@@ -59,10 +59,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    _onGoingCommunication._isOnGoing = false;
    _onGoingCommunication = null;
   }
-  public boolean setOnIdle(){
+  public void setOnIdle(){
     _mode = TerminalMode.BUSY;
   }
-  public boolean setOnSilent(){
+  public void setOnSilent(){
     _mode = TerminalMode.SILENCE;
   }
   public void turnOff(){
@@ -156,4 +156,5 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public boolean wasUsed(){
     return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());
   }
-}
+
+

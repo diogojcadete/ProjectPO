@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import prr.core.exception.DuplicateClientKeyException;
 import prr.core.exception.DuplicateTerminalKeyException;
 import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
@@ -27,6 +28,7 @@ public class Network implements Serializable {
   private List<Communication> _communications;
   private List<Client> _clients;
   private List<TariffPlan> _tariffPlans;
+  private List<Notification> _notifications;
 
   public Network() {
     this._terminals = new ArrayList<>();
@@ -53,9 +55,13 @@ public class Network implements Serializable {
  */
 
   //This method registers a new client
-  public void registerClient(String name, String key, int taxNumber){
-    Client newClient = new Client(key, name, taxNumber);
-    this._clients.add(newClient);
+  public Client registerClient(String key, String name, int taxNumber) throws DuplicateClientKeyException {
+    for(Client c: _clients){
+      if(c.getKey().equals(key)){
+        throw new DuplicateClientKeyException();
+      }
+    }
+    return new Client(key,name, taxNumber);
   }
 
   //This method will be called by a lookup command
@@ -66,7 +72,7 @@ public class Network implements Serializable {
   //This method allows us to search for a client with his ID
   public Client searchClient(String clientID){
     for(Client c:_clients){
-      if(clientID.equals(c.get_key())){
+      if(clientID.equals(c.getKey())){
         return c;
       }
     }
@@ -182,7 +188,10 @@ public class Network implements Serializable {
     if (from.canEndCurrentCommunication()){
       from.endOnGoingCommunication(duration);
     }
+  }
 
+  public List<Notification> getNotifications(){
+    return _notifications;
   }
 }
 

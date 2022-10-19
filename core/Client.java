@@ -26,7 +26,7 @@ public class Client {
         this._receiveNotifications = true;
     }
 
-    public String get_key() {
+    public String getKey() {
         return _key;
     }
 
@@ -69,7 +69,7 @@ public class Client {
         this._receiveNotifications = false;
     }
 
-    public List<Terminal> get_terminals() {
+    public List<Terminal> getTerminals() {
         return _terminals;
     }
 
@@ -101,10 +101,10 @@ public class Client {
     public String formattedClient(){
         if(_terminals == null) {
             return "CLIENT" + "|" + _key + "|" + _name + "|" +
-                    _taxNumber + "|" + this.getLevel().name() + "|" + this.notificationsToString() + "|"
+                    _taxNumber + "|" + _level.name() + "|" + this.notificationsToString() + "|"
                     + _terminals.size() + "|" + _payments + "|" + _debts;
         }
         return "CLIENT" + "|" + _key + "|" + _name + "|" +
-                _taxNumber + "|" + this.getLevel().name() + "|" + this.notificationsToString() + "|0|0|0";
+                _taxNumber + "|" + _level.name() + "|" + this.notificationsToString() + "|0|0|0";
     }
 }

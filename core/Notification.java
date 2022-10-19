@@ -9,10 +9,6 @@ public class Notification {
         this._notifyingTerminal = _notifyingTerminal;
     }
 
-    public String toString(){
-
-    }
-
     public NotificationType get_type() {
         return _type;
     }
@@ -27,5 +23,9 @@ public class Notification {
 
     public void set_notifyingTerminal(Terminal _notifyingTerminal) {
         this._notifyingTerminal = _notifyingTerminal;
+    }
+
+    public String formattedNotification(){
+        return ""+ _type.name() + "|" + _notifyingTerminal;
     }
 }
