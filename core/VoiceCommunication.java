@@ -18,6 +18,8 @@ public class VoiceCommunication extends InteractiveCommunication{
     }
 
     private void updateDebt(TariffPlan plan){
-        this.get_from().updateDebtValue(this.computeCost(plan));
+        double n = this.computeCost(plan);
+        this.get_from().updateDebtValue(n);
+        this.get_from().get_owner().updateDebts(n);
     }
 }
