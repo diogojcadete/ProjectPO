@@ -152,4 +152,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public boolean canStartCommunication() {
     // FIXME add implementation code
   }
+
+  public boolean wasUsed(){
+    return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());
+  }
 }

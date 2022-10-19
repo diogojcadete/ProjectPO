@@ -1,9 +1,9 @@
 <component name="libraryTable">
-  <library name="po-uilib-source">
+  <library name="po-uilib-source1">
     <CLASSES />
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../po-uilib-source.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/po-uilib-source.jar!/" />
     </SOURCES>
   </library>
 </component>

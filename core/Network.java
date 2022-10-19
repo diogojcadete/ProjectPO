@@ -131,6 +131,16 @@ public class Network implements Serializable {
     return _terminals;
   }
 
+  public List<Terminal> getUnusedTerminals(){
+    List<Terminal> _terminals = getTerminals();
+    List<Terminal> _final = new ArrayList<Terminal>();
+    for(Terminal t: _terminals){
+      if (!t.wasUsed())
+        _final.add(t);
+    }
+    return _final;
+  }
+
   /* This method will send a text communication to a terminal
      if the Terminal sending the text isn't turned OFF or
      if it doesn't have a communication ongoing
