@@ -85,6 +85,14 @@ public class Client {
         this._tariffPlan = _tariffPlan;
     }
 
+    public void updatePayments(double n){
+        _payments += n;
+    }
+
+    public void updateDebts(double n){
+        _debts += n;
+    }
+
     public String notificationsToString(){
         if(this._receiveNotifications)
             return "YES";
