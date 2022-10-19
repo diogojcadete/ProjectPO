@@ -152,6 +152,7 @@ public class Network implements Serializable {
     }
   }
 
+
   //This method will start the interactive communication selected by the user
   public void startInteractiveCommunication(Terminal from, String toKey, String type){
     String str1 = "VIDEO";
