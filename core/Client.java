@@ -91,8 +91,12 @@ public class Client {
         return "NO";
     }
     public String formattedClient(){
+        if(_terminals == null) {
+            return "CLIENT" + "|" + _key + "|" + _name + "|" +
+                    _taxNumber + "|" + this.getLevel().name() + "|" + this.notificationsToString() + "|"
+                    + _terminals.size() + "|" + _payments + "|" + _debts;
+        }
         return "CLIENT" + "|" + _key + "|" + _name + "|" +
-                _taxNumber + "|" + this.getLevel().name() + "|" +  this.notificationsToString() + "|"
-                + _terminals.size() + "|" + _payments + "|" + _debts;
+                _taxNumber + "|" + this.getLevel().name() + "|" + this.notificationsToString() + "|0|0|0";
     }
 }
