@@ -12,6 +12,8 @@ public class Client {
     private List<Terminal> _terminals;
     private TariffPlan _tariffPlan;
     private List<Notification> _notifications;
+    private int _payments;
+    private int _debts;
 
 
     public Client(String _key, String _name, int _taxNumber) {
@@ -81,5 +83,16 @@ public class Client {
 
     public void set_tariffPlan(TariffPlan _tariffPlan) {
         this._tariffPlan = _tariffPlan;
+    }
+
+    public String notificationsToString(){
+        if(this._receiveNotifications)
+            return "YES";
+        return "NO";
+    }
+    public String formattedClient(){
+        return "CLIENT" + "|" + _key + "|" + _name + "|" +
+                _taxNumber + "|" + this.getLevel().name() + "|" +  this.notificationsToString() + "|"
+                + _terminals.size() + "|" + _payments + "|" + _debts;
     }
 }
