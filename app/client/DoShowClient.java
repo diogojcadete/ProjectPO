@@ -19,23 +19,20 @@ class DoShowClient extends Command<Network> {
 
   DoShowClient(Network receiver) {
     super(Label.SHOW_CLIENT, receiver);
-    addStringField("clientID",Message.key());
+    addStringField("clientID", Message.key());
   }
-  
+
   @Override
   protected final void execute() throws CommandException {
-    List<Client> _clients = _receiver.getClients();
-    String clientID = stringField("clientID");
-    Client c = _receiver.searchClient(clientID);
-    if(c == null){
-      throw new UnknownClientKeyException(clientID);
-    }
-    List<Notification> _notifications = _receiver.getNotifications();
-    _display.addLine(c.formattedClient());
-    for(Notification n: _notifications){
-      _display.addLine(n.formattedNotification());
+    String client = stringField("clientID");
+    String clientInfo = _receiver.showClient(client);
+    String notification = _receiver.showAllNotifications(client);
+    _display.addLine(clientInfo);
+    if (!notification.isEmpty()) {
+      _display.addLine(notification);
     }
     _display.display();
+
 
   }
 }

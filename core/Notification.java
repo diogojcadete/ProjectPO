@@ -29,6 +29,6 @@ public class Notification implements Serializable {
     }
 
     public String formattedNotification(){
-        return ""+ _type.name() + "|" + _notifyingTerminal;
+        return  _type.name() + "|" + _notifyingTerminal;
     }
 }

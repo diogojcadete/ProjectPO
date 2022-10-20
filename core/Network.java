@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.DuplicateClientKeyException;
 import prr.core.exception.DuplicateTerminalKeyException;
 import prr.core.exception.InvalidTerminalKeyException;
@@ -61,10 +62,31 @@ public class Network implements Serializable {
         throw new DuplicateClientKeyException();
       }
     }
-    return new Client(key,name, taxNumber);
+    Client newClient = new Client(key,name, taxNumber);
+    _clients.add(newClient);
+    return newClient;
   }
 
   //This method will be called by a lookup command
+  public String showClients(){
+    StringBuilder str = new StringBuilder();
+    for(int i= 0; i< _clients.size()-1;i++){
+      str.append(_clients.get(i).formattedClient()+"\n");
+    }
+    if(_clients.size()>0) {
+      str.append(_clients.get(_clients.size() - 1).formattedClient());
+    }
+    return str.toString();
+  }
+
+  public String showClient(String clientID) throws UnknownClientKeyException {
+    Client c1 = searchClient(clientID);
+    if(c1 == null){
+      throw new UnknownClientKeyException(clientID);
+    }
+    return c1.formattedClient();
+  }
+
   public List<Client> getClients(){
     return _clients;
   }
@@ -191,6 +213,15 @@ public class Network implements Serializable {
 
   public List<Notification> getNotifications(){
     return _notifications;
+  }
+
+  public String showAllNotifications(String clientID){
+    Client c = searchClient(clientID);
+    StringBuilder sb = new StringBuilder();
+    for(Notification n: c.getNotifications()){
+      sb.append(n.formattedNotification());
+    }
+    return sb.toString();
   }
 }
 

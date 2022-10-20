@@ -1,9 +1,5 @@
 package prr.core;
-import java.io.File;  // Import the File class
-
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.Serializable;
+import java.io.*;
 
 import prr.core.exception.ImportFileException;
 import prr.core.exception.MissingFileAssociationException;
@@ -43,20 +39,37 @@ public class NetworkManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    //FIXME implement serialization method
+    File f = new File("app01.dat");
+    if(!f.exists()){
+      throw new MissingFileAssociationException();
+    }
+    writeFile(f.getName());
+
   }
-  
+
+  private void writeFile(String fileName){
+    try (var fos = new FileOutputStream(fileName)){
+      var bos = new ByteArrayOutputStream();
+      var objectOutputStream = new ObjectOutputStream(bos);
+      objectOutputStream.writeObject(_network);
+      fos.write(bos.toByteArray());
+    } catch (FileNotFoundException e) {
+      throw new RuntimeException(e);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
   /**
    * Saves the serialized application's state into the specified file. The current network is
    * associated to this file.
    *
-   * @param filename the name of the file.
+   * @param fileName the name of the file.
    * @throws FileNotFoundException if for some reason the file cannot be created or opened.
    * @throws MissingFileAssociationException if the current network does not have a file.
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
-  public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    //FIXME implement serialization method
+  public void saveAs(String fileName) throws FileNotFoundException, MissingFileAssociationException, IOException {
+    writeFile(fileName);
   }
   
   /**

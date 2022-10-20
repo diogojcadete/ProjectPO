@@ -5,7 +5,7 @@ import java.io.*;
 import java.util.Collection;
 import java.util.ArrayList;
 
-import prr.core.exception.DuplicateClientKeyException;
+import prr.app.exception.DuplicateClientKeyException;
 import prr.core.exception.DuplicateTerminalKeyException;
 import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
@@ -42,7 +42,13 @@ public class Parser{
 
         switch(components[0]) {
             case "CLIENT" -> parseClient(components, line);
-            case "BASIC", "FANCY" -> parseTerminal(components, line);
+            case "BASIC", "FANCY" -> {
+                try {
+                    parseTerminal(components, line);
+                } catch (DuplicateClientKeyException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             case "FRIENDS" -> parseFriends(components, line);
             default -> throw new UnrecognizedEntryException("Line with wong type: " + components[0]);
         }
@@ -68,7 +74,7 @@ public class Parser{
     }
 
     // parse a line with format terminal-type|idTerminal|idClient|state
-    private void parseTerminal(String[] components, String line) throws UnrecognizedEntryException {
+    private void parseTerminal(String[] components, String line) throws UnrecognizedEntryException, DuplicateClientKeyException {
         checkComponentsLength(components, 4, line);
 
         try {
@@ -81,9 +87,11 @@ public class Parser{
                         throw new UnrecognizedEntryException("Invalid specification in line: " + line);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch(InvalidTerminalKeyException e){
             throw new UnrecognizedEntryException("Invalid specification: " + line, e);
-        } catch (DuplicateTerminalKeyException e) {
+        }
+        catch (DuplicateTerminalKeyException e) {
             throw new RuntimeException(e);
         }
     }

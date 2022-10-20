@@ -20,10 +20,7 @@ class DoShowAllClients extends Command<Network> {
   
   @Override
   protected final void execute() throws CommandException {
-    List<Client> _clients = _receiver.getClients();
-    for(Client client: _clients){
-      _display.addLine(client.formattedClient());
-    }
+    _display.add(_receiver.showClients());
     _display.display();
   }
 }

@@ -101,12 +101,16 @@ public class Client implements Serializable {
         return "NO";
     }
     public String formattedClient(){
-        if(_terminals == null) {
+        if(_terminals != null) {
             return "CLIENT" + "|" + _key + "|" + _name + "|" +
                     _taxNumber + "|" + _level.name() + "|" + this.notificationsToString() + "|"
-                    + _terminals.size() + "|" + _payments + "|" + _debts;
+                    + _terminals.size() + "|" + _payments + "|" + _debts ;
         }
         return "CLIENT" + "|" + _key + "|" + _name + "|" +
                 _taxNumber + "|" + _level.name() + "|" + this.notificationsToString() + "|0|0|0";
+    }
+
+    public List<Notification> getNotifications(){
+        return _notifications;
     }
 }
