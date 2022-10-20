@@ -1,6 +1,9 @@
 package prr.core;
 
-public class VoiceCommunication extends InteractiveCommunication{
+import java.awt.*;
+import java.io.Serializable;
+
+public class VoiceCommunication extends InteractiveCommunication implements Serializable {
     public VoiceCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
         _from.addMadeCommunications(this);

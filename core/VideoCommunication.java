@@ -1,6 +1,8 @@
 package prr.core;
 
-public class VideoCommunication extends InteractiveCommunication{
+import java.io.Serializable;
+
+public class VideoCommunication extends InteractiveCommunication implements Serializable {
     public VideoCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
         _from.addMadeCommunications(this);

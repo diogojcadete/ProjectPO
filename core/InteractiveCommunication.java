@@ -1,6 +1,8 @@
 package prr.core;
 
-abstract class InteractiveCommunication extends Communication{
+import java.io.Serializable;
+
+abstract class InteractiveCommunication extends Communication implements Serializable {
     private int _duration;
 
     public InteractiveCommunication(Terminal _from, Terminal _to){

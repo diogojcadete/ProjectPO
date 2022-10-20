@@ -1,6 +1,8 @@
 package prr.core;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
     private NotificationType _type;
     private Terminal _notifyingTerminal;
 

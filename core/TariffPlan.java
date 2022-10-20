@@ -1,6 +1,8 @@
 package prr.core;
 
-abstract class TariffPlan {
+import java.io.Serializable;
+
+abstract class TariffPlan implements Serializable {
     private String _name;
 
     public TariffPlan(String _name) {

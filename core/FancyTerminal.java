@@ -1,6 +1,8 @@
 package prr.core;
 
-public class FancyTerminal extends Terminal {
+import java.io.Serializable;
+
+public class FancyTerminal extends Terminal implements Serializable {
     public FancyTerminal(String _id, String _type, Client _owner, TerminalMode _mode) {
         super(_id, _type, _owner, _mode);
     }
