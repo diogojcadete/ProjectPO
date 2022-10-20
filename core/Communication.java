@@ -1,8 +1,8 @@
 package prr.core;
 
-abstract class Communication {
+import java.io.Serializable;
 
-    private static final long serialVersionUID = 202208091753L;
+abstract class Communication implements Serializable {
     private static int _id = 0;
     private boolean _isPaid;
     protected double _cost = 0;

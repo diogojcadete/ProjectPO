@@ -1,8 +1,8 @@
 package prr.core;
 
-abstract class InteractiveCommunication extends Communication{
+import java.io.Serializable;
 
-    private static final long serialVersionUID = 202208091753L;
+abstract class InteractiveCommunication extends Communication implements Serializable {
     private int _duration;
 
     public InteractiveCommunication(Terminal _from, Terminal _to){

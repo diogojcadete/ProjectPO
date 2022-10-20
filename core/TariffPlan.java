@@ -1,8 +1,8 @@
 package prr.core;
 
-abstract class TariffPlan {
+import java.io.Serializable;
 
-    private static final long serialVersionUID = 202208091753L;
+abstract class TariffPlan implements Serializable {
     private String _name;
 
     public TariffPlan(String _name) {

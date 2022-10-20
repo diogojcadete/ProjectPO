@@ -3,6 +3,7 @@ import java.io.File;  // Import the File class
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 import prr.core.exception.ImportFileException;
 import prr.core.exception.MissingFileAssociationException;
@@ -14,7 +15,7 @@ import prr.core.exception.UnrecognizedEntryException;
 /**
  * Manage access to network and implement load/save operations.
  */
-public class NetworkManager {
+public class NetworkManager implements Serializable {
 
   /** The network itself. */
   private Network _network = new Network();

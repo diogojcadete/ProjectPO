@@ -20,7 +20,7 @@ import prr.core.exception.UnrecognizedEntryException;
  * métodos parseClient, parseTerminal e parseFriends
  */
 
-public class Parser {
+public class Parser{
     private Network _network;
     private OptionalDataException component;
 
