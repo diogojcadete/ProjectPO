@@ -14,6 +14,7 @@ class DoOpenFile extends Command<NetworkManager> {
 
   DoOpenFile(NetworkManager receiver) {
     super(Label.OPEN_FILE, receiver);
+
     //FIXME add command fields
   }
   

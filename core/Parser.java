@@ -1,13 +1,13 @@
 package prr.core;
 
-import java.io.Reader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.BufferedReader;
+import java.io.*;
 
 import java.util.Collection;
 import java.util.ArrayList;
 
+import prr.core.exception.DuplicateClientKeyException;
+import prr.core.exception.DuplicateTerminalKeyException;
+import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 // import more exception core classes if needed
 
@@ -22,6 +22,7 @@ import prr.core.exception.UnrecognizedEntryException;
 
 public class Parser {
     private Network _network;
+    private OptionalDataException component;
 
     Parser(Network network) {
         _network = network;
@@ -61,7 +62,7 @@ public class Parser {
             _network.registerClient(components[1], components[2], taxNumber);
         } catch (NumberFormatException nfe) {
             throw new UnrecognizedEntryException("Invalid number in line " + line, nfe);
-        } catch (OtherException e) {
+        } catch (Exception e) {
             throw new UnrecognizedEntryException("Invalid specification in line: " + line, e);
         }
     }
@@ -80,8 +81,10 @@ public class Parser {
                         throw new UnrecognizedEntryException("Invalid specification in line: " + line);
                 }
             }
-        } catch (SomeOtherException e) {
+        } catch (Exception e) {
             throw new UnrecognizedEntryException("Invalid specification: " + line, e);
+        } catch (DuplicateTerminalKeyException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -95,7 +98,7 @@ public class Parser {
 
             for (String friend : friends)
                 _network.addFriend(terminal, friend);
-        } catch (OtherException e) {
+        } catch (Exception e) {
             throw new UnrecognizedEntryException("Some message error in line:  " + line, e);
         }
     }

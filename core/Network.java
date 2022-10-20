@@ -118,8 +118,7 @@ public class Network implements Serializable {
       case "BASIC":
         return new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
     }
-
-
+    return null;
   }
 
   //This method allows us to search for a client with his ID
