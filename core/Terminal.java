@@ -9,11 +9,13 @@ import java.util.List;
 /**
  * Abstract terminal.
  */
-abstract public class Terminal implements Serializable /* FIXME maybe addd more interfaces */{
+abstract public class Terminal implements Serializable /* FIXME maybe addd more interfaces */ {
 
-  /** Serial number for serialization. */
+  /**
+   * Serial number for serialization.
+   */
   private static final long serialVersionUID = 202208091753L;
-  
+
   // FIXME define attributes
   // FIXME define methods
 
@@ -39,33 +41,40 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._receivedCommunications = new ArrayList<>();
   }
 
-  public void addFriend(Terminal friend){
-    if(!(friend.getID().equals(this._id))){
+  public void addFriend(Terminal friend) {
+    if (!(friend.getID().equals(this._id))) {
       _friends.add(friend);
     }
   }
-  public void makeSMS(Terminal to, String message){
+
+  public void makeSMS(Terminal to, String message) {
     Communication c1 = new TextCommunication(this, to, message);
     _madeCommunications.add(c1);
   }
-  public void makeVoiceCall(Terminal to){
+
+  public void makeVoiceCall(Terminal to) {
     Communication c1 = new VoiceCommunication(this, to);
     _madeCommunications.add(c1);
   }
-  protected void acceptVoiceCall(Terminal to){
+
+  protected void acceptVoiceCall(Terminal to) {
 
   }
-  public void endOnGoingCommunication(int size){
-   _onGoingCommunication._isOnGoing = false;
-   _onGoingCommunication = null;
+
+  public void endOnGoingCommunication(int size) {
+    _onGoingCommunication._isOnGoing = false;
+    _onGoingCommunication = null;
   }
-  public void setOnIdle(){
+
+  public void setOnIdle() {
     _mode = TerminalMode.BUSY;
   }
-  public void setOnSilent(){
+
+  public void setOnSilent() {
     _mode = TerminalMode.SILENCE;
   }
-  public void turnOff(){
+
+  public void turnOff() {
     this._mode = TerminalMode.OFF;
   }
 
@@ -101,61 +110,66 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _toNotify;
   }
 
-  public void updateDebtValue(double n){
+  public void updateDebtValue(double n) {
     this._debt += n;
   }
-  public void addMadeCommunications(Communication communication){
+
+  public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
   }
-  public void addReceivedCommunications(Communication communication){
+
+  public void addReceivedCommunications(Communication communication) {
     _receivedCommunications.add(communication);
   }
 
-  public boolean checkFriends(Terminal friendRequest){
+  public boolean checkFriends(Terminal friendRequest) {
     return this._friends.contains(friendRequest);
   }
 
-  public boolean equals(Terminal t){
+  public boolean equals(Terminal t) {
     return this._id.equals(t._id);
   }
+
   /**
    * Checks if this terminal can end the current interactive communication.
    *
    * @return true if this terminal is busy (i.e., it has an active interactive communication) and
-   *          it was the originator of this communication.
+   * it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if(_onGoingCommunication == null){
+    if (_onGoingCommunication == null) {
       return false;
     }
     return true;
   }
 
-  public String friendsToString(){
+  public String friendsToString() {
     String strFriends = "";
-    int j = _friends.size()-1;
-    for(int i = 0; i < _friends.size()-1; i++){
+    int j = _friends.size() - 1;
+    for (int i = 0; i < _friends.size() - 1; i++) {
       strFriends += _friends.get(i).getID() + ",";
     }
     strFriends += _friends.get(j).getID();
     return strFriends;
   }
-  public String formattedTerminal(){
+
+  public String formattedTerminal() {
     return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
   }
-  
+
   /**
    * Checks if this terminal can start a new communication.
    *
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
-
   public boolean canStartCommunication() {
-    // Do it!
+    // Do it! meti true para compilar.
+    return true;
   }
 
-  public boolean wasUsed(){
+  public boolean wasUsed() {
     return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());
   }
+}
 
 
