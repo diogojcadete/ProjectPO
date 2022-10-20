@@ -150,7 +150,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    // FIXME add implementation code
+    // Do it!
   }
 
   public boolean wasUsed(){
