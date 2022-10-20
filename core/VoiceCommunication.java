@@ -1,9 +1,9 @@
 package prr.core;
 
-import java.awt.*;
 import java.io.Serializable;
 
 public class VoiceCommunication extends InteractiveCommunication implements Serializable {
+    private static final long serialVersionUID = 202208091753L;
     public VoiceCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
         _from.addMadeCommunications(this);

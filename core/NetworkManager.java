@@ -15,7 +15,7 @@ import prr.core.exception.UnrecognizedEntryException;
 /**
  * Manage access to network and implement load/save operations.
  */
-public class NetworkManager implements Serializable {
+public class NetworkManager {
 
   /** The network itself. */
   private Network _network = new Network();

@@ -3,6 +3,7 @@ package prr.core;
 import java.io.Serializable;
 
 public class VideoCommunication extends InteractiveCommunication implements Serializable {
+    private static final long serialVersionUID = 202208091753L;
     public VideoCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
         _from.addMadeCommunications(this);
