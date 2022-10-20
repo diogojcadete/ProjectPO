@@ -1,6 +1,8 @@
 package prr.core;
 
 public class TextCommunication extends Communication{
+
+    private static final long serialVersionUID = 202208091753L;
     private final String _message;
 
     public TextCommunication(Terminal _from, Terminal _to, String _message) {

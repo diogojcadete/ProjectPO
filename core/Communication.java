@@ -1,6 +1,8 @@
 package prr.core;
 
 abstract class Communication {
+
+    private static final long serialVersionUID = 202208091753L;
     private static int _id = 0;
     private boolean _isPaid;
     protected double _cost = 0;

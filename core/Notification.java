@@ -1,6 +1,8 @@
 package prr.core;
 
 public class Notification {
+
+    private static final long serialVersionUID = 202208091753L;
     private NotificationType _type;
     private Terminal _notifyingTerminal;
 

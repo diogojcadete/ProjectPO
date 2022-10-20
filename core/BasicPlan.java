@@ -1,6 +1,10 @@
 package prr.core;
 
-public class BasicPlan extends TariffPlan{
+import java.io.Serializable;
+
+public class BasicPlan extends TariffPlan implements Serializable {
+
+    private static final long serialVersionUID = 202208091753L;
     public BasicPlan(String _name) {
         super(_name);
     }

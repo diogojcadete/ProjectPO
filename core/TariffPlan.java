@@ -1,6 +1,8 @@
 package prr.core;
 
 abstract class TariffPlan {
+
+    private static final long serialVersionUID = 202208091753L;
     private String _name;
 
     public TariffPlan(String _name) {
