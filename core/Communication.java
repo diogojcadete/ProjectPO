@@ -13,7 +13,7 @@ abstract class Communication {
         this._from = _from;
         this._to = _to;
     }
-
+/*
     public boolean checkIsPaid(TariffPlan plan) {
 
     }
@@ -21,7 +21,7 @@ abstract class Communication {
     public String toString() {
 
     }
-
+*/
 
     public int get_id() {
         return _id;
@@ -58,4 +58,5 @@ abstract class Communication {
     public Terminal get_to() {
         return _to;
     }
+}
 

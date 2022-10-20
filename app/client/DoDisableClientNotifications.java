@@ -13,7 +13,7 @@ class DoDisableClientNotifications extends Command<Network> {
 
   DoDisableClientNotifications(Network receiver) {
     super(Label.DISABLE_CLIENT_NOTIFICATIONS, receiver);
-    addStringField("ClientKey", Message.);
+    //addStringField("ClientKey", Message.);
   }
   
   @Override

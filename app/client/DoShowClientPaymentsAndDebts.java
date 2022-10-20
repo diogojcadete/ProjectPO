@@ -13,7 +13,7 @@ class DoShowClientPaymentsAndDebts extends Command<Network> {
 
   DoShowClientPaymentsAndDebts(Network receiver) {
     super(Label.SHOW_CLIENT_BALANCE, receiver);
-    addStringField("ClientKey", Message.);
+    //addStringField("ClientKey", Message.);
   }
   
   @Override
