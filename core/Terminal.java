@@ -141,7 +141,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return strFriends;
   }
   public String formattedTerminal(){
-    return "" + _type + "|" + _id + "|" + _owner.get_key() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
+    return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
   }
   
   /**
@@ -149,6 +149,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    *
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
+
   public boolean canStartCommunication() {
     // Do it!
   }
