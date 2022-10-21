@@ -34,6 +34,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
+    this._type = _type;
     this._owner = _owner;
     this._mode = _mode;
     this._friends = new ArrayList<>();
@@ -154,10 +155,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public String formattedTerminal() {
-    if(_friends!=null){
-    return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
-    }
-    else{
+    if (_friends.size() != 0) {
+      return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
+    } else {
       return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt;
     }
   }

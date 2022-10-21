@@ -168,8 +168,11 @@ public class Network implements Serializable {
 
   public String showTerminals(){
     StringBuilder str = new StringBuilder();
-    for(Terminal t:_terminals){
-      str.append(t.formattedTerminal());
+      for(int i= 0; i< _terminals.size()-1;i++){
+        str.append(_terminals.get(i).formattedTerminal()+"\n");
+      }
+    if(_terminals.size()>0) {
+      str.append(_terminals.get(_terminals.size()-1).formattedTerminal());
     }
     return str.toString();
   }
