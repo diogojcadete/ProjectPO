@@ -126,7 +126,7 @@ public class Network implements Serializable {
   public Terminal registerTerminal (String terminalType, String clientKey, String terminalID) throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException{
     Client c1 = searchClient(clientKey);
     if(c1==null) {
-
+      throw new UnknownClientKeyException(clientKey);
     }
     if(terminalID.length() != 6){
       throw new InvalidTerminalKeyException();
@@ -135,9 +135,6 @@ public class Network implements Serializable {
       if(t.getID().equals(terminalID)){
         throw new DuplicateTerminalKeyException();
       }
-    }
-    if(c1==null){
-      throw new UnknownClientKeyException(clientKey);
     }
     switch(terminalType){
       case "FANCY":

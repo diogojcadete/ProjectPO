@@ -18,19 +18,20 @@ class DoOpenFile extends Command<NetworkManager> {
 
   DoOpenFile(NetworkManager receiver) {
     super(Label.OPEN_FILE, receiver);
-    addStringField("fileName", Message.openFile());
-
+    addStringField("filename", Message.openFile());
   }
   
   @Override
   protected final void execute() throws CommandException {
+      String filename = stringField("filename");
       try {
-           String filename = Form.requestString(Message.openFile());
-           _receiver.importFile(filename);
-      } catch (ImportFileException e) {
+          _receiver.load(filename);
+      } catch (UnavailableFileException e) {
           throw new FileOpenFailedException(e);
+      } catch (IOException e) {
+          throw new FileOpenFailedException(e);
+      } catch (ClassNotFoundException e) {
+          e.printStackTrace();
       }
-
-
   }
 }
