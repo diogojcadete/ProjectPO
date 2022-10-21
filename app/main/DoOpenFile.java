@@ -25,19 +25,10 @@ class DoOpenFile extends Command<NetworkManager> {
   @Override
   protected final void execute() throws CommandException {
       try {
-          _receiver.load(Message.openFile());
            String filename = Form.requestString(Message.openFile());
            _receiver.importFile(filename);
-      } catch (UnavailableFileException e) {
-        throw new FileOpenFailedException(e);
-      } catch (ImportFileException e){
+      } catch (ImportFileException e) {
           throw new FileOpenFailedException(e);
-      } catch (UnrecognizedEntryException e) {
-          throw new RuntimeException(e);
-      } catch (IOException e) {
-          throw new RuntimeException(e);
-      } catch (ClassNotFoundException e) {
-          throw new RuntimeException(e);
       }
 
 

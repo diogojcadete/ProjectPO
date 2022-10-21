@@ -1,10 +1,7 @@
 package prr.core;
 import java.io.*;
 
-import prr.core.exception.ImportFileException;
-import prr.core.exception.MissingFileAssociationException;
-import prr.core.exception.UnavailableFileException;
-import prr.core.exception.UnrecognizedEntryException;
+import prr.core.exception.*;
 
 //FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
@@ -84,7 +81,8 @@ public class NetworkManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
   public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    writeFile(filename);
+    _filename = filename;
+     save();
   }
   
   /**
@@ -96,8 +94,19 @@ public class NetworkManager {
   public void importFile(String filename) throws ImportFileException {
     try {
       _network.importFile(filename);
-    } catch (IOException | UnrecognizedEntryException /* FIXME maybe other exceptions */ e) {
-      throw new ImportFileException(filename, e);
+    } catch (IOException | UnrecognizedEntryException e) {
+        try{
+          load(filename);
+      } catch (UnrecognizedEntryException ex) {
+          throw new ImportFileException(filename);
+        } catch (IOException ex) {
+          throw new ImportFileException(filename);
+        } catch (ClassNotFoundException ex) {
+          throw new ImportFileException(filename);
+        } catch (UnavailableFileException ex) {
+          throw new ImportFileException(filename);
+        }
     }
+    check = true;
   }  
 }
