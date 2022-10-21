@@ -1,14 +1,15 @@
 package prr.core;
 
-import java.io.*;
+import java.io.Reader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
 
 import java.util.Collection;
 import java.util.ArrayList;
 
-import prr.app.exception.DuplicateClientKeyException;
-import prr.app.exception.UnknownClientKeyException;
+import prr.core.exception.DuplicateClientKeyException;
 import prr.core.exception.DuplicateTerminalKeyException;
-import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
 // import more exception core classes if needed
 
@@ -21,9 +22,8 @@ import prr.core.exception.UnrecognizedEntryException;
  * métodos parseClient, parseTerminal e parseFriends
  */
 
-public class Parser{
+public class Parser {
     private Network _network;
-    private OptionalDataException component;
 
     Parser(Network network) {
         _network = network;
@@ -43,20 +43,14 @@ public class Parser{
 
         switch(components[0]) {
             case "CLIENT" -> parseClient(components, line);
-            case "BASIC", "FANCY" -> {
-                try {
-                    parseTerminal(components, line);
-                } catch (DuplicateClientKeyException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            case "BASIC", "FANCY" -> parseTerminal(components, line);
             case "FRIENDS" -> parseFriends(components, line);
             default -> throw new UnrecognizedEntryException("Line with wong type: " + components[0]);
         }
     }
 
     private void checkComponentsLength(String[] components, int expectedSize, String line) throws UnrecognizedEntryException {
-        if (component.length != expectedSize)
+        if (components.length != expectedSize)
             throw new UnrecognizedEntryException("Invalid number of fields in line: " + line);
     }
 
@@ -73,9 +67,9 @@ public class Parser{
             throw new UnrecognizedEntryException("Invalid specification in line: " + line, e);
         }
     }
-
+//_____________________________________________________
     // parse a line with format terminal-type|idTerminal|idClient|state
-    private void parseTerminal(String[] components, String line) throws UnrecognizedEntryException, DuplicateClientKeyException {
+    private void parseTerminal(String[] components, String line) throws UnrecognizedEntryException {
         checkComponentsLength(components, 4, line);
 
         try {
@@ -88,13 +82,9 @@ public class Parser{
                         throw new UnrecognizedEntryException("Invalid specification in line: " + line);
                 }
             }
-        }
-        catch(InvalidTerminalKeyException e){
+        } catch (Exception e) {
             throw new UnrecognizedEntryException("Invalid specification: " + line, e);
-        }
-        catch (DuplicateTerminalKeyException e) {
-            throw new RuntimeException(e);
-        } catch (UnknownClientKeyException e) {
+        } catch (DuplicateTerminalKeyException e) {
             throw new RuntimeException(e);
         }
     }
