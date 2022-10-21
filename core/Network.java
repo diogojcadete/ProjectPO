@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import prr.app.exception.UnknownClientKeyException;
-import prr.core.exception.DuplicateClientKeyException;
-import prr.core.exception.DuplicateTerminalKeyException;
-import prr.core.exception.InvalidTerminalKeyException;
-import prr.core.exception.UnrecognizedEntryException;
+import prr.core.exception.*;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
@@ -46,7 +43,9 @@ public class Network implements Serializable {
    * @throws IOException if there is an IO erro while processing the text file
    */
   void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */  {
-    //FIXME implement method
+    Parser _parser = new Parser(this);
+    _parser.parseFile(filename);
+
   }
 
   /*
@@ -124,8 +123,11 @@ public class Network implements Serializable {
       -The Client ID linked to the terminal we are creating
       -The Terminal ID of the terminal we are creating
   */
-  public Terminal registerTerminal (String terminalType, String clientKey, String terminalID) throws DuplicateTerminalKeyException, InvalidTerminalKeyException {
+  public Terminal registerTerminal (String terminalType, String clientKey, String terminalID) throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException{
     Client c1 = searchClient(clientKey);
+    if(c1==null) {
+
+    }
     if(terminalID.length() != 6){
       throw new InvalidTerminalKeyException();
     }
@@ -134,11 +136,20 @@ public class Network implements Serializable {
         throw new DuplicateTerminalKeyException();
       }
     }
+    if(c1==null){
+      throw new UnknownClientKeyException(clientKey);
+    }
     switch(terminalType){
       case "FANCY":
-        return new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
+       FancyTerminal f1 = new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
+       _terminals.add(f1);
+       c1.addTerminal(f1);
+       return f1;
       case "BASIC":
-        return new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
+        BasicTerminal b1= new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
+        _terminals.add(b1);
+        c1.addTerminal(b1);
+        return b1;
     }
     return null;
   }
@@ -156,6 +167,14 @@ public class Network implements Serializable {
   //This method will be called by a lookup command
   public List<Terminal> getTerminals(){
     return _terminals;
+  }
+
+  public String showTerminals(){
+    StringBuilder str = new StringBuilder();
+    for(Terminal t:_terminals){
+      str.append(t.formattedTerminal());
+    }
+    return str.toString();
   }
 
   public List<Terminal> getUnusedTerminals(){

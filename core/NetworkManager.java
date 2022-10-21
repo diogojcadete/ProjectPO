@@ -14,8 +14,10 @@ import prr.core.exception.UnrecognizedEntryException;
 public class NetworkManager {
 
   /** The network itself. */
+  private String _filename = "";
   private Network _network = new Network();
-  //FIXME  addmore fields if needed
+
+  private boolean check = true;
   
   public Network getNetwork() {
     return _network;
@@ -27,8 +29,12 @@ public class NetworkManager {
    * @throws UnavailableFileException if the specified file does not exist or there is
    *         an error while processing this file.
    */
-  public void load(String filename) throws UnavailableFileException {
-    //FIXME implement serialization method
+  public void load(String filename) throws UnavailableFileException, UnrecognizedEntryException, IOException, ClassNotFoundException {
+    try(ObjectInputStream input = new ObjectInputStream(new FileInputStream(filename))){
+      _network = (Network) input.readObject();
+      _filename = filename;
+      check = true;
+    }
   }
   
   /**
@@ -39,11 +45,20 @@ public class NetworkManager {
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
   public void save() throws FileNotFoundException, MissingFileAssociationException, IOException {
-    File f = new File("app01.dat");
-    if(!f.exists()){
+    if(_filename == ""){
       throw new MissingFileAssociationException();
     }
-    writeFile(f.getName());
+    if(check){
+      try{
+        ObjectOutputStream out = new ObjectOutputStream((new FileOutputStream(_filename)));
+        out.writeObject(_network);
+        out.close();
+        check = false;
+      }catch(FileNotFoundException e){
+        throw new FileNotFoundException();
+      }
+    }
+
 
   }
 
@@ -63,13 +78,13 @@ public class NetworkManager {
    * Saves the serialized application's state into the specified file. The current network is
    * associated to this file.
    *
-   * @param fileName the name of the file.
+   * @param filename the name of the file.
    * @throws FileNotFoundException if for some reason the file cannot be created or opened.
    * @throws MissingFileAssociationException if the current network does not have a file.
    * @throws IOException if there is some error while serializing the state of the network to disk.
    */
-  public void saveAs(String fileName) throws FileNotFoundException, MissingFileAssociationException, IOException {
-    writeFile(fileName);
+  public void saveAs(String filename) throws FileNotFoundException, MissingFileAssociationException, IOException {
+    writeFile(filename);
   }
   
   /**

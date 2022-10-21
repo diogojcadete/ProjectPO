@@ -4,6 +4,7 @@ import prr.core.NetworkManager;
 import prr.app.exception.FileOpenFailedException;
 import prr.core.exception.ImportFileException;
 import prr.core.exception.UnavailableFileException;
+import prr.core.exception.UnrecognizedEntryException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -31,6 +32,12 @@ class DoOpenFile extends Command<NetworkManager> {
         throw new FileOpenFailedException(e);
       } catch (ImportFileException e){
           throw new FileOpenFailedException(e);
+      } catch (UnrecognizedEntryException e) {
+          throw new RuntimeException(e);
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      } catch (ClassNotFoundException e) {
+          throw new RuntimeException(e);
       }
 
 

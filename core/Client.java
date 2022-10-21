@@ -32,8 +32,8 @@ public class Client implements Serializable {
         return _key;
     }
 
-    public void set_key(String _key) {
-        this._key = _key;
+    public void addTerminal(Terminal t){
+        _terminals.add(t);
     }
 
     public String get_name() {

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 
 import prr.app.exception.DuplicateClientKeyException;
+import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.DuplicateTerminalKeyException;
 import prr.core.exception.InvalidTerminalKeyException;
 import prr.core.exception.UnrecognizedEntryException;
@@ -92,6 +93,8 @@ public class Parser{
             throw new UnrecognizedEntryException("Invalid specification: " + line, e);
         }
         catch (DuplicateTerminalKeyException e) {
+            throw new RuntimeException(e);
+        } catch (UnknownClientKeyException e) {
             throw new RuntimeException(e);
         }
     }

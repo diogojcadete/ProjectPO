@@ -29,7 +29,7 @@ class DoRegisterClient extends Command<Network> {
       Client newClient = _receiver.registerClient(clientID,name, taxID);
     }
     catch(DuplicateClientKeyException exp){
-      throw new prr.app.exception.DuplicateClientKeyException(exp.getMessage());
+      throw new prr.app.exception.DuplicateClientKeyException(clientID);
     }
   }
 }

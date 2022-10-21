@@ -20,11 +20,7 @@ class DoShowAllTerminals extends Command<Network> {
 
   @Override
   protected final void execute() throws CommandException {
-    List<Terminal> _terminals = _receiver.getTerminals();
-    for(Terminal terminal: _terminals){
-      _display.addLine(terminal.formattedTerminal());
-    }
+    _display.add(_receiver.showTerminals());
     _display.display();
-
   }
 }

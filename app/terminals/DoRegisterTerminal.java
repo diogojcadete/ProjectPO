@@ -1,6 +1,7 @@
 package prr.app.terminals;
 
 import prr.app.exception.DuplicateClientKeyException;
+import prr.app.exception.UnknownTerminalKeyException;
 import prr.core.ClientLevel;
 import prr.core.Network;
 import prr.app.exception.UnknownClientKeyException;
@@ -18,9 +19,9 @@ class DoRegisterTerminal extends Command<Network> {
 
   DoRegisterTerminal(Network receiver) {
     super(Label.REGISTER_TERMINAL, receiver);
-    String [] _options = {"BASIC", "FANCY"};
+    String[] _options = {"BASIC", "FANCY"};
     addStringField("terminalID", Message.terminalKey());
-    addOptionField("terminalType", Message.terminalType(),_options);
+    addOptionField("terminalType", Message.terminalType(), _options);
     addStringField("clientID", Message.clientKey());
   }
 
@@ -32,9 +33,9 @@ class DoRegisterTerminal extends Command<Network> {
     try {
       Terminal terminal = _receiver.registerTerminal(terminalType, clientID, terminalID);
     } catch (DuplicateTerminalKeyException e) {
-      throw new prr.app.exception.DuplicateTerminalKeyException(e.getMessage());
+      throw new prr.app.exception.DuplicateTerminalKeyException(terminalID);
     } catch (InvalidTerminalKeyException e) {
-      throw new prr.app.exception.InvalidTerminalKeyException(e.getMessage());
+      throw new prr.app.exception.InvalidTerminalKeyException(terminalID);
     }
   }
 }
