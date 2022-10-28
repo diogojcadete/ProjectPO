@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 import prr.app.exception.UnknownClientKeyException;
 import prr.core.exception.*;
 
-// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
+// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 /**
  * Class Store implements a store.
  */
@@ -22,7 +23,7 @@ public class Network implements Serializable {
   /** Serial number for serialization. */
   @Serial
   private static final long serialVersionUID = 202208091753L;
-  
+
   // FIXME define attributes
   // FIXME define contructor(s)
   // FIXME define methods
@@ -41,7 +42,7 @@ public class Network implements Serializable {
 
   /**
    * Read text input file and create corresponding domain entities.
-   * 
+   *
    * @param filename name of the text input file
    * @throws UnrecognizedEntryException if some entry is not correct
    * @throws IOException if there is an IO erro while processing the text file
@@ -53,10 +54,10 @@ public class Network implements Serializable {
   }
 
   /**
-    |--------------------------|********************|--------------------------|
-    |--------------------------|***CLIENT METHODS***|--------------------------|
-    |--------------------------|********************|--------------------------|
- */
+   |--------------------------|********************|--------------------------|
+   |--------------------------|***CLIENT METHODS***|--------------------------|
+   |--------------------------|********************|--------------------------|
+   */
 
   /**
    * This method will register a client
@@ -156,10 +157,12 @@ public class Network implements Serializable {
   }
 
 
+
+
 /**
-   |--------------------------|********************|--------------------------|
-   |--------------------------|**TERMINAL METHODS**|--------------------------|
-   |--------------------------|********************|--------------------------|
+ |--------------------------|********************|--------------------------|
+ |--------------------------|**TERMINAL METHODS**|--------------------------|
+ |--------------------------|********************|--------------------------|
  */
 
   /**
@@ -250,9 +253,9 @@ public class Network implements Serializable {
    */
   public String showTerminals(List<Terminal> terminals){
     StringBuilder strTerminals = new StringBuilder();
-      for(int i= 0; i< terminals.size()-1;i++){
-        strTerminals.append(terminals.get(i).formattedTerminal()).append("\n");
-      }
+    for(int i= 0; i< terminals.size()-1;i++){
+      strTerminals.append(terminals.get(i).formattedTerminal()).append("\n");
+    }
     if(terminals.size()>0) {
       strTerminals.append(terminals.get(terminals.size()-1).formattedTerminal());
     }
@@ -361,6 +364,8 @@ public class Network implements Serializable {
     }
     return strNotifications.toString();
   }
+
+
 }
 
 

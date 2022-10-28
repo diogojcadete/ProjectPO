@@ -1,5 +1,7 @@
 package prr.app.client;
 
+import prr.core.Client;
+
 /**
  * Messages.
  */
@@ -23,9 +25,10 @@ interface Message {
    * @return
    */
   static String clientPaymentsAndDebts(String key, long payments, long debts) {
-    return "Valores para o cliente '\" + key + \"':" + payments + " (pagamentos),  " + debts + " (dívidas).";
+    return "Valores para o cliente " + key + ": " + payments + " (pagamentos), " + debts + " (dívidas).";
   }
-  
+
+
   /** @return prompt for a client identifier */
   static String key() {
     return "Identificador do cliente: ";

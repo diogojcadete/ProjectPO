@@ -95,6 +95,14 @@ public class Client implements Serializable {
         _debts += n;
     }
 
+    public int getPayments(){
+        return _payments;
+    }
+
+    public int getDebts(){
+        return _debts;
+    }
+
     /**
      *
      * @return
