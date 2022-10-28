@@ -21,8 +21,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   private String _id;
   private String _type;
-  private int _debt;
-  private int _payments;
+  private long _debt;
+  private long _payments;
   private Client _owner;
   private Client _toNotify;
   private TerminalMode _mode;
@@ -83,15 +83,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _id;
   }
 
-  public String get_type() {
+  public String getType() {
     return _type;
   }
 
-  public double get_debt() {
+  public long getDebt() {
     return _debt;
   }
 
-  public double get_payments() {
+  public long getPayments() {
     return _payments;
   }
 

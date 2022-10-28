@@ -14,8 +14,8 @@ public class Client implements Serializable {
     private List<Terminal> _terminals;
     private TariffPlan _tariffPlan;
     private List<Notification> _notifications;
-    private int _payments;
-    private int _debts;
+    private long _payments;
+    private long _debts;
 
 
     public Client(String _key, String _name, int _taxNumber) {
@@ -95,11 +95,11 @@ public class Client implements Serializable {
         _debts += n;
     }
 
-    public int getPayments(){
+    public long getPayments(){
         return _payments;
     }
 
-    public int getDebts(){
+    public long getDebts(){
         return _debts;
     }
 

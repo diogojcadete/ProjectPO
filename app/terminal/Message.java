@@ -5,6 +5,7 @@ package prr.app.terminal;
  */
 interface Message {
 
+
   /** @return status message. */
   static String originIsOff(String key) {
     return "O terminal de origem ('" + key + "') está desligado.";
@@ -104,7 +105,7 @@ interface Message {
    * @return report message.
    */
   static String terminalPaymentsAndDebts(String key, long payments, long debts) {
-    return "Valores para o terminal '\" + key + \"':" + payments + " (pagamentos),  " + debts + " (dívidas).";
+    return "Valores para o terminal " + key + ": " + payments + " (pagamentos),  " + debts + " (dívidas).";
   }
 
   /** @return status message. */
