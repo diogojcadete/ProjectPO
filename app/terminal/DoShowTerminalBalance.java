@@ -9,13 +9,18 @@ import pt.tecnico.uilib.menus.CommandException;
  * Show balance.
  */
 class DoShowTerminalBalance extends TerminalCommand {
+  private Terminal _terminal;
+
 
   DoShowTerminalBalance(Network context, Terminal terminal) {
     super(Label.SHOW_BALANCE, context, terminal);
+    _terminal = terminal;
+
   }
   
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+    System.out.println(Message.terminalPaymentsAndDebts(_terminal.getID(), _terminal.getPayments(), _terminal.getDebt()));
+
   }
 }

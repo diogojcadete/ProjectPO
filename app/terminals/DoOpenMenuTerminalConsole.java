@@ -19,13 +19,14 @@ class DoOpenMenuTerminalConsole extends Command<Network> {
     super(Label.OPEN_MENU_TERMINAL, receiver);
     addStringField("terminalID", Message.terminalKey());
 
+
     //FIXME add command fields
   }
 
   @Override
   protected final void execute() throws CommandException {
-    List<Terminal> terminals = _receiver.getTerminals();
     String terminalID = stringField("terminalID");
+    List<Terminal> terminals = _receiver.getTerminals();
     Terminal t = _receiver.searchTerminal(terminalID);
     if(t == null){
       throw new UnknownTerminalKeyException(terminalID);
