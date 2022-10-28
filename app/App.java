@@ -7,6 +7,8 @@ import pt.tecnico.uilib.Dialog;
 /**
  * Application entry-point.
  */
+
+//Grupo 79, Diogo Cadete 102477, João Maia 103845
 public class App {
 
   public static void main(String[] args) {
@@ -27,3 +29,5 @@ public class App {
     }
   }
 }
+
+

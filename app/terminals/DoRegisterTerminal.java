@@ -31,7 +31,7 @@ class DoRegisterTerminal extends Command<Network> {
     String terminalType = stringField("terminalType");
     String clientID = stringField("clientID");
     try {
-      Terminal terminal = _receiver.registerTerminal(terminalType, clientID, terminalID);
+      Terminal terminal = _receiver.registerTerminal(terminalType, terminalID, clientID);
     } catch (DuplicateTerminalKeyException e) {
       throw new prr.app.exception.DuplicateTerminalKeyException(terminalID);
     } catch (InvalidTerminalKeyException e) {

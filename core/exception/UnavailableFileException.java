@@ -1,5 +1,4 @@
 package prr.core.exception;
-
 /**
  * 
  */

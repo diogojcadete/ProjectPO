@@ -45,14 +45,16 @@ public class NetworkManager {
     if (_filename == "") {
       throw new MissingFileAssociationException();
     }
-      try {
-        ObjectOutputStream out = new ObjectOutputStream((new FileOutputStream(_filename)));
+      try(var fos = new FileOutputStream(_filename)){
+        var byteArray = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(byteArray);
         out.writeObject(_network);
-        out.close();
+        fos.write(byteArray.toByteArray());
       } catch (FileNotFoundException e) {
         throw new FileNotFoundException();
       }
   }
+
 
 
   /**

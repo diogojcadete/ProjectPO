@@ -21,8 +21,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   private String _id;
   private String _type;
-  private double _debt;
-  private double _payments;
+  private int _debt;
+  private int _payments;
   private Client _owner;
   private Client _toNotify;
   private TerminalMode _mode;

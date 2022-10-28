@@ -1,10 +1,12 @@
 package prr.app.main;
 
+import prr.app.exception.UnknownClientKeyException;
 import prr.core.NetworkManager;
 import prr.app.exception.FileOpenFailedException;
 import prr.core.exception.ImportFileException;
 import prr.core.exception.UnavailableFileException;
 import prr.core.exception.UnrecognizedEntryException;
+import prr.core.exception.UnavailableFileException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.Command;
 import pt.tecnico.uilib.menus.CommandException;
@@ -27,8 +29,9 @@ class DoOpenFile extends Command<NetworkManager> {
       try {
           _receiver.load(filename);
       } catch (UnavailableFileException e) {
+          e = new UnavailableFileException(filename);
           throw new FileOpenFailedException(e);
-      } catch (IOException e) {
+      } catch(IOException e){
           throw new FileOpenFailedException(e);
       } catch (ClassNotFoundException e) {
           e.printStackTrace();

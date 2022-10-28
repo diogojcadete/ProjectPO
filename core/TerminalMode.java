@@ -2,7 +2,7 @@ package prr.core;
 
 public enum TerminalMode {
     BUSY ("BUSY"),
-    ON ("IDLE"),
+    IDLE ("IDLE"),
     SILENCE ("SILENCE"),
     OFF ("OFF");
 

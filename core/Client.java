@@ -95,6 +95,10 @@ public class Client implements Serializable {
         _debts += n;
     }
 
+    /**
+     *
+     * @return
+     */
     public String notificationsToString(){
         if(this._receiveNotifications)
             return "YES";
