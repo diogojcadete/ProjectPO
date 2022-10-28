@@ -14,11 +14,13 @@ interface Message {
   static String clientNotificationsAlreadyDisabled() {
     return "A recepção de mensagens já está inactiva";
   }
-  
+
   /**
+   *
    * @param key
-   * @param balance
-   * @return report message
+   * @param payments
+   * @param debts
+   * @return
    */
   static String clientPaymentsAndDebts(String key, long payments, long debts) {
     return "Valores para o cliente '\" + key + \"':" + payments + " (pagamentos),  " + debts + " (dívidas).";

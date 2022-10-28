@@ -143,16 +143,16 @@ public class Network implements Serializable {
    */
   public void activateFailedComms(String clientID){
     Client c1 = searchClient(clientID);
-    c1.set_receiveNotificationsON();
+    c1.setReceiveNotificationsON();
   }
 
   /**
    * This method deactivates the reception of notifications of failed Communications
    * @param clientID
    */
-  public void deactivateFailedComms(String clientID){
+  public void deActivateFailedComms(String clientID){
     Client c1 = searchClient(clientID);
-    c1.set_receiveNotificationsOFF();
+    c1.setReceiveNotificationsOFF();
   }
 
 

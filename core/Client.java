@@ -60,14 +60,14 @@ public class Client implements Serializable {
         this._level = _level;
     }
 
-    public boolean get_receiveNotifications() {
+    public boolean getReceiveNotifications() {
         return _receiveNotifications;
     }
 
-    public void set_receiveNotificationsON() {
+    public void setReceiveNotificationsON() {
         this._receiveNotifications = true;
     }
-    public void set_receiveNotificationsOFF() {
+    public void setReceiveNotificationsOFF() {
         this._receiveNotifications = false;
     }
 
