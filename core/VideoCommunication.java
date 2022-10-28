@@ -11,7 +11,7 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
     }
 
     protected double computeCost(TariffPlan plan) {
-        if(get_from().checkFriends(get_to())) {
+        if(getFrom().checkFriends(getTo())) {
             if (plan.getName().equals("NORMAL")) return (30.00 * this.getDuration())/2;
             else if (plan.getName().equals("GOLD")) return (20.00 * this.getDuration())/2;
             else return (10.00 * this.getDuration())/2;
@@ -23,7 +23,7 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
 
     private void updateDebt(TariffPlan plan){
         double n = this.computeCost(plan);
-        this.get_from().updateDebtValue(n);
-        this.get_from().get_owner().updateDebts(n);
+        this.getFrom().updateDebtValue(n);
+        this.getFrom().get_owner().updateDebts(n);
     }
 }

@@ -2,14 +2,17 @@ package prr.core;
 
 import java.io.Serializable;
 
-abstract class Communication implements Serializable {
+public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
     private static int _id = 0;
     private boolean _isPaid;
     protected double _cost = 0;
     protected boolean _isOnGoing;
+    private String _type;
     private Terminal _from;
     private Terminal _to;
+
+    private int _size;
 
     public Communication(Terminal _from, Terminal _to) {
         this._id += 1;
@@ -26,7 +29,7 @@ abstract class Communication implements Serializable {
     }
 */
 
-    public int get_id() {
+    public int getID() {
         return _id;
     }
 
@@ -34,32 +37,52 @@ abstract class Communication implements Serializable {
         return _isPaid;
     }
 
-    public void set_isPaid(boolean isPaid) {
+    public void setIsPaid(boolean isPaid) {
         _isPaid = isPaid;
     }
 
-    public double get_cost() {
+    public double getCost() {
         return _cost;
     }
 
-    public void set_cost(double _cost) {
+    public void setCost(double _cost) {
         this._cost = _cost;
     }
 
-    public boolean get_isOnGoing() {
+    public boolean getIsOnGoing() {
         return _isOnGoing;
     }
 
-    public void set_isOnGoing(boolean _isOnGoing) {
+    public void setIsOnGoing(boolean _isOnGoing) {
         this._isOnGoing = _isOnGoing;
     }
 
-    public Terminal get_from() {
+    public void setType(String type){
+        _type = type;
+    }
+    public String getType(){
+        return _type;
+    }
+    protected int getSize(){
+        return _size;
+    }
+    protected void setSize(int size){
+        _size = size;
+    }
+
+
+    public Terminal getFrom() {
         return _from;
     }
 
-    public Terminal get_to() {
+    public Terminal getTo() {
         return _to;
+    }
+    public String formattedCommunication() {
+        if (_isOnGoing) {
+            return _type + "|" + this.getID() + "|" + this.getFrom() + "|" + this.getTo() + "|" + _size + "|" + this.getCost() + "|ONGOING";
+        }
+        return _type + "|" + this.getID() + "|" + this.getFrom() + "|" + this.getTo() + "|" + _size + "|" + this.getCost() + "|FINISHED";
     }
 }
 

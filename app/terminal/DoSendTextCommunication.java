@@ -11,13 +11,15 @@ import pt.tecnico.uilib.menus.CommandException;
  * Command for sending a text communication.
  */
 class DoSendTextCommunication extends TerminalCommand {
-
+  private Terminal _terminal;
   DoSendTextCommunication(Network context, Terminal terminal) {
     super(Label.SEND_TEXT_COMMUNICATION, context, terminal, receiver -> receiver.canStartCommunication());
+    addStringField("toTerminalID", Message.terminalKey());
+    _terminal = terminal;
   }
-  
+
   @Override
   protected final void execute() throws CommandException {
-    //FIXME implement command
+
   }
 } 

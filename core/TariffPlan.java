@@ -28,7 +28,7 @@ abstract class TariffPlan implements Serializable {
 
     }
     protected double computeCost(Client cl, VoiceCommunication com){
-        if(com.get_from().checkFriends(com.get_to())) {
+        if(com.getFrom().checkFriends(com.getTo())) {
             if (cl.getLevel().name().equals("NORMAL")) return (20.00 * com.getDuration())/2;
             else return (10.00 * com.getDuration())/2;
         }
@@ -36,7 +36,7 @@ abstract class TariffPlan implements Serializable {
         else return 10.00 * com.getDuration();
     }
     protected double computeCost(Client cl, VideoCommunication com){
-        if(com.get_from().checkFriends(com.get_to())) {
+        if(com.getFrom().checkFriends(com.getTo())) {
             if (cl.getLevel().name().equals("NORMAL")) return (30.00 * com.getDuration())/2;
             else if (cl.getLevel().name().equals("GOLD")) return (20.00 * com.getDuration())/2;
             else return (10.00 * com.getDuration())/2;
