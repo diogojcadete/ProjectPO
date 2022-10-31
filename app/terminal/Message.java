@@ -3,7 +3,7 @@ package prr.app.terminal;
 /**
  * Messages.
  */
-interface Message {
+public interface Message {
 
 
   /** @return status message. */

@@ -28,6 +28,5 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     Terminal terminalTo = _context.searchTerminal(toTerminalID);
     String terminalFrom = _terminal.getID();
     String communicationType = optionField("communicationType");
-    if()
   }
 }

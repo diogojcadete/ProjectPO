@@ -14,6 +14,7 @@ public class Client implements Serializable {
     private List<Terminal> _terminals;
     private TariffPlan _tariffPlan;
     private List<Notification> _notifications;
+    private List<Communication> _communications;
     private long _payments;
     private long _debts;
 
@@ -26,6 +27,7 @@ public class Client implements Serializable {
         this._terminals = new ArrayList<>();
         this._notifications = new ArrayList<>();
         this._receiveNotifications = true;
+        this._communications = new ArrayList<>();
     }
 
     public String getKey() {
@@ -73,6 +75,10 @@ public class Client implements Serializable {
 
     public List<Terminal> getTerminals() {
         return _terminals;
+    }
+
+    public List<Communication> getCommunication(){
+        return _communications;
     }
 
     public void set_terminals(List<Terminal> _terminals) {
@@ -124,5 +130,9 @@ public class Client implements Serializable {
 
     public List<Notification> getNotifications(){
         return _notifications;
+    }
+
+    public void addCommunication(Communication c){
+        _communications.add(c);
     }
 }

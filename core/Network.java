@@ -311,6 +311,7 @@ public class Network implements Serializable {
     if (from.get_mode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       Communication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
+      communication.getFrom().get_owner().addCommunication(communication);
     }
   }
 
@@ -420,6 +421,8 @@ public class Network implements Serializable {
     }
     return strCommunications.toString();
   }
+
+
 }
 
 
