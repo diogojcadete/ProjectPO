@@ -48,9 +48,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     }
   }
 
-  public void makeSMS(Terminal to, String message) {
+  public Communication makeSMS(Terminal to, String message) {
     Communication c1 = new TextCommunication(this, to, message);
     _madeCommunications.add(c1);
+    return c1;
   }
 
   public void makeVoiceCall(Terminal to) {
