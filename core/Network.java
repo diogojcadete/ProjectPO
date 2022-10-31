@@ -384,15 +384,6 @@ public class Network implements Serializable {
     }
   }
 
-  public void makePayment(Terminal t, String comId){
-    Communication c = searchCommunication(comId);
-
-    long valor = c.getCost();
-    t.updatePayments(valor);
-    c.payComm();
-    t.getOwner().updateDebts(valor);
-
-
 
 
   /**
@@ -468,9 +459,14 @@ public class Network implements Serializable {
     }
   }
 
+  public void makePayment(Terminal t, String comId){
+    Communication c = searchCommunication(comId);
 
+    long valor = c.getCost();
+    t.updatePayments(valor);
+    c.payComm();
+    t.getOwner().updateDebts(valor);
   }
-
   public Communication searchCommunication(String commID) {
     int comID = Integer.parseInt(commID);
     for (Communication c : _communications) {
