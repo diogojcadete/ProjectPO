@@ -64,6 +64,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   public void endOnGoingCommunication(int size) {
     _onGoingCommunication._isOnGoing = false;
     _onGoingCommunication = null;
+
   }
 
   public void setOnIdle() {

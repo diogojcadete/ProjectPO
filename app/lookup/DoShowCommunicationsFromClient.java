@@ -1,5 +1,7 @@
 package prr.app.lookup;
 
+import prr.app.exception.UnknownClientKeyException;
+import prr.app.exception.UnknownTerminalKeyException;
 import prr.app.terminal.Message;
 import prr.core.Client;
 import prr.core.Communication;
@@ -17,15 +19,19 @@ class DoShowCommunicationsFromClient extends Command<Network> {
 
   DoShowCommunicationsFromClient(Network receiver) {
     super(Label.SHOW_COMMUNICATIONS_FROM_CLIENT, receiver);
-    addStringField("idClient", Message.clientKey());
+    addStringField("clientID", Message.clientKey());
     //FIXME add command fields
   }
 
   @Override
   protected final void execute() throws CommandException {
-    Client _client = _receiver.searchClient(stringField("idClient"));
-    List<Communication> _communicationFromClient = _client.getCommunication();
-    _display.add(_receiver.showCommunications(_communicationFromClient));
-    _display.display();
+    String clientID = stringField("clientID");
+    Client _client = _receiver.searchClient(clientID);
+    try {
+      _display.add(_receiver.showCommunications(clientID));
+      _display.display();
+    } catch (UnknownClientKeyException e) {
+      throw new UnknownClientKeyException(clientID);
+    }
   }
 }

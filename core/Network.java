@@ -428,6 +428,27 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
+  public String showCommunications(String clientID) throws UnknownClientKeyException {
+    checkClientKeyExceptions(clientID);
+    Client client = searchClient(clientID);
+    StringBuilder strCommunications = new StringBuilder();
+    List<Communication> communications = client.getCommunication();
+    for (int i = 0; i < communications.size() - 1; i++) {
+      strCommunications.append(communications.get(i).formattedCommunication()).append("\n");
+    }
+    if (communications.size() > 0) {
+      strCommunications.append(communications.get(communications.size() - 1).formattedCommunication());
+    }
+    return strCommunications.toString();
+  }
+
+  public void checkClientKeyExceptions(String clientID) throws UnknownClientKeyException {
+    Client client = searchClient(clientID);
+    if(client == null){
+      throw new UnknownClientKeyException(clientID);
+    }
+  }
+
 
 }
 
