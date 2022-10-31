@@ -37,7 +37,7 @@ public class TextCommunication extends Communication implements Serializable {
     private void updateDebt(TariffPlan plan){
         double n = this.computeCost(plan);
         this.getFrom().updateDebtValue(n);
-        this.getFrom().get_owner().updateDebts(n);
+        this.getFrom().getOwner().updateDebts(n);
     }
 
 

@@ -96,19 +96,19 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _payments;
   }
 
-  public Client get_owner() {
+  public Client getOwner() {
     return _owner;
   }
 
-  public TerminalMode get_mode() {
+  public TerminalMode getMode() {
     return _mode;
   }
 
-  public List<Terminal> get_friends() {
+  public List<Terminal> getFriends() {
     return _friends;
   }
 
-  public Client get_toNotify() {
+  public Client getToNotify() {
     return _toNotify;
   }
 
@@ -118,10 +118,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
+    _owner.addCommunication(communication);
   }
 
   public void addReceivedCommunications(Communication communication) {
     _receivedCommunications.add(communication);
+    _owner.addCommunication(communication);
   }
 
   public boolean checkFriends(Terminal friendRequest) {

@@ -307,20 +307,14 @@ public class Network implements Serializable {
 
   public void sendTextCommunication(Terminal from, String toKey, String msg) throws UnknownTerminalKeyException {
     Terminal t1 = searchTerminal(toKey);
-    checkTextCommunicationException(toKey);
-    if (from.get_mode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
+    checkCommunicationException(toKey);
+    if (from.getMode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       Communication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
-      communication.getFrom().get_owner().addCommunication(communication);
+      communication.getFrom().getOwner().addCommunication(communication);
     }
   }
 
-  private void checkTextCommunicationException(String toKey) throws UnknownTerminalKeyException {
-    Terminal t = searchTerminal(toKey);
-    if(t == null){
-      throw new UnknownTerminalKeyException(toKey);
-    }
-  }
 
   /**
    * This method will add a friend to the terminal if the terminals aren't already friends
@@ -344,17 +338,28 @@ public class Network implements Serializable {
    * @param toKey
    * @param type
    */
-  public void startInteractiveCommunication(Terminal from, String toKey, String type) {
+  public void startInteractiveCommunication(Terminal from, String toKey, String type) throws UnknownTerminalKeyException {
     String str1 = "VIDEO";
     String str2 = "VOICE";
     Terminal terminalTo = searchTerminal(toKey);
+    checkCommunicationException(toKey);
 
     if (str1.equals(type)) {
       Communication interactiveCommunication = new VideoCommunication(from, terminalTo);
+      _communications.add(interactiveCommunication);
     } else if (str2.equals(type)) {
       Communication interactiveCommunication = new VoiceCommunication(from, terminalTo);
+      _communications.add(interactiveCommunication);
     }
   }
+
+  private void checkCommunicationException(String toKey) throws UnknownTerminalKeyException {
+    Terminal t = searchTerminal(toKey);
+    if(t == null){
+      throw new UnknownTerminalKeyException(toKey);
+    }
+  }
+
 
   /**
    * This method will end the ongoing communication of the respective terminal (if there is any)

@@ -24,6 +24,6 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
     private void updateDebt(TariffPlan plan){
         double n = this.computeCost(plan);
         this.getFrom().updateDebtValue(n);
-        this.getFrom().get_owner().updateDebts(n);
+        this.getFrom().getOwner().updateDebts(n);
     }
 }
