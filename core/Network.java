@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import prr.app.exception.UnknownClientKeyException;
+import prr.app.exception.UnknownTerminalKeyException;
 import prr.core.comparator.ClientComparator;
 import prr.core.comparator.TerminalComparator;
 import prr.core.exception.*;
@@ -304,11 +305,19 @@ public class Network implements Serializable {
    * @param msg
    */
 
-  public void sendTextCommunication(Terminal from, String toKey, String msg) {
+  public void sendTextCommunication(Terminal from, String toKey, String msg) throws UnknownTerminalKeyException {
     Terminal t1 = searchTerminal(toKey);
+    checkTextCommunicationException(toKey);
     if (from.get_mode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       Communication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
+    }
+  }
+
+  private void checkTextCommunicationException(String toKey) throws UnknownTerminalKeyException {
+    Terminal t = searchTerminal(toKey);
+    if(t == null){
+      throw new UnknownTerminalKeyException(toKey);
     }
   }
 
@@ -401,13 +410,13 @@ public class Network implements Serializable {
     return _communications;
   }
 
-  public String showCommunications() {
+  public String showCommunications(List<Communication> communications) {
     StringBuilder strCommunications = new StringBuilder();
-    for (int i = 0; i < _communications.size() - 1; i++) {
-      strCommunications.append(_communications.get(i).formattedCommunication()).append("\n");
+    for (int i = 0; i < communications.size() - 1; i++) {
+      strCommunications.append(communications.get(i).formattedCommunication()).append("\n");
     }
-    if (_communications.size() > 0) {
-      strCommunications.append(_communications.get(_communications.size() - 1).formattedCommunication());
+    if (communications.size() > 0) {
+      strCommunications.append(communications.get(communications.size() - 1).formattedCommunication());
     }
     return strCommunications.toString();
   }

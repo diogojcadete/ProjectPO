@@ -6,7 +6,7 @@ public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
     private static int _id = 0;
     private boolean _isPaid;
-    protected double _cost = 0;
+    protected long _cost = 0;
     protected boolean _isOnGoing;
     private String _type;
     private Terminal _from;
@@ -45,7 +45,7 @@ public abstract class Communication implements Serializable {
         return _cost;
     }
 
-    public void setCost(double _cost) {
+    public void setCost(long _cost) {
         this._cost = _cost;
     }
 
@@ -80,9 +80,9 @@ public abstract class Communication implements Serializable {
     }
     public String formattedCommunication() {
         if (_isOnGoing) {
-            return _type + "|" + this.getID() + "|" + this.getFrom() + "|" + this.getTo() + "|" + _size + "|" + this.getCost() + "|ONGOING";
+            return _type + "|" + this.getID() + "|" + this.getFrom().getID() + "|" + this.getTo().getID() + "|" + _size + "|" + _cost + "|ONGOING";
         }
-        return _type + "|" + this.getID() + "|" + this.getFrom() + "|" + this.getTo() + "|" + _size + "|" + this.getCost() + "|FINISHED";
+        return _type + "|" + this.getID() + "|" + this.getFrom().getID() + "|" + this.getTo().getID() + "|" + _size + "|" + _cost + "|FINISHED";
     }
 }
 
