@@ -4,9 +4,12 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import prr.app.exception.UnknownClientKeyException;
+import prr.core.comparator.ClientComparator;
+import prr.core.comparator.TerminalComparator;
 import prr.core.exception.*;
 
 
@@ -74,6 +77,7 @@ public class Network implements Serializable {
     checkRegisterClientException(clientKey);
     Client newClient = new Client(clientKey, name, taxNumber);
     _clients.add(newClient);
+    Collections.sort(_clients,new ClientComparator());
     return newClient;
   }
 
@@ -99,7 +103,7 @@ public class Network implements Serializable {
   public String showClients() {
     StringBuilder strClients = new StringBuilder();
     for (int i = 0; i < _clients.size() - 1; i++) {
-      strClients.append(_clients.get(i).formattedClient() + "\n");
+      strClients.append(_clients.get(i).formattedClient()).append("\n");
     }
     if (_clients.size() > 0) {
       strClients.append(_clients.get(_clients.size() - 1).formattedClient());
@@ -265,6 +269,7 @@ public class Network implements Serializable {
    */
   public String showTerminals(List<Terminal> terminals) {
     StringBuilder strTerminals = new StringBuilder();
+    Collections.sort(terminals,new TerminalComparator());
     for (int i = 0; i < terminals.size() - 1; i++) {
       strTerminals.append(terminals.get(i).formattedTerminal()).append("\n");
     }

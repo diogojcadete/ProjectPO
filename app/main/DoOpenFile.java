@@ -29,7 +29,6 @@ class DoOpenFile extends Command<NetworkManager> {
       try {
           _receiver.load(filename);
       } catch (UnavailableFileException e) {
-          e = new UnavailableFileException(filename);
           throw new FileOpenFailedException(e);
       } catch(IOException e){
           throw new FileOpenFailedException(e);

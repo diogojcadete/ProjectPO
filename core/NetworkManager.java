@@ -31,6 +31,8 @@ public class NetworkManager {
     try (ObjectInputStream input = new ObjectInputStream(new FileInputStream(filename))) {
       _network = (Network) input.readObject();
       _filename = filename;
+    }catch(FileNotFoundException e){
+      throw new UnavailableFileException(filename);
     }
   }
 

@@ -1,8 +1,11 @@
 package prr.core.exception;
+
+import pt.tecnico.uilib.menus.CommandException;
+
 /**
  * 
  */
-public class UnavailableFileException extends Exception {
+public class UnavailableFileException extends CommandException {
 
   /** Serial number for serialization. */
   private static final long serialVersionUID = 202208091753L;
