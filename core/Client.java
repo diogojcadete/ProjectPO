@@ -135,4 +135,8 @@ public class Client implements Serializable {
     public void addCommunication(Communication c){
         _communications.add(c);
     }
+
+    public void updatePayments(long val){
+        _payments += val;
+    }
 }

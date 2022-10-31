@@ -46,6 +46,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       _friends.add(friend);
   }
 
+  public void removeFriend(Terminal enemy){
+    _friends.remove(enemy);
+  }
+
   public Communication makeSMS(Terminal to, String message) {
     Communication c1 = new TextCommunication(this, to, message);
     _madeCommunications.add(c1);
@@ -107,6 +111,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return _friends;
   }
 
+  public List<Communication> getMadeCommunications(){
+    return _madeCommunications;
+  }
+
   public Client getToNotify() {
     return _toNotify;
   }
@@ -148,6 +156,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       return false;
     }
     return true;
+  }
+
+  public void updatePayments(long val){
+    _payments += val;
   }
 
   public String friendsToString() {

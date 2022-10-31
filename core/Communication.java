@@ -33,7 +33,7 @@ public abstract class Communication implements Serializable {
         return _id;
     }
 
-    public boolean isPaid() {
+    public boolean getIsPaid() {
         return _isPaid;
     }
 
@@ -41,7 +41,7 @@ public abstract class Communication implements Serializable {
         _isPaid = isPaid;
     }
 
-    public double getCost() {
+    public long getCost() {
         return _cost;
     }
 
@@ -70,7 +70,9 @@ public abstract class Communication implements Serializable {
         _size = size;
     }
 
-
+    public void payComm(){
+        _isPaid = true;
+    }
     public Terminal getFrom() {
         return _from;
     }

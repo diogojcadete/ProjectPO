@@ -323,12 +323,22 @@ public class Network implements Serializable {
    * @param friendID
    */
   public void addFriend(String terminalID, String friendID) throws UnknownTerminalKeyException {
+    checkTerminalException(friendID);
     Terminal t1 = searchTerminal(terminalID);
     Terminal t2 = searchTerminal(friendID);
-    checkTerminalException(friendID);
     if (!(t1.getID().equals(t2.getID())) && !(t1.getFriends().contains(t2))) {
       t1.addFriend(t2);
     }
+  }
+
+  public void removeFriend(String terminalID, String enemyID) throws UnknownTerminalKeyException{
+    checkTerminalException(enemyID);
+    Terminal t1 = searchTerminal(terminalID);
+    Terminal t2 = searchTerminal(enemyID);
+    if (!(t1.getID().equals(t2.getID())) && (t1.getFriends().contains(t2))) {
+      t1.removeFriend(t2);
+    }
+
   }
 
 
@@ -373,6 +383,15 @@ public class Network implements Serializable {
       from.endOnGoingCommunication(duration);
     }
   }
+
+  public void makePayment(Terminal t, String comId){
+    Communication c = searchCommunication(comId);
+
+    long valor = c.getCost();
+    t.updatePayments(valor);
+    c.payComm();
+    t.getOwner().updateDebts(valor);
+
 
 
 
@@ -450,6 +469,17 @@ public class Network implements Serializable {
   }
 
 
+  }
+
+  public Communication searchCommunication(String commID) {
+    int comID = Integer.parseInt(commID);
+    for (Communication c : _communications) {
+      if (comID == c.getID()) {
+        return c;
+      }
+    }
+    return null;
+  }
 }
 
 
