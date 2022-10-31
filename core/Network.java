@@ -322,14 +322,15 @@ public class Network implements Serializable {
    * @param terminalID
    * @param friendID
    */
-  public void addFriend(String terminalID, String friendID) {
+  public void addFriend(String terminalID, String friendID) throws UnknownTerminalKeyException {
     Terminal t1 = searchTerminal(terminalID);
     Terminal t2 = searchTerminal(friendID);
-
-    if (!t1.checkFriends(t2)) {
+    checkTerminalException(friendID);
+    if (!(t1.getID().equals(t2.getID())) && !(t1.getFriends().contains(t2))) {
       t1.addFriend(t2);
     }
   }
+
 
   /**
    * This method will start the interactive communication selected by the user
