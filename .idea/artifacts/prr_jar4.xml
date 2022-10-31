@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="prr:jar4">
+    <output-path>$PROJECT_DIR$/out/artifacts/prr_jar4</output-path>
+    <root id="archive" name="prr.jar">
+      <element id="module-output" name="prr" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../po-uilib.jar" path-in-jar="/" />
+      <element id="library" level="project" name="po-uilib-source1" />
+    </root>
+  </artifact>
+</component>
