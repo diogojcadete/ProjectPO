@@ -8,6 +8,10 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
         super(_from, _to);
         _from.addMadeCommunications(this);
         _to.addReceivedCommunications(this);
+        this.setType("VOICE");
+        this.setIsOnGoing(true);
+        _from.setBusy();
+        _to.setBusy();
     }
 
 

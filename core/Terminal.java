@@ -114,6 +114,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._debt += n;
   }
 
+  public void setBusy(){
+    _mode = TerminalMode.BUSY;
+  }
+
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
     _owner.addCommunication(communication);

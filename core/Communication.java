@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
-    private static int _id = 0;
+    private int _id = 0;
     private boolean _isPaid;
     protected long _cost = 0;
     protected boolean _isOnGoing;

@@ -8,6 +8,10 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
         super(_from, _to);
         _from.addMadeCommunications(this);
         _to.addReceivedCommunications(this);
+        this.setType("VIDEO");
+        this.setIsOnGoing(true);
+        _from.setBusy();
+        _to.setBusy();
     }
 
     protected double computeCost(TariffPlan plan) {
