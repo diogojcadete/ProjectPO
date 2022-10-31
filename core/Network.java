@@ -307,7 +307,7 @@ public class Network implements Serializable {
 
   public void sendTextCommunication(Terminal from, String toKey, String msg) throws UnknownTerminalKeyException {
     Terminal t1 = searchTerminal(toKey);
-    checkCommunicationException(toKey);
+    checkTerminalException(toKey);
     if (from.getMode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       Communication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
@@ -342,7 +342,7 @@ public class Network implements Serializable {
     String str1 = "VIDEO";
     String str2 = "VOICE";
     Terminal terminalTo = searchTerminal(toKey);
-    checkCommunicationException(toKey);
+    checkTerminalException(toKey);
 
     if (str1.equals(type)) {
       Communication interactiveCommunication = new VideoCommunication(from, terminalTo);
@@ -353,7 +353,7 @@ public class Network implements Serializable {
     }
   }
 
-  private void checkCommunicationException(String toKey) throws UnknownTerminalKeyException {
+  private void checkTerminalException(String toKey) throws UnknownTerminalKeyException {
     Terminal t = searchTerminal(toKey);
     if(t == null){
       throw new UnknownTerminalKeyException(toKey);
