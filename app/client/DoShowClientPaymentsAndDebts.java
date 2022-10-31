@@ -22,6 +22,7 @@ class DoShowClientPaymentsAndDebts extends Command<Network> {
     String clientID = stringField("clientKey");
     Client c = _receiver.searchClient(clientID);
 
-    System.out.println(Message.clientPaymentsAndDebts(clientID, c.getPayments(), c.getDebts()));
+    _display.addLine(Message.clientPaymentsAndDebts(clientID, c.getPayments(), c.getDebts()));
+    _display.display();
   }
 }

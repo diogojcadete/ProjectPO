@@ -308,6 +308,7 @@ public class Network implements Serializable {
     Terminal t1 = searchTerminal(toKey);
     if (from.get_mode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       from.makeSMS(t1, msg);
+      _communications.add();
     }
   }
 
