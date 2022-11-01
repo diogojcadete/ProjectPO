@@ -18,17 +18,12 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
     protected long computeCost(TariffPlan plan) {
         if(getFrom().checkFriends(getTo())) {
             if (plan.getName().equals("NORMAL"))
-                return (20 * this.getDuration())/2;
-            return (10 * getDuration())/2;
+                return (20 * this.getSize())/2;
+            return (10 * getSize())/2;
         }
         if (plan.getName().equals("NORMAL"))
-            return 20 * this.getDuration();
-        return 10 * this.getDuration();
+            return 20 * this.getSize();
+        return 10 * this.getSize();
     }
 
-    private void updateDebt(TariffPlan plan){
-        double n = this.computeCost(plan);
-        this.getFrom().updateDebtValue(n);
-        this.getFrom().getOwner().updateDebts(n);
-    }
 }

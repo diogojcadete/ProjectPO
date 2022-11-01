@@ -79,7 +79,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void setOnIdle() {
-    _mode = TerminalMode.BUSY;
+    _mode = TerminalMode.IDLE;
   }
 
   public void setOnSilent() {
@@ -108,6 +108,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public Client getOwner() {
     return _owner;
+  }
+
+  public Communication getOnGoing(){
+    return _onGoingCommunication;
   }
 
   public TerminalMode getMode() {

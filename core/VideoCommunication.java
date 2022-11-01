@@ -16,18 +16,13 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
 
     protected long computeCost(TariffPlan plan) {
         if(getFrom().checkFriends(getTo())) {
-            if (plan.getName().equals("NORMAL")) return (30 * this.getDuration())/2;
-            else if (plan.getName().equals("GOLD")) return (20 * this.getDuration())/2;
-            else return (10 * this.getDuration())/2;
+            if (plan.getName().equals("NORMAL")) return (30 * this.getSize())/2;
+            else if (plan.getName().equals("GOLD")) return (20 * this.getSize())/2;
+            else return (10 * this.getSize())/2;
         }
-        if (plan.getName().equals("NORMAL")) return 30 * this.getDuration();
-        else if (plan.getName().equals("GOLD")) return 20 * this.getDuration();
-        else return 10 * this.getDuration();
+        if (plan.getName().equals("NORMAL")) return 30 * this.getSize();
+        else if (plan.getName().equals("GOLD")) return 20 * this.getSize();
+        else return 10 * this.getSize();
     }
 
-    private void updateDebt(TariffPlan plan){
-        double n = this.computeCost(plan);
-        this.getFrom().updateDebtValue(n);
-        this.getFrom().getOwner().updateDebts(n);
-    }
 }

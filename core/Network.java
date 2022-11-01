@@ -474,6 +474,7 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
+
   public String showCommunications(String clientID) throws UnknownClientKeyException {
     checkClientKeyExceptions(clientID);
     Client client = searchClient(clientID);
