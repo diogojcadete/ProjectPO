@@ -16,29 +16,25 @@ public class TextCommunication extends Communication implements Serializable {
 
     }
 
-    protected double computeCost(TariffPlan plan) {
+    protected long computeCost(TariffPlan plan) {
         int size = getSize();
         // Se for menor que 50 o tamanho
         if (size < 50) {
-            if (plan.getName().equals("PLATINUM")) return 0.00;
-            else return 10.00;
+            if (plan.getName().equals("PLATINUM")) return 0;
+            else return 10;
         }
         // Se for menor que 100
         else if (size < 100) {
-            if (plan.getName().equals("NORMAL")) return 16.00;
-            else if (plan.getName().equals("GOLD")) return 10.00;
-            else return 4.00;
+            if (plan.getName().equals("NORMAL")) return 16;
+            else if (plan.getName().equals("GOLD")) return 10;
+            else return 4;
         }
         // Se for maior que 100
-        if (plan.getName().equals("PLATINUM")) return 4.00;
-        else return (double) size * 2;
+        if (plan.getName().equals("PLATINUM")) return 4;
+        else return (long) size * 2;
     }
 
-    private void updateDebt(TariffPlan plan){
-        double n = this.computeCost(plan);
-        this.getFrom().updateDebtValue(n);
-        this.getFrom().getOwner().updateDebts(n);
-    }
+
 
 
 

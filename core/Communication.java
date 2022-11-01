@@ -85,6 +85,11 @@ public abstract class Communication implements Serializable {
         return _from;
     }
 
+    public void updateCost(long val){
+        _cost = val;
+    }
+
+
     public Terminal getTo() {
         return _to;
     }
