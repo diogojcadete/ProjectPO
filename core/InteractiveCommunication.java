@@ -14,6 +14,8 @@ abstract class InteractiveCommunication extends Communication implements Seriali
         return _duration;
     }
 
+
+
 }
 
 

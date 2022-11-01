@@ -67,7 +67,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void endOnGoingCommunication(int size) {
-    _onGoingCommunication.setSize(size);
     _onGoingCommunication.endOnGoing(size);
     _onGoingCommunication = null;
   }

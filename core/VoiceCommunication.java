@@ -15,13 +15,15 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
     }
 
 
-    protected double computeCost(TariffPlan plan) {
+    protected long computeCost(TariffPlan plan) {
         if(getFrom().checkFriends(getTo())) {
-            if (plan.getName().equals("NORMAL")) return (20.00 * this.getDuration())/2;
-            else return (10.00 * getDuration())/2;
+            if (plan.getName().equals("NORMAL"))
+                return (20 * this.getDuration())/2;
+            return (10 * getDuration())/2;
         }
-        if (plan.getName().equals("NORMAL")) return 20.00 * this.getDuration();
-        else return 10.00 * this.getDuration();
+        if (plan.getName().equals("NORMAL"))
+            return 20 * this.getDuration();
+        return 10 * this.getDuration();
     }
 
     private void updateDebt(TariffPlan plan){
