@@ -29,7 +29,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private List<Terminal> _friends;
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
-  private InteractiveCommunication _onGoingCommunication;
+  protected InteractiveCommunication _onGoingCommunication;
+  protected InteractiveCommunication _onGoingCommunicationFrom;
 
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
@@ -66,9 +67,16 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void endOnGoingCommunication(int size) {
-    _onGoingCommunication._isOnGoing = false;
+    _onGoingCommunication.setSize(size);
+    _onGoingCommunication.endOnGoing(size);
     _onGoingCommunication = null;
+  }
 
+  public void setOnGoing(VoiceCommunication c){
+    _onGoingCommunication = c;
+  }
+  public void setOnGoing(VideoCommunication c){
+    _onGoingCommunication = c;
   }
 
   public void setOnIdle() {
@@ -152,10 +160,17 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_onGoingCommunication == null) {
+    if (_onGoingCommunicationFrom == null) {
       return false;
     }
     return true;
+  }
+
+  public void setOnGoingFrom(VoiceCommunication c){
+    _onGoingCommunicationFrom = c;
+  }
+  public void setOnGoingFrom(VideoCommunication c){
+    _onGoingCommunicationFrom = c;
   }
 
   public void updatePayments(long val){

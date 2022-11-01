@@ -53,8 +53,16 @@ public abstract class Communication implements Serializable {
         return _isOnGoing;
     }
 
+
     public void setIsOnGoing(boolean _isOnGoing) {
         this._isOnGoing = _isOnGoing;
+    }
+
+    public void endOnGoing(int size){
+        _isOnGoing = false;
+        _from._onGoingCommunication = null;
+        _to._onGoingCommunication = null;
+        _from._onGoingCommunicationFrom = null;
     }
 
     public void setType(String type){

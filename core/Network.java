@@ -356,10 +356,16 @@ public class Network implements Serializable {
     checkTerminalException(toKey);
 
     if (str1.equals(type)) {
-      Communication interactiveCommunication = new VideoCommunication(from, terminalTo);
+      VideoCommunication interactiveCommunication = new VideoCommunication(from, terminalTo);
+      from._onGoingCommunicationFrom = interactiveCommunication;
+      from._onGoingCommunication = interactiveCommunication;
+      terminalTo._onGoingCommunication = interactiveCommunication;
       _communications.add(interactiveCommunication);
     } else if (str2.equals(type)) {
-      Communication interactiveCommunication = new VoiceCommunication(from, terminalTo);
+      VoiceCommunication interactiveCommunication = new VoiceCommunication(from, terminalTo);
+      from._onGoingCommunicationFrom = interactiveCommunication;
+      from._onGoingCommunication = interactiveCommunication;
+      terminalTo._onGoingCommunication = interactiveCommunication;
       _communications.add(interactiveCommunication);
     }
   }
