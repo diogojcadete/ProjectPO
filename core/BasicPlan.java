@@ -28,20 +28,20 @@ public class BasicPlan extends TariffPlan implements Serializable {
     }
     protected double computeCost(Client cl, VoiceCommunication com){
         if(com.getFrom().checkFriends(com.getTo())) {
-            if (cl.getLevel().name().equals("NORMAL")) return (20.00 * com.getDuration())/2;
-            else return (10.00 * com.getDuration())/2;
+            if (cl.getLevel().name().equals("NORMAL")) return (20.00 * com.getSize())/2;
+            else return (10.00 * com.getSize())/2;
         }
-        if (cl.getLevel().name().equals("NORMAL")) return 20.00 * com.getDuration();
-        else return 10.00 * com.getDuration();
+        if (cl.getLevel().name().equals("NORMAL")) return 20.00 * com.getSize();
+        else return 10.00 * com.getSize();
     }
     protected double computeCost(Client cl, VideoCommunication com){
         if(com.getFrom().checkFriends(com.getTo())) {
-            if (cl.getLevel().name().equals("NORMAL")) return (30.00 * com.getDuration())/2;
-            else if (cl.getLevel().name().equals("GOLD")) return (20.00 * com.getDuration())/2;
-            else return (10.00 * com.getDuration())/2;
+            if (cl.getLevel().name().equals("NORMAL")) return (30.00 * com.getSize())/2;
+            else if (cl.getLevel().name().equals("GOLD")) return (20.00 * com.getSize())/2;
+            else return (10.00 * com.getSize())/2;
         }
-        if (cl.getLevel().name().equals("NORMAL")) return 30.00 * com.getDuration();
-        else if (cl.getLevel().name().equals("GOLD")) return 20.00 * com.getDuration();
-        else return 10.00 * com.getDuration();
+        if (cl.getLevel().name().equals("NORMAL")) return 30.00 * com.getSize();
+        else if (cl.getLevel().name().equals("GOLD")) return 20.00 * com.getSize();
+        else return 10.00 * com.getSize();
     }
 }

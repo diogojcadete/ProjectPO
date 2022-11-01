@@ -112,6 +112,19 @@ public class Network implements Serializable {
     return strClients.toString();
   }
 
+  public String showPositiveClients() {
+    StringBuilder strClients = new StringBuilder();
+    for (int i = 0; i < _clients.size() - 1; i++) {
+      if (_clients.get(i).getPayments() > _clients.get(i).getDebts()) {
+        strClients.append(_clients.get(i).formattedClient()).append("\n");
+      }
+    }
+    if (_clients.size() > 0) {
+      strClients.append(_clients.get(_clients.size() - 1).formattedClient());
+    }
+    return strClients.toString();
+  }
+
   /**
    * This method will return a formatted string of a Client
    *
@@ -280,6 +293,15 @@ public class Network implements Serializable {
     return strTerminals.toString();
   }
 
+  public String showPositiveTerminals(){
+    ArrayList<Terminal> _positivos = new ArrayList<>();
+    for(Terminal t: _terminals){
+      if (t.getPayments() > t.getDebt())
+        _positivos.add(t);
+    }
+    return showTerminals(_positivos);
+  }
+
   /**
    * This method will return a list of unused Terminals
    *
@@ -309,12 +331,20 @@ public class Network implements Serializable {
     Terminal t1 = searchTerminal(toKey);
     checkTerminalException(toKey);
     if (from.getMode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
-      Communication communication = from.makeSMS(t1, msg);
+      TextCommunication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
       communication.getFrom().getOwner().addCommunication(communication);
+      receiveTextDebt(from, communication);
     }
   }
 
+  public void receiveTextDebt(Terminal from, TextCommunication c){
+    Client owner = from.getOwner();
+    long val = c.computeCost(owner.get_tariffPlan());
+    owner.updateDebts(val);
+    from.updateDebtValue(val);
+    c.updateCost(val);
+  }
 
   /**
    * This method will add a friend to the terminal if the terminals aren't already friends
@@ -444,6 +474,7 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
+
   public String showCommunications(String clientID) throws UnknownClientKeyException {
     checkClientKeyExceptions(clientID);
     Client client = searchClient(clientID);
@@ -467,7 +498,6 @@ public class Network implements Serializable {
 
   public void makePayment(Terminal t, String comId){
     Communication c = searchCommunication(comId);
-
     long valor = c.getCost();
     t.updatePayments(valor);
     c.payComm();

@@ -1,5 +1,6 @@
 package prr.app.terminal;
 
+import prr.core.Communication;
 import prr.core.Network;
 import prr.core.Terminal;
 import pt.tecnico.uilib.forms.Form;
@@ -23,7 +24,12 @@ class DoEndInteractiveCommunication extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
+
     int _duration = integerField("duration");
+    Communication c = _terminal.getOnGoing();
     _network.endOnGoingCommunication(_terminal,_duration);
+
+    _display.addLine(Message.communicationCost(c.getCost()));
+    _display.display();
   }
 }

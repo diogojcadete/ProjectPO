@@ -51,8 +51,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _friends.remove(enemy);
   }
 
-  public Communication makeSMS(Terminal to, String message) {
-    Communication c1 = new TextCommunication(this, to, message);
+  public TextCommunication makeSMS(Terminal to, String message) {
+    TextCommunication c1 = new TextCommunication(this, to, message);
     _madeCommunications.add(c1);
     return c1;
   }
@@ -67,7 +67,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void endOnGoingCommunication(int size) {
-    _onGoingCommunication.setSize(size);
     _onGoingCommunication.endOnGoing(size);
     _onGoingCommunication = null;
   }
@@ -80,7 +79,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void setOnIdle() {
-    _mode = TerminalMode.BUSY;
+    _mode = TerminalMode.IDLE;
   }
 
   public void setOnSilent() {
@@ -109,6 +108,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public Client getOwner() {
     return _owner;
+  }
+
+  public Communication getOnGoing(){
+    return _onGoingCommunication;
   }
 
   public TerminalMode getMode() {

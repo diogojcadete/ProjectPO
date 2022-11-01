@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Client implements Serializable {
     private static final long serialVersionUID = 202208091753L;
-    private String _key;
+    private final String _key;
     private String _name;
     private int _taxNumber;
     private ClientLevel _level;
@@ -28,6 +28,7 @@ public class Client implements Serializable {
         this._notifications = new ArrayList<>();
         this._receiveNotifications = true;
         this._communications = new ArrayList<>();
+        this._tariffPlan = new BasicPlan("BasicPlan");
     }
 
     public String getKey() {

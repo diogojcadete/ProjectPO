@@ -11,7 +11,6 @@ public abstract class Communication implements Serializable {
     private String _type;
     private Terminal _from;
     private Terminal _to;
-
     private int _size;
 
     public Communication(Terminal _from, Terminal _to) {
@@ -19,15 +18,7 @@ public abstract class Communication implements Serializable {
         this._from = _from;
         this._to = _to;
     }
-/*
-    public boolean checkIsPaid(TariffPlan plan) {
 
-    }
-
-    public String toString() {
-
-    }
-*/
 
     public int getID() {
         return _id;
@@ -60,9 +51,26 @@ public abstract class Communication implements Serializable {
 
     public void endOnGoing(int size){
         _isOnGoing = false;
+        long val;
+        Client owner = _from.getOwner();
+        this._size = size;
+        if(_from._onGoingCommunication instanceof VoiceCommunication){
+            val = ((VoiceCommunication) _from._onGoingCommunication).computeCost(owner.get_tariffPlan());
+        }
+        else{
+            val = ((VideoCommunication) _from._onGoingCommunication).computeCost(owner.get_tariffPlan());
+        }
+
+        owner.updateDebts(val);
+        _from.updateDebtValue(val);
+        _cost = val;
+
         _from._onGoingCommunication = null;
         _to._onGoingCommunication = null;
         _from._onGoingCommunicationFrom = null;
+        _from.setOnIdle();
+        _to.setOnIdle();
+
     }
 
     public void setType(String type){
@@ -84,6 +92,11 @@ public abstract class Communication implements Serializable {
     public Terminal getFrom() {
         return _from;
     }
+
+    public void updateCost(long val){
+        _cost = val;
+    }
+
 
     public Terminal getTo() {
         return _to;
