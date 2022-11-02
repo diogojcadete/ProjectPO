@@ -3,6 +3,7 @@ package prr.app.terminal;
 import prr.core.Network;
 import prr.core.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
+import prr.core.TerminalMode;
 import prr.core.exception.InvalidTerminalKeyException;
 import pt.tecnico.uilib.forms.Form;
 import pt.tecnico.uilib.menus.CommandException;
@@ -27,7 +28,14 @@ class DoSendTextCommunication extends TerminalCommand {
   @Override
   protected final void execute() throws CommandException {
     try {
-      _context.sendTextCommunication(_terminal, stringField("toTerminalID"), stringField("Message"));
+      Terminal toTerminal = _context.searchTerminal(stringField("toTerminalID"));
+      if (toTerminal != null && toTerminal.getMode().equals(TerminalMode.OFF)){
+        _display.addLine(Message.destinationIsOff(toTerminal.getID()));
+        _display.display();
+      }
+      else {
+        _context.sendTextCommunication(_terminal, stringField("toTerminalID"), stringField("Message"));
+      }
     } catch (UnknownTerminalKeyException e) {
       throw new UnknownTerminalKeyException(stringField("toTerminalID"));
     }

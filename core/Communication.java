@@ -68,8 +68,8 @@ public abstract class Communication implements Serializable {
         _from._onGoingCommunication = null;
         _to._onGoingCommunication = null;
         _from._onGoingCommunicationFrom = null;
-        _from.setOnIdle();
-        _to.setOnIdle();
+        _from.setOn();
+        _to.setOn();
 
     }
 

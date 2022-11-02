@@ -30,24 +30,24 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     String terminalFrom = _terminal.getID();
     String communicationType = optionField("communicationType");
     try {
-      if (terminalTo.getMode().name().equals(TerminalMode.OFF.name())) {
-        _display.addLine(Message.destinationIsOff(toTerminalID));
-        _display.display();
-      } else if (terminalTo.getMode().name().equals(TerminalMode.BUSY.name())) {
-        _display.addLine(Message.destinationIsBusy(toTerminalID));
-        _display.display();
-      } else if (terminalTo.getMode().name().equals(TerminalMode.SILENCE.name())) {
-        _display.addLine(Message.destinationIsSilent(toTerminalID));
-        _display.display();
-      } else if (_terminal.getType().equals("BASIC") && communicationType.equals("VIDEO")) {
-        _display.addLine(Message.unsupportedAtOrigin(terminalFrom, communicationType));
-        _display.display();
-      } else if(terminalTo.getType().equals("BASIC") && communicationType.equals("VIDEO")) {
-        _display.addLine(Message.unsupportedAtDestination(toTerminalID, communicationType));
-        _display.display();
-      } else{
-        _context.startInteractiveCommunication(_terminal, toTerminalID, communicationType);
-      }
+        if (terminalTo.getMode().name().equals(TerminalMode.OFF.name())) {
+          _display.addLine(Message.destinationIsOff(toTerminalID));
+          _display.display();
+        } else if (terminalTo.getMode().name().equals(TerminalMode.BUSY.name())) {
+          _display.addLine(Message.destinationIsBusy(toTerminalID));
+          _display.display();
+        } else if (terminalTo.getMode().name().equals(TerminalMode.SILENCE.name())) {
+          _display.addLine(Message.destinationIsSilent(toTerminalID));
+          _display.display();
+        } else if (_terminal.getType().equals("BASIC") && communicationType.equals("VIDEO")) {
+          _display.addLine(Message.unsupportedAtOrigin(terminalFrom, communicationType));
+          _display.display();
+        } else if (terminalTo.getType().equals("BASIC") && communicationType.equals("VIDEO")) {
+          _display.addLine(Message.unsupportedAtDestination(toTerminalID, communicationType));
+          _display.display();
+        } else {
+          _context.startInteractiveCommunication(_terminal, toTerminalID, communicationType);
+        }
     }catch (UnknownTerminalKeyException e){
       throw new UnknownTerminalKeyException(toTerminalID);
     }

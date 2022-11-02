@@ -101,13 +101,13 @@ public class Network implements Serializable {
    *
    * @return strClients.toString()
    */
-  public String showClients() {
+  public String showClients(List<Client> clients) {
     StringBuilder strClients = new StringBuilder();
-    for (int i = 0; i < _clients.size() - 1; i++) {
-      strClients.append(_clients.get(i).formattedClient()).append("\n");
+    for (int i = 0; i < clients.size() - 1; i++) {
+      strClients.append(clients.get(i).formattedClient()).append("\n");
     }
-    if (_clients.size() > 0) {
-      strClients.append(_clients.get(_clients.size() - 1).formattedClient());
+    if (clients.size() > 0) {
+      strClients.append(clients.get(clients.size() - 1).formattedClient());
     }
     return strClients.toString();
   }
@@ -210,13 +210,13 @@ public class Network implements Serializable {
     checkRegisterTerminalExceptions(terminalID, clientKey);
     switch (terminalType) {
       case "FANCY" -> {
-        FancyTerminal f1 = new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.IDLE);
+        FancyTerminal f1 = new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
         _terminals.add(f1);
         c1.addTerminal(f1);
         return f1;
       }
       case "BASIC" -> {
-        BasicTerminal b1 = new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.IDLE);
+        BasicTerminal b1 = new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
         _terminals.add(b1);
         c1.addTerminal(b1);
         return b1;
@@ -333,7 +333,8 @@ public class Network implements Serializable {
     if (from.getMode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       TextCommunication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
-      communication.getFrom().getOwner().addCommunication(communication);
+      communication.getFrom().getOwner().addMadeCommunication(communication);
+      communication.getTo().getOwner().addReceivedCommunication(communication);
       receiveTextDebt(from, communication);
     }
   }
@@ -368,8 +369,22 @@ public class Network implements Serializable {
     if (!(t1.getID().equals(t2.getID())) && (t1.getFriends().contains(t2))) {
       t1.removeFriend(t2);
     }
-
   }
+  public void setMode(TerminalMode mode, Terminal terminal){
+    if(mode.equals(TerminalMode.ON)){
+      terminal.setOn();
+    }
+    else if(mode.equals(TerminalMode.BUSY)){
+      terminal.setBusy();
+    }
+    else if(mode.equals(TerminalMode.OFF)){
+      terminal.setOff();
+    }
+    else if(mode.equals(TerminalMode.SILENCE)){
+      terminal.setOnSilent();
+    }
+  }
+
 
 
   /**
@@ -475,11 +490,11 @@ public class Network implements Serializable {
   }
 
 
-  public String showCommunications(String clientID) throws UnknownClientKeyException {
+  public String showCommunicationsFrom(String clientID) throws UnknownClientKeyException {
     checkClientKeyExceptions(clientID);
     Client client = searchClient(clientID);
     StringBuilder strCommunications = new StringBuilder();
-    List<Communication> communications = client.getCommunication();
+    List<Communication> communications = client.getMadeCommunication();
     for (int i = 0; i < communications.size() - 1; i++) {
       strCommunications.append(communications.get(i).formattedCommunication()).append("\n");
     }

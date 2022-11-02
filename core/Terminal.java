@@ -78,8 +78,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _onGoingCommunication = c;
   }
 
-  public void setOnIdle() {
-    _mode = TerminalMode.IDLE;
+  public void setOn() {
+    _mode = TerminalMode.ON;
   }
 
   public void setOnSilent() {
@@ -140,12 +140,12 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
-    _owner.addCommunication(communication);
+    _owner.addMadeCommunication(communication);
   }
 
   public void addReceivedCommunications(Communication communication) {
     _receivedCommunications.add(communication);
-    _owner.addCommunication(communication);
+    _owner.addReceivedCommunication(communication);
   }
 
   public boolean checkFriends(Terminal friendRequest) {
@@ -204,12 +204,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    // Do it! meti true para compilar.
-    return true;
+   return true;
   }
 
   public boolean wasUsed() {
     return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());
+  }
+
+  public void setOff() {
+    _mode = TerminalMode.OFF;
   }
 }
 

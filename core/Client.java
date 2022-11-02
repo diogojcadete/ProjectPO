@@ -14,7 +14,9 @@ public class Client implements Serializable {
     private List<Terminal> _terminals;
     private TariffPlan _tariffPlan;
     private List<Notification> _notifications;
-    private List<Communication> _communications;
+    private List<Communication> _madeCommunications;
+    private List<Communication> _receivedCommunications;
+
     private long _payments;
     private long _debts;
 
@@ -27,7 +29,8 @@ public class Client implements Serializable {
         this._terminals = new ArrayList<>();
         this._notifications = new ArrayList<>();
         this._receiveNotifications = true;
-        this._communications = new ArrayList<>();
+        this._madeCommunications = new ArrayList<>();
+        this._receivedCommunications = new ArrayList<>();
         this._tariffPlan = new BasicPlan("BasicPlan");
     }
 
@@ -74,12 +77,14 @@ public class Client implements Serializable {
         this._receiveNotifications = false;
     }
 
+    public List<Communication> getMadeCommunication(){
+        return _madeCommunications;
+    }
+    public List<Communication> getReceivedCommunications(){
+        return _receivedCommunications;
+    }
     public List<Terminal> getTerminals() {
         return _terminals;
-    }
-
-    public List<Communication> getCommunication(){
-        return _communications;
     }
 
     public void set_terminals(List<Terminal> _terminals) {
@@ -133,11 +138,16 @@ public class Client implements Serializable {
         return _notifications;
     }
 
-    public void addCommunication(Communication c){
-        _communications.add(c);
-    }
 
     public void updatePayments(long val){
         _payments += val;
+    }
+
+    public void addMadeCommunication(Communication communication) {
+        _madeCommunications.add(communication);
+    }
+
+    public void addReceivedCommunication(Communication communication) {
+        _receivedCommunications.add(communication);
     }
 }

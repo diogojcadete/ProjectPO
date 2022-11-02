@@ -28,7 +28,7 @@ class DoShowCommunicationsFromClient extends Command<Network> {
     String clientID = stringField("clientID");
     Client _client = _receiver.searchClient(clientID);
     try {
-      _display.add(_receiver.showCommunications(clientID));
+      _display.add(_receiver.showCommunicationsFrom(clientID));
       _display.display();
     } catch (UnknownClientKeyException e) {
       throw new UnknownClientKeyException(clientID);
