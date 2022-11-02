@@ -1,7 +1,10 @@
 package prr.core;
 
+import prr.core.comparator.TerminalComparator;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
@@ -53,7 +56,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public TextCommunication makeSMS(Terminal to, String message) {
     TextCommunication c1 = new TextCommunication(this, to, message);
-    _madeCommunications.add(c1);
+  //  _madeCommunications.add(c1);
     return c1;
   }
 
@@ -79,7 +82,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void setOn() {
-    _mode = TerminalMode.ON;
+    _mode = TerminalMode.IDLE;
   }
 
   public void setOnSilent() {
@@ -182,6 +185,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public String friendsToString() {
     String strFriends = "";
+    Collections.sort(_friends,new TerminalComparator());
     int j = _friends.size() - 1;
     for (int i = 0; i < _friends.size() - 1; i++) {
       strFriends += _friends.get(i).getID() + ",";
@@ -204,6 +208,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
+    if(_mode.equals(TerminalMode.BUSY) || _mode.equals(TerminalMode.OFF)){
+      return false;
+    }
    return true;
   }
 

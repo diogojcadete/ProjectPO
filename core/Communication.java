@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public abstract class Communication implements Serializable {
     private static final long serialVersionUID = 202208091753L;
-    private int _id = 0;
+    private static int _sharedID = 0;
     private boolean _isPaid;
     protected long _cost = 0;
     protected boolean _isOnGoing;
@@ -12,9 +12,11 @@ public abstract class Communication implements Serializable {
     private Terminal _from;
     private Terminal _to;
     private int _size;
+    private int _id;
 
     public Communication(Terminal _from, Terminal _to) {
-        this._id += 1;
+        _sharedID++;
+        this._id = _sharedID;
         this._from = _from;
         this._to = _to;
     }

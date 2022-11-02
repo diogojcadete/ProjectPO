@@ -22,7 +22,8 @@ class DoDisableClientNotifications extends Command<Network> {
     String _clientKey = stringField("clientKey");
     Client _client = _receiver.searchClient(_clientKey);
     if(!_client.getReceiveNotifications()){
-      System.out.println(Message.clientNotificationsAlreadyDisabled());
+      _display.addLine(Message.clientNotificationsAlreadyDisabled());
+      _display.display();
     }
     _receiver.deActivateFailedComms(_clientKey);
   }

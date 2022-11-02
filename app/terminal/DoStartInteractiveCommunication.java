@@ -30,6 +30,7 @@ class DoStartInteractiveCommunication extends TerminalCommand {
     String terminalFrom = _terminal.getID();
     String communicationType = optionField("communicationType");
     try {
+        _context.checkTerminalKeyExceptions(toTerminalID);
         if (terminalTo.getMode().name().equals(TerminalMode.OFF.name())) {
           _display.addLine(Message.destinationIsOff(toTerminalID));
           _display.display();

@@ -154,6 +154,7 @@ public class Network implements Serializable {
     return _clients;
   }
 
+
   /**
    * This method allows us to search for a client with his ID
    *
@@ -215,19 +216,26 @@ public class Network implements Serializable {
     checkRegisterTerminalExceptions(terminalID, clientKey);
     switch (terminalType) {
       case "FANCY" -> {
-        FancyTerminal f1 = new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.ON);
+        FancyTerminal f1 = new FancyTerminal(terminalID, "FANCY", c1, TerminalMode.IDLE);
         _terminals.add(f1);
         c1.addTerminal(f1);
         return f1;
       }
       case "BASIC" -> {
-        BasicTerminal b1 = new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.ON);
+        BasicTerminal b1 = new BasicTerminal(terminalID, "BASIC", c1, TerminalMode.IDLE);
         _terminals.add(b1);
         c1.addTerminal(b1);
         return b1;
       }
     }
     return null;
+  }
+
+  public void checkTerminalKeyExceptions(String terminalID) throws UnknownTerminalKeyException{
+    Terminal terminal = searchTerminal(terminalID);
+    if(terminal == null){
+      throw  new UnknownTerminalKeyException(terminalID);
+    }
   }
 
   /**
@@ -338,8 +346,6 @@ public class Network implements Serializable {
     if (from.getMode() != TerminalMode.OFF && !(from.canEndCurrentCommunication())) {
       TextCommunication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
-      communication.getFrom().getOwner().addMadeCommunication(communication);
-      communication.getTo().getOwner().addReceivedCommunication(communication);
       receiveTextDebt(from, communication);
     }
   }
@@ -376,7 +382,7 @@ public class Network implements Serializable {
     }
   }
   public void setMode(TerminalMode mode, Terminal terminal){
-    if(mode.equals(TerminalMode.ON)){
+    if(mode.equals(TerminalMode.IDLE)){
       terminal.setOn();
     }
     else if(mode.equals(TerminalMode.BUSY)){
@@ -494,12 +500,9 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
-
-  public String showCommunicationsFrom(String clientID) throws UnknownClientKeyException {
-    checkClientKeyExceptions(clientID);
-    Client client = searchClient(clientID);
+  public String showCommunicationsClient(List<Communication> communications,String clientID) throws UnknownClientKeyException{
     StringBuilder strCommunications = new StringBuilder();
-    List<Communication> communications = client.getMadeCommunication();
+    checkClientKeyExceptions(clientID);
     for (int i = 0; i < communications.size() - 1; i++) {
       strCommunications.append(communications.get(i).formattedCommunication()).append("\n");
     }
@@ -507,6 +510,14 @@ public class Network implements Serializable {
       strCommunications.append(communications.get(communications.size() - 1).formattedCommunication());
     }
     return strCommunications.toString();
+  }
+
+
+  public List<Communication> getCommunicationsFromClient(Client client){
+    return client.getMadeCommunication();
+  }
+  public List<Communication> getCommunicationsToClient(Client client){
+    return client.getReceivedCommunications();
   }
 
   public void checkClientKeyExceptions(String clientID) throws UnknownClientKeyException {

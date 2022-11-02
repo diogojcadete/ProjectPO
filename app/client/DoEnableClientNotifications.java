@@ -24,7 +24,8 @@ class DoEnableClientNotifications extends Command<Network> {
     String _clientKey = stringField("clientKey");
     Client _client = _receiver.searchClient(_clientKey);
     if(_client.getReceiveNotifications()){
-      System.out.println(Message.clientNotificationsAlreadyEnabled());
+      _display.addLine(Message.clientNotificationsAlreadyEnabled());
+      _display.display();
     }
     _receiver.activateFailedComms(_clientKey);
   }

@@ -21,12 +21,12 @@ class DoTurnOnTerminal extends TerminalCommand {
   
   @Override
   protected final void execute() throws CommandException {
-    if(_terminal.getMode().equals(TerminalMode.ON)){
+    if(_terminal.getMode().equals(TerminalMode.IDLE)){
       _display.addLine(Message.alreadyOn());
       _display.display();
     }
     else if(!_terminal.equals(TerminalMode.BUSY)){
-      _context.setMode(TerminalMode.ON, _terminal);
+      _context.setMode(TerminalMode.IDLE, _terminal);
     }
   }
 }

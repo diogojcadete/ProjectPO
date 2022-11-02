@@ -27,9 +27,11 @@ class DoSendTextCommunication extends TerminalCommand {
 
   @Override
   protected final void execute() throws CommandException {
+    String terminalID = stringField("toTerminalID");
     try {
-      Terminal toTerminal = _context.searchTerminal(stringField("toTerminalID"));
-      if (toTerminal != null && toTerminal.getMode().equals(TerminalMode.OFF)){
+      Terminal toTerminal = _context.searchTerminal(terminalID);
+      _context.checkTerminalKeyExceptions(terminalID);
+      if (toTerminal.getMode().equals(TerminalMode.OFF)){
         _display.addLine(Message.destinationIsOff(toTerminal.getID()));
         _display.display();
       }
