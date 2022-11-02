@@ -113,16 +113,21 @@ public class Network implements Serializable {
   }
 
   public String showPositiveClients() {
-    StringBuilder strClients = new StringBuilder();
-    for (int i = 0; i < _clients.size() - 1; i++) {
-      if (_clients.get(i).getPayments() > _clients.get(i).getDebts()) {
-        strClients.append(_clients.get(i).formattedClient()).append("\n");
-      }
+    ArrayList<Client> _positivos = new ArrayList<>();
+    for(Client c: _clients){
+      if (c.getPayments() == c.getDebts())
+        _positivos.add(c);
     }
-    if (_clients.size() > 0) {
-      strClients.append(_clients.get(_clients.size() - 1).formattedClient());
+    return showClients(_positivos);
+  }
+
+  public String showNegativeClients() {
+    ArrayList<Client> _negativos = new ArrayList<>();
+    for(Client c: _clients){
+      if (c.getPayments() < c.getDebts())
+        _negativos.add(c);
     }
-    return strClients.toString();
+    return showClients(_negativos);
   }
 
   /**
