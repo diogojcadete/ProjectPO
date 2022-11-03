@@ -27,6 +27,7 @@ class DoTurnOnTerminal extends TerminalCommand {
     }
     else if(!_terminal.equals(TerminalMode.BUSY)){
       _context.setMode(TerminalMode.IDLE, _terminal);
+      _terminal.sendNotificationsI();
     }
   }
 }

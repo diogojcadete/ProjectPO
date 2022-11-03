@@ -5,30 +5,46 @@ import java.io.Serializable;
 public class Notification implements Serializable {
     //private static final long serialVersionUID = 202208091753L;
     private NotificationType _type;
-    private Terminal _notifyingTerminal;
+    private final String _origem;
+    private Client _client;
+    private Terminal _terminal;
 
-    public Notification(NotificationType _type, Terminal _notifyingTerminal) {
-        this._type = _type;
-        this._notifyingTerminal = _notifyingTerminal;
+    public Notification(String origem, Terminal t) {
+        _origem = origem;
+        _client = t.getOwner();
+        _terminal = t;
     }
 
-    public NotificationType get_type() {
+    public String getOrigem(){
+        return _origem;
+    }
+
+    public NotificationType getType() {
         return _type;
     }
 
-    public void set_type(NotificationType _type) {
+    public void setType(NotificationType _type) {
         this._type = _type;
     }
 
-    public Terminal get_notifyingTerminal() {
-        return _notifyingTerminal;
+
+    public Client getClient(){
+        return _client;
     }
 
-    public void set_notifyingTerminal(Terminal _notifyingTerminal) {
-        this._notifyingTerminal = _notifyingTerminal;
+    public void set02S(){
+        _type = NotificationType.O2S;
     }
-
+    public void set02I(){
+        _type = NotificationType.O2I;
+    }
+    public void setB2I(){
+        _type = NotificationType.B2I;
+    }
+    public void setS2I(){
+        _type = NotificationType.S2I;
+    }
     public String formattedNotification(){
-        return  _type.name() + "|" + _notifyingTerminal;
+        return  _type.name() + "|" + _terminal.getID();
     }
 }

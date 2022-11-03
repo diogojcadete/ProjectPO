@@ -32,8 +32,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private List<Terminal> _friends;
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
+  private List<Notification> _notifications;
   protected InteractiveCommunication _onGoingCommunication;
   protected InteractiveCommunication _onGoingCommunicationFrom;
+
 
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
@@ -44,6 +46,7 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._friends = new ArrayList<>();
     this._madeCommunications = new ArrayList<>();
     this._receivedCommunications = new ArrayList<>();
+    this._notifications = new ArrayList<>();
   }
 
   public void addFriend(Terminal friend) {
@@ -139,6 +142,52 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public void setBusy(){
     _mode = TerminalMode.BUSY;
+  }
+
+  // O terminal recebeu uma notificação, já que este estava offline
+  public void receiveNotificationO(Terminal t){
+    Notification n = new Notification("OFF", t);
+    _notifications.add(n);
+  }
+  public void receiveNotificationS(Terminal t){
+    Notification n = new Notification("SILENT", t);
+    _notifications.add(n);
+  }
+  public void receiveNotificationB(Terminal t){
+    Notification n = new Notification("BUSY", t);
+    _notifications.add(n);
+  }
+
+
+  // Ligueio o terminal e vou enviar as notificações para o cliente
+  public void sendNotificationsI(){
+    for(Notification n: _notifications){
+      if(n.getOrigem().equals("OFF")){
+          n.set02I();
+          n.getClient().addNotification(n);
+          _notifications.remove(n);
+      }
+      else if (n.getOrigem().equals("SILENT")){
+        n.setS2I();
+        n.getClient().addNotification(n);
+        _notifications.remove(n);
+      }
+      else if (n.getOrigem().equals("BUSY")){
+        n.setB2I();
+        n.getClient().addNotification(n);
+        _notifications.remove(n);
+      }
+    }
+  }
+
+  public void sendNotificationS(){
+    for (Notification n: _notifications){
+      if(n.getOrigem().equals("OFF")) {
+        n.set02S();
+        _notifications.remove(n);
+        n.getClient().addNotification(n);
+      }
+    }
   }
 
   public void addMadeCommunications(Communication communication) {

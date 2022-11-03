@@ -37,7 +37,6 @@ public class Network implements Serializable {
   private List<Communication> _communications;
   private final List<Client> _clients;
   private List<TariffPlan> _tariffPlans;
-  private List<Notification> _notifications;
 
   public Network() {
     this._terminals = new ArrayList<>();
@@ -460,9 +459,7 @@ public class Network implements Serializable {
    *
    * @return _notifications
    */
-  public List<Notification> getNotifications() {
-    return _notifications;
-  }
+
 
   /**
    * This method will return a formatted of every notification
@@ -476,8 +473,10 @@ public class Network implements Serializable {
     for (Notification n : c.getNotifications()) {
       strNotifications.append(n.formattedNotification());
     }
+    c.eraseAllNotifications();
     return strNotifications.toString();
   }
+
 
   /**
    * |--------------------------|**************************|--------------------------|
@@ -526,13 +525,19 @@ public class Network implements Serializable {
       throw new UnknownClientKeyException(clientID);
     }
   }
+  public void evaluateUpgrade(String clientId){
+    Client c = searchClient(clientId);
+    c.upgradeClient();
+  }
 
   public void makePayment(Terminal t, String comId){
     Communication c = searchCommunication(comId);
     long valor = c.getCost();
     t.updatePayments(valor);
+    t.updateDebtValue(-valor);
     c.payComm();
     t.getOwner().updateDebts(valor);
+    t.getOwner().updateDebts(-valor);
   }
   public Communication searchCommunication(String commID) {
     int comID = Integer.parseInt(commID);

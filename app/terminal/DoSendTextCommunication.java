@@ -1,6 +1,7 @@
 package prr.app.terminal;
 
 import prr.core.Network;
+import prr.core.Notification;
 import prr.core.Terminal;
 import prr.app.exception.UnknownTerminalKeyException;
 import prr.core.TerminalMode;
@@ -36,7 +37,8 @@ class DoSendTextCommunication extends TerminalCommand {
         _display.display();
       }
       else {
-        _context.sendTextCommunication(_terminal, stringField("toTerminalID"), stringField("Message"));
+        _context.sendTextCommunication(_terminal, terminalID, stringField("Message"));
+        _context.evaluateUpgrade(terminalID);
       }
     } catch (UnknownTerminalKeyException e) {
       throw new UnknownTerminalKeyException(stringField("toTerminalID"));

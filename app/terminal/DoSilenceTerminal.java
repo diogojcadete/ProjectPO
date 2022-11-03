@@ -27,6 +27,7 @@ class DoSilenceTerminal extends TerminalCommand {
     }
     else if(!_terminal.getMode().equals(TerminalMode.OFF) && !_terminal.getMode().equals(TerminalMode.BUSY)){
       _context.setMode(TerminalMode.SILENCE, _terminal);
+      _terminal.sendNotificationS();
     }
   }
 }
