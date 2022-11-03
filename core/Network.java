@@ -37,12 +37,15 @@ public class Network implements Serializable {
   private List<Communication> _communications;
   private final List<Client> _clients;
   private List<TariffPlan> _tariffPlans;
+  private List<Notification> _notifications;
+  private List<Communication> _failedCommunications;
 
   public Network() {
     this._terminals = new ArrayList<>();
     this._communications = new ArrayList<>();
     this._clients = new ArrayList<>();
     this._tariffPlans = new ArrayList<>();
+    this._failedCommunications = new ArrayList<>();
   }
 
   /**
@@ -412,16 +415,26 @@ public class Network implements Serializable {
 
     if (str1.equals(type)) {
       VideoCommunication interactiveCommunication = new VideoCommunication(from, terminalTo);
-      from._onGoingCommunicationFrom = interactiveCommunication;
-      from._onGoingCommunication = interactiveCommunication;
-      terminalTo._onGoingCommunication = interactiveCommunication;
-      _communications.add(interactiveCommunication);
+      //if(terminalTo.canStartCommunication()) {
+        from._onGoingCommunicationFrom = interactiveCommunication;
+        from._onGoingCommunication = interactiveCommunication;
+        terminalTo._onGoingCommunication = interactiveCommunication;
+        _communications.add(interactiveCommunication);
+     // }
+      //else{
+        //_failedCommunications.add(interactiveCommunication);
+      //}
     } else if (str2.equals(type)) {
       VoiceCommunication interactiveCommunication = new VoiceCommunication(from, terminalTo);
-      from._onGoingCommunicationFrom = interactiveCommunication;
-      from._onGoingCommunication = interactiveCommunication;
-      terminalTo._onGoingCommunication = interactiveCommunication;
-      _communications.add(interactiveCommunication);
+      //if (terminalTo.canStartCommunication()) {
+        from._onGoingCommunicationFrom = interactiveCommunication;
+        from._onGoingCommunication = interactiveCommunication;
+        terminalTo._onGoingCommunication = interactiveCommunication;
+        _communications.add(interactiveCommunication);
+      //}
+      //else{
+        //_failedCommunications.add(interactiveCommunication);
+      //}
     }
   }
 
@@ -459,7 +472,9 @@ public class Network implements Serializable {
    *
    * @return _notifications
    */
-
+  public List<Notification> getNotifications() {
+    return _notifications;
+  }
 
   /**
    * This method will return a formatted of every notification
@@ -473,10 +488,8 @@ public class Network implements Serializable {
     for (Notification n : c.getNotifications()) {
       strNotifications.append(n.formattedNotification());
     }
-    c.eraseAllNotifications();
     return strNotifications.toString();
   }
-
 
   /**
    * |--------------------------|**************************|--------------------------|
@@ -525,19 +538,13 @@ public class Network implements Serializable {
       throw new UnknownClientKeyException(clientID);
     }
   }
-  public void evaluateUpgrade(String clientId){
-    Client c = searchClient(clientId);
-    c.upgradeClient();
-  }
 
   public void makePayment(Terminal t, String comId){
     Communication c = searchCommunication(comId);
     long valor = c.getCost();
     t.updatePayments(valor);
-    t.updateDebtValue(-valor);
     c.payComm();
     t.getOwner().updateDebts(valor);
-    t.getOwner().updateDebts(-valor);
   }
   public Communication searchCommunication(String commID) {
     int comID = Integer.parseInt(commID);

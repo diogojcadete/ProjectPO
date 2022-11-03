@@ -1,5 +1,6 @@
 package prr.core;
 
+import prr.core.comparator.ClientComparator;
 import prr.core.comparator.TerminalComparator;
 
 import java.io.Serializable;
@@ -32,10 +33,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   private List<Terminal> _friends;
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
-  private List<Notification> _notifications;
   protected InteractiveCommunication _onGoingCommunication;
   protected InteractiveCommunication _onGoingCommunicationFrom;
-
 
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
@@ -46,11 +45,11 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._friends = new ArrayList<>();
     this._madeCommunications = new ArrayList<>();
     this._receivedCommunications = new ArrayList<>();
-    this._notifications = new ArrayList<>();
   }
 
   public void addFriend(Terminal friend) {
       _friends.add(friend);
+    Collections.sort(_friends,new TerminalComparator());
   }
 
   public void removeFriend(Terminal enemy){
@@ -144,52 +143,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     _mode = TerminalMode.BUSY;
   }
 
-  // O terminal recebeu uma notificação, já que este estava offline
-  public void receiveNotificationO(Terminal t){
-    Notification n = new Notification("OFF", t);
-    _notifications.add(n);
-  }
-  public void receiveNotificationS(Terminal t){
-    Notification n = new Notification("SILENT", t);
-    _notifications.add(n);
-  }
-  public void receiveNotificationB(Terminal t){
-    Notification n = new Notification("BUSY", t);
-    _notifications.add(n);
-  }
-
-
-  // Ligueio o terminal e vou enviar as notificações para o cliente
-  public void sendNotificationsI(){
-    for(Notification n: _notifications){
-      if(n.getOrigem().equals("OFF")){
-          n.set02I();
-          n.getClient().addNotification(n);
-          _notifications.remove(n);
-      }
-      else if (n.getOrigem().equals("SILENT")){
-        n.setS2I();
-        n.getClient().addNotification(n);
-        _notifications.remove(n);
-      }
-      else if (n.getOrigem().equals("BUSY")){
-        n.setB2I();
-        n.getClient().addNotification(n);
-        _notifications.remove(n);
-      }
-    }
-  }
-
-  public void sendNotificationS(){
-    for (Notification n: _notifications){
-      if(n.getOrigem().equals("OFF")) {
-        n.set02S();
-        _notifications.remove(n);
-        n.getClient().addNotification(n);
-      }
-    }
-  }
-
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
     _owner.addMadeCommunication(communication);
@@ -234,7 +187,6 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
 
   public String friendsToString() {
     String strFriends = "";
-    Collections.sort(_friends,new TerminalComparator());
     int j = _friends.size() - 1;
     for (int i = 0; i < _friends.size() - 1; i++) {
       strFriends += _friends.get(i).getID() + ",";

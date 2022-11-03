@@ -6,12 +6,14 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
     private static final long serialVersionUID = 202208091753L;
     public VoiceCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
-        _from.addMadeCommunications(this);
-        _to.addReceivedCommunications(this);
-        this.setType("VOICE");
-        this.setIsOnGoing(true);
-        _from.setBusy();
-        _to.setBusy();
+        //if(_to.canStartCommunication()){
+            _from.addMadeCommunications(this);
+            _to.addReceivedCommunications(this);
+            this.setType("VOICE");
+            this.setIsOnGoing(true);
+            _from.setBusy();
+            _to.setBusy();
+       // }
     }
 
 
