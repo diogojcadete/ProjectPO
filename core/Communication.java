@@ -38,14 +38,6 @@ public abstract class Communication implements Serializable {
         return _cost;
     }
 
-    public void setCost(long _cost) {
-        this._cost = _cost;
-    }
-
-    public boolean getIsOnGoing() {
-        return _isOnGoing;
-    }
-
 
     public void setIsOnGoing(boolean _isOnGoing) {
         this._isOnGoing = _isOnGoing;
