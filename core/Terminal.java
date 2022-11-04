@@ -95,24 +95,15 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
       for (Client c : this.getFailedCommsClients()) {
         if (c.getReceiveNotifications()) {
           c.addNotification(n);
-          this._failedCommClient.remove(c);
-          for(FailedCommunication f: _failedCommunications){
-           if()
-          }
-          this._failedCommunications.remove(c)
         }
       }
-      this.getFailedCommsClients().clear();
     }
     else if(previousMode.equals(TerminalMode.SILENCE)){
       Notification n = new Notification(NotificationType.S2I, this);
         for(Client c: this.getFailedCommsClients()){
           if(c.getReceiveNotifications()){
             c.addNotification(n);
-            this._failedCommClient.remove(c);
           }
-          this._failedCommunications.clear();
-          this.getFailedCommsClients().clear();
       }
     }
   }
