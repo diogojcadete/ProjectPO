@@ -90,6 +90,10 @@ abstract public class Terminal implements Serializable {
     }
   }
 
+  /**
+   * This method sets the previous mode
+   * @param mode
+   */
   public void setPreviousMode(TerminalMode mode){
     previousMode = mode;
   }
@@ -124,6 +128,9 @@ abstract public class Terminal implements Serializable {
     _mode = TerminalMode.OFF;
   }
 
+  /**
+   * This method sets the current mode to the previous mode
+   */
   public void setOnPreviousMode(){
     _mode = previousMode;
   }
@@ -135,6 +142,10 @@ abstract public class Terminal implements Serializable {
     return _id;
   }
 
+  /**
+   * This method gets the previous mode
+   * @return
+   */
   public TerminalMode getPreviousMode(){
     return previousMode;
   }

@@ -32,6 +32,7 @@ class DoSendTextCommunication extends TerminalCommand {
       Terminal toTerminal = _context.searchTerminal(terminalID);
       _context.checkTerminalKeyExceptions(terminalID);
       if (toTerminal.getMode().equals(TerminalMode.OFF)){
+        _context.addFailedCommunication(_terminal, toTerminal);
         _display.addLine(Message.destinationIsOff(toTerminal.getID()));
         _display.display();
       }
