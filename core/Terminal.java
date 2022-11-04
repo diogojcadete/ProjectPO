@@ -36,6 +36,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   protected InteractiveCommunication _onGoingCommunication;
   protected InteractiveCommunication _onGoingCommunicationFrom;
 
+  private List<FailedCommunication> _failedCommunications;
+  List<Client> _failedCommClient;
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
@@ -45,6 +47,8 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._friends = new ArrayList<>();
     this._madeCommunications = new ArrayList<>();
     this._receivedCommunications = new ArrayList<>();
+    this._failedCommunications = new ArrayList<>();
+    this._failedCommClient = new ArrayList<>();
   }
 
   public void addFriend(Terminal friend) {
@@ -84,11 +88,43 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   }
 
   public void setOn() {
+    TerminalMode previousMode = this.getMode();
     _mode = TerminalMode.IDLE;
+    if(previousMode.equals(TerminalMode.OFF)) {
+      Notification n = new Notification(NotificationType.O2I, this);
+      for (Client c : this.getFailedCommsClients()) {
+        if (c.getReceiveNotifications()) {
+          c.addNotification(n);
+          this._failedCommClient.remove(c);
+          for(FailedCommunication f: _failedCommunications){
+           if()
+          }
+          this._failedCommunications.remove(c)
+        }
+      }
+      this.getFailedCommsClients().clear();
+    }
+    else if(previousMode.equals(TerminalMode.SILENCE)){
+      Notification n = new Notification(NotificationType.S2I, this);
+        for(Client c: this.getFailedCommsClients()){
+          if(c.getReceiveNotifications()){
+            c.addNotification(n);
+            this._failedCommClient.remove(c);
+          }
+          this._failedCommunications.clear();
+          this.getFailedCommsClients().clear();
+      }
+    }
   }
 
   public void setOnSilent() {
     _mode = TerminalMode.SILENCE;
+    Notification n = new Notification(NotificationType.O2S, this);
+    for(Client c: this.getFailedCommsClients()){
+      if(c.getReceiveNotifications()){
+        c.addNotification(n);
+      }
+    }
   }
 
   public void turnOff() {
@@ -173,6 +209,17 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     }
     return true;
   }
+
+  public void addFailedCommunication(FailedCommunication f){
+     _failedCommunications.add(f);
+  }
+  public List<Client> getFailedCommsClients(){
+    for(FailedCommunication f: _failedCommunications){
+      _failedCommClient.add(f.getTerminalAttempt()._owner);
+    }
+    return  _failedCommClient;
+  }
+
 
   public void setOnGoingFrom(VoiceCommunication c){
     _onGoingCommunicationFrom = c;

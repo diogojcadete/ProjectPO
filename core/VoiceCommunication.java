@@ -7,8 +7,6 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
     public VoiceCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
         //if(_to.canStartCommunication()){
-            _from.addMadeCommunications(this);
-            _to.addReceivedCommunications(this);
             this.setType("VOICE");
             this.setIsOnGoing(true);
             _from.setBusy();

@@ -42,6 +42,10 @@ public class Client implements Serializable {
         _terminals.add(t);
     }
 
+    public void addNotification(Notification n){
+        _notifications.add(n);
+    }
+
     public String get_name() {
         return _name;
     }
@@ -113,6 +117,10 @@ public class Client implements Serializable {
 
     public long getDebts(){
         return _debts;
+    }
+
+    public void cleanAllNotifications(){
+        _notifications.clear();
     }
 
     /**

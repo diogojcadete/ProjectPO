@@ -38,14 +38,13 @@ public class Network implements Serializable {
   private final List<Client> _clients;
   private List<TariffPlan> _tariffPlans;
   private List<Notification> _notifications;
-  private List<Communication> _failedCommunications;
 
   public Network() {
     this._terminals = new ArrayList<>();
     this._communications = new ArrayList<>();
     this._clients = new ArrayList<>();
     this._tariffPlans = new ArrayList<>();
-    this._failedCommunications = new ArrayList<>();
+
   }
 
   /**
@@ -414,28 +413,28 @@ public class Network implements Serializable {
     checkTerminalException(toKey);
 
     if (str1.equals(type)) {
-      VideoCommunication interactiveCommunication = new VideoCommunication(from, terminalTo);
-      //if(terminalTo.canStartCommunication()) {
+       VideoCommunication interactiveCommunication = new VideoCommunication(from, terminalTo);
         from._onGoingCommunicationFrom = interactiveCommunication;
         from._onGoingCommunication = interactiveCommunication;
         terminalTo._onGoingCommunication = interactiveCommunication;
+        from.addMadeCommunications(interactiveCommunication);
+        terminalTo.addReceivedCommunications(interactiveCommunication);
         _communications.add(interactiveCommunication);
-     // }
-      //else{
-        //_failedCommunications.add(interactiveCommunication);
-      //}
     } else if (str2.equals(type)) {
-      VoiceCommunication interactiveCommunication = new VoiceCommunication(from, terminalTo);
-      //if (terminalTo.canStartCommunication()) {
+       VoiceCommunication interactiveCommunication = new VoiceCommunication(from, terminalTo);
         from._onGoingCommunicationFrom = interactiveCommunication;
         from._onGoingCommunication = interactiveCommunication;
         terminalTo._onGoingCommunication = interactiveCommunication;
         _communications.add(interactiveCommunication);
-      //}
-      //else{
-        //_failedCommunications.add(interactiveCommunication);
-      //}
+        from.addMadeCommunications(interactiveCommunication);
+        terminalTo.addReceivedCommunications(interactiveCommunication);
+
     }
+  }
+
+  public void addFailedCommunication(Terminal from, Terminal to){
+    FailedCommunication _failed = new FailedCommunication(from, to);
+    to.addFailedCommunication(_failed);
   }
 
   private void checkTerminalException(String toKey) throws UnknownTerminalKeyException {
@@ -454,7 +453,14 @@ public class Network implements Serializable {
    */
   public void endOnGoingCommunication(Terminal from, int duration) {
     if (from.canEndCurrentCommunication()) {
+      Terminal terminalTo = from.getOnGoing().getTo();
       from.endOnGoingCommunication(duration);
+      if(from.getOwner().getReceiveNotifications()){
+        Notification n = new Notification(NotificationType.B2I, terminalTo);
+        for(Client c: terminalTo.getFailedCommsClients()){
+          c.addNotification(n);
+        }
+      }
     }
   }
 
@@ -488,6 +494,7 @@ public class Network implements Serializable {
     for (Notification n : c.getNotifications()) {
       strNotifications.append(n.formattedNotification());
     }
+    c.cleanAllNotifications();
     return strNotifications.toString();
   }
 
