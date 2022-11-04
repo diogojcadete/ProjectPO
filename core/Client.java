@@ -73,6 +73,10 @@ public class Client implements Serializable {
         this._receiveNotifications = true;
     }
 
+    public Notification getNotificationI(int i){
+        return _notifications.get(i);
+    }
+
     /**
      * This method will turn off the reception of notifications
      */

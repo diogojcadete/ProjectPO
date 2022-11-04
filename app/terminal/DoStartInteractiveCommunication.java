@@ -33,8 +33,8 @@ class DoStartInteractiveCommunication extends TerminalCommand {
         _context.checkTerminalKeyExceptions(toTerminalID);
         if (terminalTo.getMode().name().equals(TerminalMode.OFF.name())) {
             _context.addFailedCommunication(_terminal, terminalTo);
-          _display.addLine(Message.destinationIsOff(toTerminalID));
-          _display.display();
+            _display.addLine(Message.destinationIsOff(toTerminalID));
+            _display.display();
         } else if (terminalTo.getMode().name().equals(TerminalMode.BUSY.name())) {
             _context.addFailedCommunication(_terminal, terminalTo);
           _display.addLine(Message.destinationIsBusy(toTerminalID));

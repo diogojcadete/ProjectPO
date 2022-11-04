@@ -556,8 +556,16 @@ public class Network implements Serializable {
   public String showAllNotifications(String clientID) {
     Client c = searchClient(clientID);
     StringBuilder strNotifications = new StringBuilder();
-    for (Notification n : c.getNotifications()) {
-      strNotifications.append(n.formattedNotification());
+    int i;
+    if (c.getNotifications().size() > 0) {
+      for (i = 0; i < c.getNotifications().size() - 1; i++) {
+        if (c.getNotificationI(i).getSent() == false){
+        strNotifications.append(c.getNotificationI(i).formattedNotificationM());
+        }
+      }
+      if (c.getNotificationI(i).getSent() == false) {
+        strNotifications.append(c.getNotificationI(i).formattedNotification());
+      }
     }
     c.cleanAllNotifications();
     return strNotifications.toString();
