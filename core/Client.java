@@ -31,7 +31,7 @@ public class Client implements Serializable {
         this._receiveNotifications = true;
         this._madeCommunications = new ArrayList<>();
         this._receivedCommunications = new ArrayList<>();
-        this._tariffPlan = new BasicPlan("BasicPlan");
+        this._tariffPlan = new BasicPlan("NORMAL");
     }
 
     /**
