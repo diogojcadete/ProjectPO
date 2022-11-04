@@ -1,26 +1,17 @@
 package prr.core;
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 import prr.app.exception.UnknownClientKeyException;
 import prr.app.exception.UnknownTerminalKeyException;
 import prr.core.comparator.ClientComparator;
 import prr.core.comparator.TerminalComparator;
 import prr.core.exception.*;
-
-
-
 /**
  * Class Store implements a store.
  */
-
-//Grupo 79, Diogo Cadete 102477, João Maia 103845
-
 public class Network implements Serializable {
 
   /**
@@ -28,19 +19,14 @@ public class Network implements Serializable {
    */
   @Serial
   private static final long serialVersionUID = 202208091753L;
-
   private final List<Terminal> _terminals;
   private List<Communication> _communications;
   private final List<Client> _clients;
-  private List<TariffPlan> _tariffPlans;
-  private List<Notification> _notifications;
 
   public Network() {
     this._terminals = new ArrayList<>();
     this._communications = new ArrayList<>();
     this._clients = new ArrayList<>();
-    this._tariffPlans = new ArrayList<>();
-
   }
 
   /**
@@ -65,17 +51,17 @@ public class Network implements Serializable {
   /**
    * This method will register a client
    *
-   * @param clientKey
-   * @param name
-   * @param taxNumber
+   * @param clientKey string com chave do cliente
+   * @param name      string com nome do cliente
+   * @param taxNumber inteiro com taxNumber
    * @return newClient
-   * @throws DuplicateClientKeyException
+   * @throws DuplicateClientKeyException  no caso do ser um cliente repetido
    */
   public Client registerClient(String clientKey, String name, int taxNumber) throws DuplicateClientKeyException {
     checkRegisterClientException(clientKey);
     Client newClient = new Client(clientKey, name, taxNumber);
     _clients.add(newClient);
-    Collections.sort(_clients,new ClientComparator());
+    _clients.sort(new ClientComparator());
     return newClient;
   }
 
@@ -138,7 +124,7 @@ public class Network implements Serializable {
   /**
    * This method will return a formatted string of a Client
    *
-   * @param clientID
+   * @param clientID String com o Id do Cliente
    * @return c1.formattedClient()
    * @throws UnknownClientKeyException
    */
@@ -151,7 +137,7 @@ public class Network implements Serializable {
   }
 
   /**
-   * This methods evaluates the upgrade for a client
+   * These methods evaluate the upgrade for a client
    * @param clientId
    */
   public void evaluateUpgrade(String clientId) {
@@ -239,7 +225,8 @@ public class Network implements Serializable {
    * @throws InvalidTerminalKeyException
    * @throws UnknownClientKeyException
    */
-  public Terminal registerTerminal(String terminalType, String terminalID, String clientKey) throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException {
+  public Terminal registerTerminal(String terminalType, String terminalID, String clientKey)
+          throws DuplicateTerminalKeyException, InvalidTerminalKeyException, UnknownClientKeyException {
     Client c1 = searchClient(clientKey);
     checkRegisterTerminalExceptions(terminalID, clientKey);
     switch (terminalType) {
@@ -261,8 +248,8 @@ public class Network implements Serializable {
 
   /**
    * This method checks terminal key exceptions
-   * @param terminalID
-   * @throws UnknownTerminalKeyException
+   * @param terminalID  String com o Id do Terminal
+   * @throws UnknownTerminalKeyException  Se o Id do terminal não corresponder a nenhum terminal existente
    */
   public void checkTerminalKeyExceptions(String terminalID) throws UnknownTerminalKeyException{
     Terminal terminal = searchTerminal(terminalID);
@@ -274,13 +261,14 @@ public class Network implements Serializable {
   /**
    * This method checks if there ary any exceptions
    *
-   * @param terminalID
-   * @param clientKey
-   * @throws UnknownClientKeyException
-   * @throws InvalidTerminalKeyException
-   * @throws DuplicateTerminalKeyException
+   * @param terminalID  String com o Id do Terminal
+   * @param clientKey   String com o Id do Cliente
+   * @throws UnknownClientKeyException      Se o Id do Cliente não corresponder a nenhum terminal existente
+   * @throws InvalidTerminalKeyException    Se o Id do Terminal não corresponder a nenhum terminal existente
+   * @throws DuplicateTerminalKeyException  Se o Id do terminal corresponder a uma dúplica
    */
-  public void checkRegisterTerminalExceptions(String terminalID, String clientKey) throws UnknownClientKeyException, InvalidTerminalKeyException, DuplicateTerminalKeyException {
+  public void checkRegisterTerminalExceptions(String terminalID, String clientKey)
+          throws UnknownClientKeyException, InvalidTerminalKeyException, DuplicateTerminalKeyException {
     Client c1 = searchClient(clientKey);
     if (c1 == null) {
       throw new UnknownClientKeyException(clientKey);
@@ -301,8 +289,8 @@ public class Network implements Serializable {
   /**
    * This method allows us to search for a Terminal with the terminalID
    *
-   * @param terminalID
-   * @return t
+   * @param terminalID String with terminal Id
+   * @return t Terminal Type
    */
   public Terminal searchTerminal(String terminalID) {
     for (Terminal t : _terminals) {
@@ -316,12 +304,12 @@ public class Network implements Serializable {
 
   /**
    * This method will return a formatted string of every terminal
-   * @param terminals
+   * @param terminals With a list of Terminals
    * @return strTerminals.toString()
    */
   public String showTerminals(List<Terminal> terminals) {
     StringBuilder strTerminals = new StringBuilder();
-    Collections.sort(terminals,new TerminalComparator());
+    terminals.sort(new TerminalComparator());
     for (int i = 0; i < terminals.size() - 1; i++) {
       strTerminals.append(terminals.get(i).formattedTerminal()).append("\n");
     }
@@ -382,8 +370,8 @@ public class Network implements Serializable {
 
   /**
    * This method will receive the debt of a text communication
-   * @param from
-   * @param c
+   * @param from  Origin Terminal of the TextMessage
+   * @param c     TextMessage Communication that+s being sent
    */
   public void receiveTextDebt(Terminal from, TextCommunication c){
     Client owner = from.getOwner();
@@ -396,8 +384,8 @@ public class Network implements Serializable {
   /**
    * This method will add a friend to the terminal if the terminals aren't already friends
    *
-   * @param terminalID
-   * @param friendID
+   * @param terminalID String with the ID of the Temrinal
+   * @param friendID    String with the ID of the friend
    */
   public void addFriend(String terminalID, String friendID) throws UnknownTerminalKeyException {
     checkTerminalException(friendID);
@@ -485,14 +473,14 @@ public class Network implements Serializable {
    * @param to
    */
   public void addFailedCommunication(Terminal from, Terminal to){
-    FailedCommunication _failed = new FailedCommunication(from, to);
+    FailedCommunication _failed = new FailedCommunication(from);
     to.addFailedCommunication(_failed);
   }
 
   /**
    * This method will check for Terminal Key Exception
    * @param toKey
-   * @throws UnknownTerminalKeyException
+   * @throws UnknownTerminalKeyException  Terminal key does not exist
    */
   private void checkTerminalException(String toKey) throws UnknownTerminalKeyException {
     Terminal t = searchTerminal(toKey);
@@ -505,8 +493,8 @@ public class Network implements Serializable {
   /**
    * This method will end the ongoing communication of the respective terminal (if there is any)
    *
-   * @param from
-   * @param duration
+   * @param from      Terminal from were the call is being made
+   * @param duration  int with the duraction of the communication
    */
   public void endOnGoingCommunication(Terminal from, int duration) {
     if (from.canEndCurrentCommunication()) {
@@ -514,9 +502,8 @@ public class Network implements Serializable {
       from.endOnGoingCommunication(duration);
       if(from.getOwner().getReceiveNotifications()){
         Notification n = new Notification(NotificationType.B2I, terminalTo);
-        for(Client c: terminalTo.getFailedCommsClients()){
+        for(Client c: terminalTo.getFailedCommsClients())
           c.addNotification(n);
-        }
       }
     }
   }
@@ -543,9 +530,7 @@ public class Network implements Serializable {
    *
    * @return _notifications
    */
-  public List<Notification> getNotifications() {
-    return _notifications;
-  }
+
 
   /**
    * This method will return a formatted of every notification
@@ -559,11 +544,11 @@ public class Network implements Serializable {
     int i;
     if (c.getNotifications().size() > 0) {
       for (i = 0; i < c.getNotifications().size() - 1; i++) {
-        if (c.getNotificationI(i).getSent() == false){
+        if (!c.getNotificationI(i).getSent()){
         strNotifications.append(c.getNotificationI(i).formattedNotificationM());
         }
       }
-      if (c.getNotificationI(i).getSent() == false) {
+      if (!c.getNotificationI(i).getSent()) {
         strNotifications.append(c.getNotificationI(i).formattedNotification());
       }
     }
@@ -631,7 +616,7 @@ public class Network implements Serializable {
   }
 
   /**
-   * This method will make payment
+   * This method will make payment and update the values
    * @param t
    * @param comId
    */
@@ -659,7 +644,6 @@ public class Network implements Serializable {
     }
     return null;
   }
-
   /**
    * This method will return a list that contains every communication
    * @return _communications

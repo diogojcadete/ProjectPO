@@ -1,13 +1,9 @@
 package prr.core;
-
-import prr.core.comparator.ClientComparator;
 import prr.core.comparator.TerminalComparator;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 
 /**
  * Abstract terminal.
@@ -17,26 +13,22 @@ abstract public class Terminal implements Serializable {
   /**
    * Serial number for serialization.
    */
+  @Serial
   private static final long serialVersionUID = 202208091753L;
-
-
-  private String _id;
-  private String _type;
+  private final String _id;
+  private final String _type;
   private long _debt;
   private long _payments;
-  private Client _owner;
-  private Client _toNotify;
+  private final Client _owner;
   private TerminalMode _mode;
+  private TerminalMode previousMode;
+  protected InteractiveCommunication _onGoingCommunication;
+  protected InteractiveCommunication _onGoingCommunicationFrom;
   private List<Terminal> _friends;
   private List<Communication> _madeCommunications;
   private List<Communication> _receivedCommunications;
-  protected InteractiveCommunication _onGoingCommunication;
-  protected InteractiveCommunication _onGoingCommunicationFrom;
-
   private List<FailedCommunication> _failedCommunications;
   private List<Client> _failedCommClient;
-
-  private TerminalMode previousMode;
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
@@ -49,24 +41,6 @@ abstract public class Terminal implements Serializable {
     this._failedCommunications = new ArrayList<>();
     this._failedCommClient = new ArrayList<>();
   }
-
-  /**
-   * this method will set the on going communication
-   * @param c
-   */
-  public void setOnGoing(VoiceCommunication c){
-    _onGoingCommunication = c;
-  }
-
-  /**
-   * this method will set the on going communication
-   * @param c
-   */
-
-  public void setOnGoing(VideoCommunication c){
-    _onGoingCommunication = c;
-  }
-
   /**
    * This method will turn on the terminal and send the notification
    */
@@ -92,14 +66,11 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method sets the previous mode
-   * @param mode
+   * @param mode TerminalMode to change the current mode of the current terminal
    */
   public void setPreviousMode(TerminalMode mode){
     previousMode = mode;
   }
-
-
-
 
   /**
    * This method will the set the terminal to silence and will send a notification
@@ -140,14 +111,6 @@ abstract public class Terminal implements Serializable {
    */
   public String getID() {
     return _id;
-  }
-
-  /**
-   * This method gets the previous mode
-   * @return
-   */
-  public TerminalMode getPreviousMode(){
-    return previousMode;
   }
 
   /**
@@ -227,45 +190,33 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method will add a friend
-   * @param friend
+   * @param friend Terminal with the friend to add
    */
   public void addFriend(Terminal friend) {
       _friends.add(friend);
-    Collections.sort(_friends,new TerminalComparator());
+    _friends.sort(new TerminalComparator());
   }
 
   /**
    * This method will remove a friend
-   * @param enemy
+   * @param enemy Terminal of the "friend" to remove
    */
   public void removeFriend(Terminal enemy){
     _friends.remove(enemy);
   }
-
   /**
    * This method will make a text communication
-   * @param to
-   * @param message
-   * @return
+   * @param to      Terminal witch we will send the message
+   * @param message String with the message
+   * @return TextCommunication
    */
   public TextCommunication makeSMS(Terminal to, String message) {
-    TextCommunication c1 = new TextCommunication(this, to, message);
-  //  _madeCommunications.add(c1);
-    return c1;
-  }
-
-  /**
-   * This method will make a voice call
-   * @param to
-   */
-  public void makeVoiceCall(Terminal to) {
-    Communication c1 = new VoiceCommunication(this, to);
-    _madeCommunications.add(c1);
+    return new TextCommunication(this, to, message);
   }
 
   /**
    * This method will end the ongoing communication
-   * @param size
+   * @param size  int with the time of the communication
    */
   public void endOnGoingCommunication(int size) {
     _onGoingCommunication.endOnGoing(size);
@@ -282,15 +233,15 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method will update the debt value
-   * @param n
+   * @param n long with a new debt value
    */
-  public void updateDebtValue(double n) {
+  public void updateDebtValue(long n) {
     this._debt += n;
   }
 
   /**
    * This method will add the made communications
-   * @param communication
+   * @param communication Communication type to add
    */
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
@@ -299,7 +250,7 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method will add the received communications
-   * @param communication
+   * @param communication Communication type to add
    */
   public void addReceivedCommunications(Communication communication) {
     _receivedCommunications.add(communication);
@@ -308,20 +259,11 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method will check if two terminals are friends
-   * @param friendRequest
-   * @return
+   * @param friendRequest Terminal with a possible friend to check
+   * @return boolean with true if friends or false if not
    */
   public boolean checkFriends(Terminal friendRequest) {
     return this._friends.contains(friendRequest);
-  }
-
-  /**
-   * This method will check if two terminals are equals
-   * @param t
-   * @return
-   */
-  public boolean equals(Terminal t) {
-    return this._id.equals(t._id);
   }
 
   /**
@@ -331,15 +273,12 @@ abstract public class Terminal implements Serializable {
    * it was the originator of this communication.
    **/
   public boolean canEndCurrentCommunication() {
-    if (_onGoingCommunicationFrom == null) {
-      return false;
-    }
-    return true;
+    return _onGoingCommunicationFrom != null;
   }
 
   /**
-   * This method will failed communications
-   * @param f
+   *
+   * @param f FailedCommunication to add
    */
   public void addFailedCommunication(FailedCommunication f){
      _failedCommunications.add(f);
@@ -347,7 +286,6 @@ abstract public class Terminal implements Serializable {
 
   /**
    * This method will update the payments
-   * @param val
    */
   public void updatePayments(long val){
     _payments += val;
@@ -358,18 +296,18 @@ abstract public class Terminal implements Serializable {
    * @return strFriends
    */
   public String friendsToString() {
-    String strFriends = "";
+    StringBuilder strFriends = new StringBuilder();
     int j = _friends.size() - 1;
     for (int i = 0; i < _friends.size() - 1; i++) {
-      strFriends += _friends.get(i).getID() + ",";
+      strFriends.append(_friends.get(i).getID()).append(",");
     }
-    strFriends += _friends.get(j).getID();
-    return strFriends;
+    strFriends.append(_friends.get(j).getID());
+    return strFriends.toString();
   }
 
   /**
    * This method returns a string of formatted terminals
-   * @return
+   * @return String
    */
   public String formattedTerminal() {
     if (_friends.size() != 0) {
@@ -385,15 +323,12 @@ abstract public class Terminal implements Serializable {
    * @return true if this terminal is neither off neither busy, false otherwise.
    **/
   public boolean canStartCommunication() {
-    if(_mode.equals(TerminalMode.BUSY) || _mode.equals(TerminalMode.OFF)){
-      return false;
-    }
-   return true;
+    return !_mode.equals(TerminalMode.BUSY) && !_mode.equals(TerminalMode.OFF);
   }
 
   /**
    * This method will check if the terminal was used
-   * @return
+   * @return boolean
    */
   public boolean wasUsed() {
     return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());

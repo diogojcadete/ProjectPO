@@ -1,20 +1,11 @@
 package prr.core;
-
-import java.util.List;
-
 public class FailedCommunication {
-    private Terminal _terminalAttempt;
-    private Terminal _terminalFailed;
+    private final Terminal _terminalAttempt;
 
-    public FailedCommunication(Terminal terminalAttempt, Terminal terminalFailed){
+    public FailedCommunication(Terminal terminalAttempt){
         _terminalAttempt = terminalAttempt;
-        _terminalFailed = terminalFailed;
     }
     public Terminal getTerminalAttempt(){
         return _terminalAttempt;
     }
-    public Terminal getTerminalFailed(){
-        return _terminalFailed;
-    }
-
 }

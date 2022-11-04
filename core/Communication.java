@@ -1,18 +1,20 @@
 package prr.core;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public abstract class Communication implements Serializable {
+    @Serial
     private static final long serialVersionUID = 202208091753L;
     private static int _sharedID = 0;
     private boolean _isPaid;
     protected long _cost = 0;
     protected boolean _isOnGoing;
     private String _type;
-    private Terminal _from;
-    private Terminal _to;
+    private final Terminal _from;
+    private final Terminal _to;
     private int _size;
-    private int _id;
+    private final int _id;
 
     public Communication(Terminal _from, Terminal _to) {
         _sharedID++;
@@ -22,32 +24,16 @@ public abstract class Communication implements Serializable {
     }
 
     /**
-     * This method will say if the Communication is paid or not
-     * @param isPaid
-     */
-    public void setIsPaid(boolean isPaid) {
-        _isPaid = isPaid;
-    }
-
-    /**
      * This method will set the size of the communication
-     * @param size
+     * @param size int with the size to change
      */
     protected void setSize(int size){
         _size = size;
     }
 
     /**
-     * This method will set the cost of a communication
-     * @param _cost
-     */
-    public void setCost(long _cost) {
-        this._cost = _cost;
-    }
-
-    /**
      * This method will set the onGoing Communication
-     * @param _isOnGoing
+     * @param _isOnGoing boolean with the new value
      */
     public void setIsOnGoing(boolean _isOnGoing) {
         this._isOnGoing = _isOnGoing;
@@ -55,7 +41,7 @@ public abstract class Communication implements Serializable {
 
     /**
      * This method will set the type of the communication
-     * @param type
+     * @param type String with the type to alter in the terminal
      */
     public void setType(String type){
         _type = type;
@@ -86,22 +72,6 @@ public abstract class Communication implements Serializable {
     }
 
     /**
-     * This method will return the onGoing Communication
-     * @return _isOnGoing
-     */
-    public boolean getIsOnGoing() {
-        return _isOnGoing;
-    }
-
-    /**
-     * This method will return the type of the notification
-     * @return _type
-     */
-    public String getType(){
-        return _type;
-    }
-
-    /**
      * This method will return the size of the Communication
      * @return _size
      */
@@ -126,8 +96,8 @@ public abstract class Communication implements Serializable {
     }
 
     /**
-     * This method will end the on going communication
-     * @param size
+     * This method will end the ongoing communication
+     * @param size  int with the size variable
      */
 
     public void endOnGoing(int size){
@@ -151,7 +121,6 @@ public abstract class Communication implements Serializable {
         _from._onGoingCommunicationFrom = null;
         _from.setOnPreviousMode();
         _to.setOnPreviousMode();
-
     }
 
     /**
@@ -164,7 +133,7 @@ public abstract class Communication implements Serializable {
 
     /**
      * This method will update the cost
-     * @param val
+     * @param val is a long with the cost of the communication
      */
 
     public void updateCost(long val){
@@ -173,7 +142,7 @@ public abstract class Communication implements Serializable {
 
     /**
      * This method will return a string with the formatted Communication
-     * @return
+     * @return String with the Communication printing base state
      */
     public String formattedCommunication() {
         if (_isOnGoing) {

@@ -1,5 +1,4 @@
 package prr.app;
-
 import prr.core.NetworkManager;
 import prr.core.exception.ImportFileException;
 import pt.tecnico.uilib.Dialog;
@@ -10,9 +9,8 @@ import pt.tecnico.uilib.Dialog;
 
 //Grupo 79, Diogo Cadete 102477, João Maia 103845
 public class App {
-
   public static void main(String[] args) {
-    try (var ui = Dialog.UI) {
+    try (var ignored = Dialog.UI) {
       var receiver = new NetworkManager();
       
       String datafile = System.getProperty("import");
