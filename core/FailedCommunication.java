@@ -1,5 +1,7 @@
 package prr.core;
 
+import java.util.List;
+
 public class FailedCommunication {
     private Terminal _terminalAttempt;
     private Terminal _terminalFailed;
@@ -14,4 +16,5 @@ public class FailedCommunication {
     public Terminal getTerminalFailed(){
         return _terminalFailed;
     }
+
 }

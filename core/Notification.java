@@ -12,22 +12,10 @@ public class Notification implements Serializable {
         this._notifyingTerminal = _notifyingTerminal;
     }
 
-    public NotificationType get_type() {
-        return _type;
-    }
-
-    public void set_type(NotificationType _type) {
-        this._type = _type;
-    }
-
-    public Terminal get_notifyingTerminal() {
-        return _notifyingTerminal;
-    }
-
-    public void set_notifyingTerminal(Terminal _notifyingTerminal) {
-        this._notifyingTerminal = _notifyingTerminal;
-    }
-
+    /**
+     * This method will return a string with the formatted notification
+     * @return
+     */
     public String formattedNotification(){
         return  _type.name() + "|" + _notifyingTerminal.getID();
     }
