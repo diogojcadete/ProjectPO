@@ -8,6 +8,13 @@ public class BasicPlan extends TariffPlan implements Serializable {
     public BasicPlan(String _name) {
         super(_name);
     }
+
+    /**
+     * This method will compute the cost of a text communication
+     * @param cl
+     * @param com
+     * @return
+     */
     protected double computeCost(Client cl, TextCommunication com){
         int size = com.getSize();
         // Se for menor que 50 o tamanho
@@ -26,6 +33,12 @@ public class BasicPlan extends TariffPlan implements Serializable {
         else return (double) size * 2;
 
     }
+    /**
+     * This method will compute the cost of a voice communication
+     * @param cl
+     * @param com
+     * @return
+     */
     protected double computeCost(Client cl, VoiceCommunication com){
         if(com.getFrom().checkFriends(com.getTo())) {
             if (cl.getLevel().name().equals("NORMAL")) return (20.00 * com.getSize())/2;
@@ -34,6 +47,13 @@ public class BasicPlan extends TariffPlan implements Serializable {
         if (cl.getLevel().name().equals("NORMAL")) return 20.00 * com.getSize();
         else return 10.00 * com.getSize();
     }
+
+    /**
+     * This method will compute the cost of a video communication
+     * @param cl
+     * @param com
+     * @return
+     */
     protected double computeCost(Client cl, VideoCommunication com){
         if(com.getFrom().checkFriends(com.getTo())) {
             if (cl.getLevel().name().equals("NORMAL")) return (30.00 * com.getSize())/2;

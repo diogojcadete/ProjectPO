@@ -6,15 +6,19 @@ public class VoiceCommunication extends InteractiveCommunication implements Seri
     private static final long serialVersionUID = 202208091753L;
     public VoiceCommunication(Terminal _from, Terminal _to) {
         super(_from, _to);
-        //if(_to.canStartCommunication()){
-            this.setType("VOICE");
-            this.setIsOnGoing(true);
-            _from.setBusy();
-            _to.setBusy();
-       // }
+        this.setType("VOICE");
+        this.setIsOnGoing(true);
+        _from.setPreviousMode(_from.getMode());
+        _to.setPreviousMode(_to.getMode());
+        _from.setBusy();
+        _to.setBusy();
     }
 
-
+    /**
+     * This method will compute the cost of a communication
+     * @param plan
+     * @return
+     */
     protected long computeCost(TariffPlan plan) {
         if(getFrom().checkFriends(getTo())) {
             if (plan.getName().equals("NORMAL"))

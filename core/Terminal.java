@@ -8,20 +8,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
 
 /**
  * Abstract terminal.
  */
-abstract public class Terminal implements Serializable /* FIXME maybe addd more interfaces */ {
+abstract public class Terminal implements Serializable {
 
   /**
    * Serial number for serialization.
    */
   private static final long serialVersionUID = 202208091753L;
 
-  // FIXME define attributes
-  // FIXME define methods
 
   private String _id;
   private String _type;
@@ -37,7 +34,9 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
   protected InteractiveCommunication _onGoingCommunicationFrom;
 
   private List<FailedCommunication> _failedCommunications;
-  List<Client> _failedCommClient;
+  private List<Client> _failedCommClient;
+
+  private TerminalMode previousMode;
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
@@ -51,63 +50,56 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     this._failedCommClient = new ArrayList<>();
   }
 
-  public void addFriend(Terminal friend) {
-      _friends.add(friend);
-    Collections.sort(_friends,new TerminalComparator());
-  }
-
-  public void removeFriend(Terminal enemy){
-    _friends.remove(enemy);
-  }
-
-  public TextCommunication makeSMS(Terminal to, String message) {
-    TextCommunication c1 = new TextCommunication(this, to, message);
-  //  _madeCommunications.add(c1);
-    return c1;
-  }
-
-  public void makeVoiceCall(Terminal to) {
-    Communication c1 = new VoiceCommunication(this, to);
-    _madeCommunications.add(c1);
-  }
-
-  protected void acceptVoiceCall(Terminal to) {
-
-  }
-
-  public void endOnGoingCommunication(int size) {
-    _onGoingCommunication.endOnGoing(size);
-    _onGoingCommunication = null;
-  }
-
+  /**
+   * this method will set the on going communication
+   * @param c
+   */
   public void setOnGoing(VoiceCommunication c){
     _onGoingCommunication = c;
   }
+
+  /**
+   * this method will set the on going communication
+   * @param c
+   */
+
   public void setOnGoing(VideoCommunication c){
     _onGoingCommunication = c;
   }
 
+  /**
+   * This method will turn on the terminal and send the notification
+   */
   public void setOn() {
     TerminalMode previousMode = this.getMode();
     _mode = TerminalMode.IDLE;
-    if(previousMode.equals(TerminalMode.OFF)) {
+    if (previousMode.equals(TerminalMode.OFF)) {
       Notification n = new Notification(NotificationType.O2I, this);
       for (Client c : this.getFailedCommsClients()) {
         if (c.getReceiveNotifications()) {
           c.addNotification(n);
         }
       }
-    }
-    else if(previousMode.equals(TerminalMode.SILENCE)){
+    } else if (previousMode.equals(TerminalMode.SILENCE)) {
       Notification n = new Notification(NotificationType.S2I, this);
-        for(Client c: this.getFailedCommsClients()){
-          if(c.getReceiveNotifications()){
-            c.addNotification(n);
-          }
+      for (Client c : this.getFailedCommsClients()) {
+        if (c.getReceiveNotifications()) {
+          c.addNotification(n);
+        }
       }
     }
   }
 
+  public void setPreviousMode(TerminalMode mode){
+    previousMode = mode;
+  }
+
+
+
+
+  /**
+   * This method will the set the terminal to silence and will send a notification
+   */
   public void setOnSilent() {
     _mode = TerminalMode.SILENCE;
     Notification n = new Notification(NotificationType.O2S, this);
@@ -118,72 +110,205 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     }
   }
 
-  public void turnOff() {
-    this._mode = TerminalMode.OFF;
-  }
-
-  public String getID() {
-    return _id;
-  }
-
-  public String getType() {
-    return _type;
-  }
-
-  public long getDebt() {
-    return _debt;
-  }
-
-  public long getPayments() {
-    return _payments;
-  }
-
-  public Client getOwner() {
-    return _owner;
-  }
-
-  public Communication getOnGoing(){
-    return _onGoingCommunication;
-  }
-
-  public TerminalMode getMode() {
-    return _mode;
-  }
-
-  public List<Terminal> getFriends() {
-    return _friends;
-  }
-
-  public List<Communication> getMadeCommunications(){
-    return _madeCommunications;
-  }
-
-  public Client getToNotify() {
-    return _toNotify;
-  }
-
-  public void updateDebtValue(double n) {
-    this._debt += n;
-  }
-
+  /**
+   * This method will set the terminal to busy
+   */
   public void setBusy(){
     _mode = TerminalMode.BUSY;
   }
 
+  /**
+   * This method will turn off the terminal
+   */
+  public void setOff() {
+    _mode = TerminalMode.OFF;
+  }
+
+  public void setOnPreviousMode(){
+    _mode = previousMode;
+  }
+  /**
+   * This method will return the id
+   * @return _id
+   */
+  public String getID() {
+    return _id;
+  }
+
+  public TerminalMode getPreviousMode(){
+    return previousMode;
+  }
+
+  /**
+   * This method will return the type
+   * @return _type
+   */
+  public String getType() {
+    return _type;
+  }
+
+  /**
+   * This method will return the debt
+   * @return _debt
+   */
+  public long getDebt() {
+    return _debt;
+  }
+
+  /**
+   * This method will return the payments
+   * @return _payments
+   */
+  public long getPayments() {
+    return _payments;
+  }
+
+  /**
+   * This me
+   * @return _owner
+   */
+  public Client getOwner() {
+    return _owner;
+  }
+
+  /**
+   * This method will return the ongoing communication
+   * @return _onGoingCommunication
+   */
+  public Communication getOnGoing(){
+    return _onGoingCommunication;
+  }
+
+  /**
+   * This method will return the mode of the terminal
+   * @return _mode
+   */
+  public TerminalMode getMode() {
+    return _mode;
+  }
+
+  /**
+   * This method will return the list of friends
+   * @return _friends
+   */
+  public List<Terminal> getFriends() {
+    return _friends;
+  }
+
+  /**
+   * This method will return the list of made communications
+   * @return _madeCommunications
+   */
+  public List<Communication> getMadeCommunications(){
+    return _madeCommunications;
+  }
+
+  /**
+   * This method will return the failed Communications
+   * @return _failedCommClient
+   */
+  public List<Client> getFailedCommsClients(){
+    for(FailedCommunication f: _failedCommunications){
+      _failedCommClient.add(f.getTerminalAttempt()._owner);
+    }
+    return  _failedCommClient;
+  }
+
+  /**
+   * This method will add a friend
+   * @param friend
+   */
+  public void addFriend(Terminal friend) {
+      _friends.add(friend);
+    Collections.sort(_friends,new TerminalComparator());
+  }
+
+  /**
+   * This method will remove a friend
+   * @param enemy
+   */
+  public void removeFriend(Terminal enemy){
+    _friends.remove(enemy);
+  }
+
+  /**
+   * This method will make a text communication
+   * @param to
+   * @param message
+   * @return
+   */
+  public TextCommunication makeSMS(Terminal to, String message) {
+    TextCommunication c1 = new TextCommunication(this, to, message);
+  //  _madeCommunications.add(c1);
+    return c1;
+  }
+
+  /**
+   * This method will make a voice call
+   * @param to
+   */
+  public void makeVoiceCall(Terminal to) {
+    Communication c1 = new VoiceCommunication(this, to);
+    _madeCommunications.add(c1);
+  }
+
+  /**
+   * This method will end the ongoing communication
+   * @param size
+   */
+  public void endOnGoingCommunication(int size) {
+    _onGoingCommunication.endOnGoing(size);
+    _onGoingCommunication = null;
+  }
+
+  /**
+   * This method will turn off the terminal
+   */
+
+  public void turnOff() {
+    this._mode = TerminalMode.OFF;
+  }
+
+  /**
+   * This method will update the debt value
+   * @param n
+   */
+  public void updateDebtValue(double n) {
+    this._debt += n;
+  }
+
+  /**
+   * This method will add the made communications
+   * @param communication
+   */
   public void addMadeCommunications(Communication communication) {
     _madeCommunications.add(communication);
     _owner.addMadeCommunication(communication);
   }
 
+  /**
+   * This method will add the received communications
+   * @param communication
+   */
   public void addReceivedCommunications(Communication communication) {
     _receivedCommunications.add(communication);
     _owner.addReceivedCommunication(communication);
   }
 
+  /**
+   * This method will check if two terminals are friends
+   * @param friendRequest
+   * @return
+   */
   public boolean checkFriends(Terminal friendRequest) {
     return this._friends.contains(friendRequest);
   }
 
+  /**
+   * This method will check if two terminals are equals
+   * @param t
+   * @return
+   */
   public boolean equals(Terminal t) {
     return this._id.equals(t._id);
   }
@@ -201,28 +326,26 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return true;
   }
 
+  /**
+   * This method will failed communications
+   * @param f
+   */
   public void addFailedCommunication(FailedCommunication f){
      _failedCommunications.add(f);
   }
-  public List<Client> getFailedCommsClients(){
-    for(FailedCommunication f: _failedCommunications){
-      _failedCommClient.add(f.getTerminalAttempt()._owner);
-    }
-    return  _failedCommClient;
-  }
 
-
-  public void setOnGoingFrom(VoiceCommunication c){
-    _onGoingCommunicationFrom = c;
-  }
-  public void setOnGoingFrom(VideoCommunication c){
-    _onGoingCommunicationFrom = c;
-  }
-
+  /**
+   * This method will update the payments
+   * @param val
+   */
   public void updatePayments(long val){
     _payments += val;
   }
 
+  /**
+   * This method return a string of friends
+   * @return strFriends
+   */
   public String friendsToString() {
     String strFriends = "";
     int j = _friends.size() - 1;
@@ -233,6 +356,10 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
     return strFriends;
   }
 
+  /**
+   * This method returns a string of formatted terminals
+   * @return
+   */
   public String formattedTerminal() {
     if (_friends.size() != 0) {
       return "" + _type + "|" + _id + "|" + _owner.getKey() + "|" + _mode.name() + "|" + _payments + "|" + _debt + "|" + this.friendsToString();
@@ -253,13 +380,14 @@ abstract public class Terminal implements Serializable /* FIXME maybe addd more 
    return true;
   }
 
+  /**
+   * This method will check if the terminal was used
+   * @return
+   */
   public boolean wasUsed() {
     return (!_madeCommunications.isEmpty() && !_receivedCommunications.isEmpty());
   }
 
-  public void setOff() {
-    _mode = TerminalMode.OFF;
-  }
 }
 
 

@@ -14,7 +14,7 @@ import prr.core.comparator.TerminalComparator;
 import prr.core.exception.*;
 
 
-// FIXME add more import if needed (cannot import from pt.tecnico or prr.app)
+
 /**
  * Class Store implements a store.
  */
@@ -28,10 +28,6 @@ public class Network implements Serializable {
    */
   @Serial
   private static final long serialVersionUID = 202208091753L;
-
-  // FIXME define attributes
-  // FIXME define contructor(s)
-  // FIXME define methods
 
   private final List<Terminal> _terminals;
   private List<Communication> _communications;
@@ -54,7 +50,7 @@ public class Network implements Serializable {
    * @throws UnrecognizedEntryException if some entry is not correct
    * @throws IOException                if there is an IO erro while processing the text file
    */
-  void importFile(String filename) throws UnrecognizedEntryException, IOException /* FIXME maybe other exceptions */ {
+  void importFile(String filename) throws UnrecognizedEntryException, IOException {
     Parser _parser = new Parser(this);
     _parser.parseFile(filename);
 
@@ -99,7 +95,7 @@ public class Network implements Serializable {
 
   /**
    * This method will return a formatted string of every Client
-   *
+   * @param clients
    * @return strClients.toString()
    */
   public String showClients(List<Client> clients) {
@@ -113,15 +109,23 @@ public class Network implements Serializable {
     return strClients.toString();
   }
 
+  /**
+   * This method will return positive clients
+   * @return showClients(_positives)
+   */
   public String showPositiveClients() {
-    ArrayList<Client> _positivos = new ArrayList<>();
+    ArrayList<Client> _positives = new ArrayList<>();
     for(Client c: _clients){
       if (c.getPayments() == c.getDebts())
-        _positivos.add(c);
+        _positives.add(c);
     }
-    return showClients(_positivos);
+    return showClients(_positives);
   }
 
+  /**
+   * This method will return negative clients
+   * @return showClients(_negativos)
+   */
   public String showNegativeClients() {
     ArrayList<Client> _negativos = new ArrayList<>();
     for(Client c: _clients){
@@ -147,12 +151,26 @@ public class Network implements Serializable {
   }
 
   /**
-   * This method will return the list that contains all clients
-   *
-   * @return _clients
+   * This methods evaluates the upgrade for a client
+   * @param clientId
    */
-  public List<Client> getClients() {
-    return _clients;
+  public void evaluateUpgrade(String clientId) {
+    Client c = searchClient(clientId);
+    if (c != null) {
+      c.upgradeClient();
+    }
+  }
+
+  /**
+   * This method will check for unknown client key exceptions
+   * @param clientID
+   * @throws UnknownClientKeyException
+   */
+  public void checkClientKeyExceptions(String clientID) throws UnknownClientKeyException {
+    Client client = searchClient(clientID);
+    if(client == null){
+      throw new UnknownClientKeyException(clientID);
+    }
   }
 
 
@@ -189,6 +207,15 @@ public class Network implements Serializable {
   public void deActivateFailedComms(String clientID) {
     Client c1 = searchClient(clientID);
     c1.setReceiveNotificationsOFF();
+  }
+
+  /**
+   * This method will return the list that contains all clients
+   *
+   * @return _clients
+   */
+  public List<Client> getClients() {
+    return _clients;
   }
 
 
@@ -232,6 +259,11 @@ public class Network implements Serializable {
     return null;
   }
 
+  /**
+   * This method checks terminal key exceptions
+   * @param terminalID
+   * @throws UnknownTerminalKeyException
+   */
   public void checkTerminalKeyExceptions(String terminalID) throws UnknownTerminalKeyException{
     Terminal terminal = searchTerminal(terminalID);
     if(terminal == null){
@@ -281,18 +313,10 @@ public class Network implements Serializable {
     return null;
   }
 
-  /**
-   * This method allows us to get the list that contains all terminals
-   *
-   * @return _terminals
-   */
-  public List<Terminal> getTerminals() {
-    return _terminals;
-  }
 
   /**
    * This method will return a formatted string of every terminal
-   *
+   * @param terminals
    * @return strTerminals.toString()
    */
   public String showTerminals(List<Terminal> terminals) {
@@ -307,13 +331,17 @@ public class Network implements Serializable {
     return strTerminals.toString();
   }
 
+  /**
+   * This method will return terminals with a positive balance
+   * @return showTerminals(_positives)
+   */
   public String showPositiveTerminals(){
-    ArrayList<Terminal> _positivos = new ArrayList<>();
+    ArrayList<Terminal> _positives = new ArrayList<>();
     for(Terminal t: _terminals){
       if (t.getPayments() > t.getDebt())
-        _positivos.add(t);
+        _positives.add(t);
     }
-    return showTerminals(_positivos);
+    return showTerminals(_positives);
   }
 
   /**
@@ -348,12 +376,18 @@ public class Network implements Serializable {
       TextCommunication communication = from.makeSMS(t1, msg);
       _communications.add(communication);
       receiveTextDebt(from, communication);
+      evaluateUpgrade(from.getID());
     }
   }
 
+  /**
+   * This method will receive the debt of a text communication
+   * @param from
+   * @param c
+   */
   public void receiveTextDebt(Terminal from, TextCommunication c){
     Client owner = from.getOwner();
-    long val = c.computeCost(owner.get_tariffPlan());
+    long val = c.computeCost(owner.getTariffPlan());
     owner.updateDebts(val);
     from.updateDebtValue(val);
     c.updateCost(val);
@@ -374,6 +408,12 @@ public class Network implements Serializable {
     }
   }
 
+  /**
+   * This method will remove a friend of a terminal
+   * @param terminalID
+   * @param enemyID
+   * @throws UnknownTerminalKeyException
+   */
   public void removeFriend(String terminalID, String enemyID) throws UnknownTerminalKeyException{
     checkTerminalException(enemyID);
     Terminal t1 = searchTerminal(terminalID);
@@ -382,6 +422,12 @@ public class Network implements Serializable {
       t1.removeFriend(t2);
     }
   }
+
+  /**
+   * This method will set the mode of the terminak
+   * @param mode
+   * @param terminal
+   */
   public void setMode(TerminalMode mode, Terminal terminal){
     if(mode.equals(TerminalMode.IDLE)){
       terminal.setOn();
@@ -420,6 +466,7 @@ public class Network implements Serializable {
         from.addMadeCommunications(interactiveCommunication);
         terminalTo.addReceivedCommunications(interactiveCommunication);
         _communications.add(interactiveCommunication);
+        evaluateUpgrade(from.getID());
     } else if (str2.equals(type)) {
        VoiceCommunication interactiveCommunication = new VoiceCommunication(from, terminalTo);
         from._onGoingCommunicationFrom = interactiveCommunication;
@@ -428,15 +475,25 @@ public class Network implements Serializable {
         _communications.add(interactiveCommunication);
         from.addMadeCommunications(interactiveCommunication);
         terminalTo.addReceivedCommunications(interactiveCommunication);
-
+        evaluateUpgrade(from.getID());
     }
   }
 
+  /**
+   * This method will create a failed Communication
+   * @param from
+   * @param to
+   */
   public void addFailedCommunication(Terminal from, Terminal to){
     FailedCommunication _failed = new FailedCommunication(from, to);
     to.addFailedCommunication(_failed);
   }
 
+  /**
+   * This method will check for Terminal Key Exception
+   * @param toKey
+   * @throws UnknownTerminalKeyException
+   */
   private void checkTerminalException(String toKey) throws UnknownTerminalKeyException {
     Terminal t = searchTerminal(toKey);
     if(t == null){
@@ -464,6 +521,14 @@ public class Network implements Serializable {
     }
   }
 
+  /**
+   * This method allows us to get the list that contains all terminals
+   *
+   * @return _terminals
+   */
+  public List<Terminal> getTerminals() {
+    return _terminals;
+  }
 
 
   /**
@@ -504,10 +569,11 @@ public class Network implements Serializable {
    * |--------------------------|************************|--------------------------|
    */
 
-  public List<Communication> getCommunications() {
-    return _communications;
-  }
-
+  /**
+   * This method will return a string that shows every formatted Communication
+   * @param communications
+   * @return
+   */
   public String showCommunications(List<Communication> communications) {
     StringBuilder strCommunications = new StringBuilder();
     for (int i = 0; i < communications.size() - 1; i++) {
@@ -519,6 +585,13 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
+  /**
+   * This method will show the communications of a client
+   * @param communications
+   * @param clientID
+   * @return
+   * @throws UnknownClientKeyException
+   */
   public String showCommunicationsClient(List<Communication> communications,String clientID) throws UnknownClientKeyException{
     StringBuilder strCommunications = new StringBuilder();
     checkClientKeyExceptions(clientID);
@@ -531,28 +604,44 @@ public class Network implements Serializable {
     return strCommunications.toString();
   }
 
-
+  /**
+   * This method will  get the communications made by a client
+   * @param client
+   * @return
+   */
   public List<Communication> getCommunicationsFromClient(Client client){
     return client.getMadeCommunication();
   }
+
+  /**
+   * This method will get the communications received by a client
+   * @param client
+   * @return
+   */
   public List<Communication> getCommunicationsToClient(Client client){
     return client.getReceivedCommunications();
   }
 
-  public void checkClientKeyExceptions(String clientID) throws UnknownClientKeyException {
-    Client client = searchClient(clientID);
-    if(client == null){
-      throw new UnknownClientKeyException(clientID);
-    }
-  }
-
+  /**
+   * This method will make payment
+   * @param t
+   * @param comId
+   */
   public void makePayment(Terminal t, String comId){
     Communication c = searchCommunication(comId);
     long valor = c.getCost();
     t.updatePayments(valor);
+    t.updateDebtValue(-valor);
     c.payComm();
     t.getOwner().updateDebts(valor);
+    t.getOwner().updateDebts(-valor);
   }
+
+  /**
+   * This method will search communications using the communication ID
+   * @param commID
+   * @return
+   */
   public Communication searchCommunication(String commID) {
     int comID = Integer.parseInt(commID);
     for (Communication c : _communications) {
@@ -562,6 +651,15 @@ public class Network implements Serializable {
     }
     return null;
   }
+
+  /**
+   * This method will return a list that contains every communication
+   * @return _communications
+   */
+  public List<Communication> getCommunications() {
+    return _communications;
+  }
+
 }
 
 
