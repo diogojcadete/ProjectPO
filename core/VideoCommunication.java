@@ -8,6 +8,8 @@ public class VideoCommunication extends InteractiveCommunication implements Seri
         super(_from, _to);
         this.setType("VIDEO");
         this.setIsOnGoing(true);
+        _from.setPreviousMode(_from.getMode());
+        _to.setPreviousMode(_to.getMode());
         _from.setBusy();
         _to.setBusy();
     }

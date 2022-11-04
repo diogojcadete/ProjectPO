@@ -34,7 +34,9 @@ abstract public class Terminal implements Serializable {
   protected InteractiveCommunication _onGoingCommunicationFrom;
 
   private List<FailedCommunication> _failedCommunications;
-  List<Client> _failedCommClient;
+  private List<Client> _failedCommClient;
+
+  private TerminalMode previousMode;
 
   public Terminal(String _id, String _type, Client _owner, TerminalMode _mode) {
     this._id = _id;
@@ -88,6 +90,10 @@ abstract public class Terminal implements Serializable {
     }
   }
 
+  public void setPreviousMode(TerminalMode mode){
+    previousMode = mode;
+  }
+
 
 
 
@@ -118,12 +124,19 @@ abstract public class Terminal implements Serializable {
     _mode = TerminalMode.OFF;
   }
 
+  public void setOnPreviousMode(){
+    _mode = previousMode;
+  }
   /**
    * This method will return the id
    * @return _id
    */
   public String getID() {
     return _id;
+  }
+
+  public TerminalMode getPreviousMode(){
+    return previousMode;
   }
 
   /**
