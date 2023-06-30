@@ -1,3 +1,3 @@
 # ProjectPO
 
-Realizado e acabado
+Projeto de Programação com Objetos realizado em JAVA
